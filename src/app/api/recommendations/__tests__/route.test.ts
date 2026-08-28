@@ -55,4 +55,24 @@ describe('GET /api/recommendations', () => {
     const body = await res.json()
     expect(body.mode).toBe('FAMILY')
   })
+
+  it('excludes titles with REJECTED overrides even when content score passes', async () => {
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      { id: 't1', name: 'Clean Title', overview: null, contentScore: cleanScore },
+      { id: 't3', name: 'Rejected Title', overview: null, contentScore: cleanScore },
+    ])
+    ;(prisma.modeSettings.findUniqueOrThrow as ReturnType<typeof vi.fn>).mockResolvedValue(familyThresholds)
+    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      { titleId: 't3', decision: 'REJECTED' },
+    ])
+    ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(rankByTaste as ReturnType<typeof vi.fn>).mockResolvedValue(['t1'])
+
+    const req = new NextRequest('http://localhost/api/recommendations?mode=FAMILY')
+    const res = await GET(req)
+    const body = await res.json()
+
+    expect(body.titles.map((t: { id: string }) => t.id)).toEqual(['t1'])
+    expect(body.titles).toHaveLength(1)
+  })
 })
