@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Mode {
+  FAMILY
+  ADULT
+}
+
+enum OverrideDecision {
+  APPROVED
+  REJECTED
+}
+
+enum TasteRatingValue {
+  DISLIKED
+  LIKED
+  LOVED
+  NOT_SEEN
+  TOO_INAPPROPRIATE
+}
+
+model Title {
+  id           String   @id @default(cuid())
+  familyId     String   @default("default")
+  tmdbId       Int
+  name         String
+  year         Int?
+  posterPath   String?
+  overview     String?
+  mpaaRating   String?
+  providers    String[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  contentScore ContentScore?
+  overrides    Override[]
+  tasteRatings TasteRating[]
+
+  @@unique([familyId, tmdbId])
+}
+
+model ContentScore {
+  id          String   @id @default(cuid())
+  titleId     String   @unique
+  title       Title    @relation(fields: [titleId], references: [id])
+  violence    Int
+  language    Int
+  sexNudity   Int
+  scariness   Int
+  isUnrated   Boolean  @default(false)
+  isNC17      Boolean  @default(false)
+  sourceNotes String?
+  computedAt  DateTime @default(now())
+}
+
+model ModeSettings {
+  id           String  @id @default(cuid())
+  familyId     String  @default("default")
+  mode         Mode
+  maxViolence  Int
+  maxLanguage  Int
+  maxSexNudity Int
+  maxScariness Int
+  allowUnrated Boolean @default(false)
+  allowNC17    Boolean @default(false)
+
+  @@unique([familyId, mode])
+}
+
+model Override {
+  id        String           @id @default(cuid())
+  familyId  String           @default("default")
+  titleId   String
+  title     Title            @relation(fields: [titleId], references: [id])
+  decision  OverrideDecision
+  note      String?
+  createdAt DateTime         @default(now())
+
+  @@unique([familyId, titleId])
+}
+
+model TasteRating {
+  id       String           @id @default(cuid())
+  familyId String           @default("default")
+  titleId  String
+  title    Title            @relation(fields: [titleId], references: [id])
+  rating   TasteRatingValue
+  ratedAt  DateTime         @default(now())
+
+  @@unique([familyId, titleId])
+}
