@@ -66,7 +66,7 @@ describe('GET /api/recommendations', () => {
       { titleId: 't3', decision: 'REJECTED' },
     ])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
-    ;(rankByTaste as ReturnType<typeof vi.fn>).mockResolvedValue(['t1'])
+    ;(rankByTaste as ReturnType<typeof vi.fn>).mockImplementation(async (candidates: { id: string }[]) => candidates.map((c) => c.id))
 
     const req = new NextRequest('http://localhost/api/recommendations?mode=FAMILY')
     const res = await GET(req)
