@@ -115,6 +115,31 @@ describe('GET /api/recommendations', () => {
     expect(body.titles.map((t: { id: string }) => t.id).sort()).toEqual(['t1', 't2'])
   })
 
+  it('scores a large batch of unscored titles (batched-parallel) and returns them all correctly filtered', async () => {
+    const unscoredTitles = Array.from({ length: 7 }, (_, i) => ({
+      id: `u${i}`,
+      name: `Unscored ${i}`,
+      overview: null,
+      contentScore: null,
+    }))
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue(unscoredTitles)
+    ;(prisma.modeSettings.findUniqueOrThrow as ReturnType<typeof vi.fn>).mockResolvedValue(familyThresholds)
+    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(getOrCreateContentScore as ReturnType<typeof vi.fn>).mockResolvedValue(cleanScore)
+    ;(rankByTaste as ReturnType<typeof vi.fn>).mockImplementation(async (candidates: { id: string }[]) => candidates.map((c) => c.id))
+
+    const req = new NextRequest('http://localhost/api/recommendations?mode=FAMILY')
+    const res = await GET(req)
+    const body = await res.json()
+
+    expect(res.status).toBe(200)
+    expect(getOrCreateContentScore).toHaveBeenCalledTimes(7)
+    expect(body.titles.map((t: { id: string }) => t.id).sort()).toEqual(
+      unscoredTitles.map((t) => t.id).sort()
+    )
+  })
+
   it('falls back to visible titles in original order when rankByTaste rejects', async () => {
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
       { id: 't1', name: 'Clean Title', overview: null, contentScore: cleanScore },
