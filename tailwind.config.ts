@@ -10,9 +10,9 @@ const config: Config = {
         border: '#2A2C38',
         accent: '#E5A34A',
         accentGlow: '#F2C078',
-        danger: '#C7443A',
+        danger: '#D65A50',
         textPrimary: '#F2F2F2',
-        textSecondary: '#7A7F94',
+        textSecondary: '#8B8FA5',
       },
       fontFamily: {
         display: ['var(--font-bebas)'],
