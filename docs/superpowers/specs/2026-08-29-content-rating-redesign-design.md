@@ -149,6 +149,32 @@ plan, not a blocking design question.
   this now applies via the MPAA tier check directly rather than via a
   synthesized `isUnrated` flag on `ContentScore`.
 
+## Taste-ranking cache (a second, related cost fix)
+
+`rankByTaste` (`src/lib/ranking.ts`) is a separate Claude call from
+content scoring — no web search, no extended thinking, small output cap
+— but it currently runs fresh on *every* `/api/recommendations` request,
+with no caching. Repeatedly loading the dashboard means repeatedly paying
+for the same ranking, even when nothing about your taste history or the
+visible catalog has changed since the last load. Folding a fix into this
+same redesign:
+
+- New `RankingCache` model: `{ familyId, mode, inputFingerprint, rankedIds, updatedAt }`,
+  unique on `(familyId, mode)`.
+- `inputFingerprint` is a hash of the sorted visible-candidate title IDs
+  plus the sorted taste-history entries (title + rating). Same visible
+  set and same taste history always produce the same fingerprint.
+- On each request: compute the current fingerprint. If it matches the
+  cached row, reuse the cached ranked order — no Claude call. If it
+  differs (a new rating was submitted, a title's visibility changed, a
+  new title was ingested, etc.), call `rankByTaste` as today and save the
+  new result with its fingerprint.
+- No manual invalidation scattered across other routes — the fingerprint
+  comparison self-invalidates whenever the real inputs change.
+- A failed ranking (existing fallback-to-unranked-order behavior) is
+  never cached — only a real, successful ranking gets saved, so a
+  transient failure can't lock in a bad order for future loads.
+
 ## Known trade-off: TMDB certification coverage isn't complete
 
 TMDB's US certification data isn't populated for every title — older
