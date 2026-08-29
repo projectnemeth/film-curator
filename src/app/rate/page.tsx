@@ -36,32 +36,51 @@ export default function RatePage() {
     loadNext()
   }
 
-  if (!checked) return <main><p>Loading...</p></main>
-  if (!title) return <main><p>No more titles to rate right now.</p></main>
+  if (!checked) {
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-bg">
+        <p className="text-textSecondary">Loading...</p>
+      </main>
+    )
+  }
+  if (!title) {
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-bg">
+        <p className="text-textSecondary">No more titles to rate right now.</p>
+      </main>
+    )
+  }
 
   return (
-    <main>
-      <h1>Rate More Movies</h1>
-      {title.posterPath ? (
-        <img
-          src={`https://image.tmdb.org/t/p/w200${title.posterPath}`}
-          alt={`${title.name} poster`}
-          width={92}
-          height={138}
-        />
-      ) : (
-        <div style={{ width: 92, height: 138, background: '#ccc' }} aria-hidden="true" />
-      )}
-      <h2>
-        {title.name} {title.year ? `(${title.year})` : ''}
-      </h2>
-      <p>{title.overview}</p>
-      <div>
-        {RATINGS.map((r) => (
-          <button key={r.value} onClick={() => rate(r.value)}>
-            {r.label}
-          </button>
-        ))}
+    <main className="min-h-screen flex flex-col items-center justify-center gap-6 px-6 py-8 bg-bg">
+      <h1 className="font-display text-2xl tracking-wide text-textPrimary">Rate More Movies</h1>
+      <div className="bg-surface border border-border rounded-lg overflow-hidden max-w-sm w-full flex flex-col items-center p-6 gap-4">
+        {title.posterPath ? (
+          <img
+            src={`https://image.tmdb.org/t/p/w200${title.posterPath}`}
+            alt={`${title.name} poster`}
+            width={160}
+            height={240}
+            className="rounded aspect-[2/3] object-cover"
+          />
+        ) : (
+          <div className="w-40 aspect-[2/3] bg-border rounded" aria-hidden="true" />
+        )}
+        <h2 className="text-lg font-medium text-textPrimary text-center">
+          {title.name} {title.year ? `(${title.year})` : ''}
+        </h2>
+        <p className="text-sm text-textSecondary text-center">{title.overview}</p>
+        <div className="flex flex-wrap justify-center gap-2">
+          {RATINGS.map((r) => (
+            <button
+              key={r.value}
+              onClick={() => rate(r.value)}
+              className="text-sm border border-accent text-accent rounded px-3 py-1.5 hover:bg-accent hover:text-bg transition-colors"
+            >
+              {r.label}
+            </button>
+          ))}
+        </div>
       </div>
     </main>
   )
