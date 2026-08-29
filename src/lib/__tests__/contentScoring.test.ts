@@ -95,4 +95,31 @@ describe('getOrCreateContentScore', () => {
     expect(mockCreate).toHaveBeenCalledWith({ data: { titleId: 't1', ...synthesized } })
     expect(result.violence).toBe(3)
   })
+
+  it('extracts the final text block even when search/fetch tool-result blocks precede it', async () => {
+    ;(prisma.contentScore.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue(null)
+    ;(prisma.title.findUniqueOrThrow as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 't1', name: 'Jurassic Park', year: 1993 })
+
+    const synthesized = { violence: 3, language: 1, sexNudity: 0, scariness: 5, isUnrated: false, isNC17: false, sourceNotes: 'Common Sense Media: dinosaur peril, no gore shown.' }
+    const mockCreate = vi.fn().mockResolvedValue({ id: 'cs1', titleId: 't1', ...synthesized, computedAt: new Date() })
+    ;(prisma.contentScore.create as ReturnType<typeof vi.fn>) = mockCreate
+
+    ;(getAnthropicClient as ReturnType<typeof vi.fn>).mockReturnValue({
+      messages: {
+        create: vi.fn().mockResolvedValue({
+          content: [
+            { type: 'thinking', thinking: 'Let me search for this title...' },
+            { type: 'server_tool_use', id: 'srv1', name: 'web_search', input: { query: 'Jurassic Park Common Sense Media' } },
+            { type: 'web_search_tool_result', tool_use_id: 'srv1', content: [{ type: 'web_search_result', title: 'Jurassic Park - Common Sense Media', url: 'https://www.commonsensemedia.org/movie-reviews/jurassic-park' }] },
+            { type: 'text', text: JSON.stringify(synthesized) },
+          ],
+        }),
+      },
+    })
+
+    const result = await getOrCreateContentScore('t1')
+
+    expect(mockCreate).toHaveBeenCalledWith({ data: { titleId: 't1', ...synthesized } })
+    expect(result.violence).toBe(3)
+  })
 })

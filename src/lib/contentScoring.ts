@@ -18,16 +18,31 @@ async function synthesizeContentScore(titleName: string, year: number | null): P
   const client = getAnthropicClient()
   const message = await client.messages.create({
     model: 'claude-sonnet-5',
-    max_tokens: 500,
-    thinking: { type: 'disabled' },
+    max_tokens: 2048,
+    thinking: { type: 'adaptive' },
+    tools: [
+      {
+        type: 'web_search_20260209',
+        name: 'web_search',
+        max_uses: 3,
+        allowed_domains: ['commonsensemedia.org', 'imdb.com'],
+      },
+      {
+        type: 'web_fetch_20260209',
+        name: 'web_fetch',
+        max_uses: 3,
+        allowed_domains: ['commonsensemedia.org', 'imdb.com'],
+      },
+    ],
     messages: [
       {
         role: 'user',
-        content: `Using publicly known parental-guide-style information (e.g. Common Sense Media, IMDb Parents Guide) about "${titleName}"${year ? ` (${year})` : ''}, respond with ONLY a JSON object with these exact keys and no other text: violence (0-10), language (0-10), sexNudity (0-10), scariness (0-10), isUnrated (boolean), isNC17 (boolean), sourceNotes (a short string citing what informed the scores).`,
+        content: `Search for and read the Common Sense Media review or IMDb Parents Guide for "${titleName}"${year ? ` (${year})` : ''}. Base your answer on what you actually find on those pages. If you cannot find a page for this title, say so in sourceNotes and give your best estimate instead.\n\nRespond with ONLY a JSON object with these exact keys and no other text: violence (0-10), language (0-10), sexNudity (0-10), scariness (0-10), isUnrated (boolean), isNC17 (boolean), sourceNotes (a short string citing what you found or explaining that no page was found).`,
       },
     ],
   })
-  const text = message.content.find((b) => b.type === 'text')?.text ?? ''
+  const block = message.content.find((b) => b.type === 'text')
+  const text = block?.type === 'text' ? block.text : ''
   const cleaned = text.trim().replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '')
   return SynthesizedScoreSchema.parse(JSON.parse(cleaned))
 }
