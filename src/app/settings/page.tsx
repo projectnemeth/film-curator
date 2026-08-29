@@ -72,7 +72,7 @@ export default function SettingsPage() {
     await fetch('/api/mode-settings', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mode, ...settings }),
+      body: JSON.stringify({ ...settings, mode }),
     })
   }
 
