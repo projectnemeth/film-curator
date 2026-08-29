@@ -35,4 +35,21 @@ describe('rankByTaste', () => {
     const result = await rankByTaste(candidates, [{ titleName: 'Jurassic Park', rating: 'LOVED' }])
     expect(result).toEqual(['b', 'a'])
   })
+
+  it('finds the text block even when a thinking block precedes it', async () => {
+    const candidates = [{ id: 'a', name: 'A', overview: null }, { id: 'b', name: 'B', overview: null }]
+    ;(getAnthropicClient as ReturnType<typeof vi.fn>).mockReturnValue({
+      messages: {
+        create: vi.fn().mockResolvedValue({
+          content: [
+            { type: 'thinking', thinking: 'some reasoning...' },
+            { type: 'text', text: JSON.stringify({ rankedTitleIds: ['b', 'a'] }) },
+          ],
+        }),
+      },
+    })
+
+    const result = await rankByTaste(candidates, [{ titleName: 'Jurassic Park', rating: 'LOVED' }])
+    expect(result).toEqual(['b', 'a'])
+  })
 })

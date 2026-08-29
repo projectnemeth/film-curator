@@ -16,6 +16,7 @@ export async function rankByTaste(candidates: CandidateTitle[], tasteHistory: Ta
   const message = await client.messages.create({
     model: 'claude-sonnet-5',
     max_tokens: 1000,
+    thinking: { type: 'disabled' },
     messages: [
       {
         role: 'user',
@@ -24,8 +25,8 @@ export async function rankByTaste(candidates: CandidateTitle[], tasteHistory: Ta
     ],
   })
 
-  const block = message.content[0]
-  const text = block.type === 'text' ? block.text : ''
-  const parsed = RankingResponseSchema.parse(JSON.parse(text))
+  const text = message.content.find((b) => b.type === 'text')?.text ?? ''
+  const cleaned = text.trim().replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '')
+  const parsed = RankingResponseSchema.parse(JSON.parse(cleaned))
   return parsed.rankedTitleIds
 }

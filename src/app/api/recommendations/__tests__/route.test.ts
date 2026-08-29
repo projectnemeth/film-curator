@@ -75,4 +75,61 @@ describe('GET /api/recommendations', () => {
     expect(body.titles.map((t: { id: string }) => t.id)).toEqual(['t1'])
     expect(body.titles).toHaveLength(1)
   })
+
+  it('excludes an unscored title in FAMILY mode when getOrCreateContentScore rejects, without affecting other titles', async () => {
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      { id: 't1', name: 'Clean Title', overview: null, contentScore: cleanScore },
+      { id: 't2', name: 'Fails To Score', overview: null, contentScore: null },
+    ])
+    ;(prisma.modeSettings.findUniqueOrThrow as ReturnType<typeof vi.fn>).mockResolvedValue(familyThresholds)
+    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(getOrCreateContentScore as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('anthropic rate limited'))
+    ;(rankByTaste as ReturnType<typeof vi.fn>).mockImplementation(async (candidates: { id: string }[]) => candidates.map((c) => c.id))
+
+    const req = new NextRequest('http://localhost/api/recommendations?mode=FAMILY')
+    const res = await GET(req)
+    const body = await res.json()
+
+    expect(res.status).toBe(200)
+    expect(body.titles.map((t: { id: string }) => t.id)).toEqual(['t1'])
+  })
+
+  it('flags an unscored title as visible in ADULT mode when getOrCreateContentScore rejects', async () => {
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      { id: 't1', name: 'Clean Title', overview: null, contentScore: cleanScore },
+      { id: 't2', name: 'Fails To Score', overview: null, contentScore: null },
+    ])
+    const adultThresholds = { maxViolence: 10, maxLanguage: 10, maxSexNudity: 10, maxScariness: 10, allowUnrated: true, allowNC17: true }
+    ;(prisma.modeSettings.findUniqueOrThrow as ReturnType<typeof vi.fn>).mockResolvedValue(adultThresholds)
+    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(getOrCreateContentScore as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('anthropic rate limited'))
+    ;(rankByTaste as ReturnType<typeof vi.fn>).mockImplementation(async (candidates: { id: string }[]) => candidates.map((c) => c.id))
+
+    const req = new NextRequest('http://localhost/api/recommendations?mode=ADULT')
+    const res = await GET(req)
+    const body = await res.json()
+
+    expect(res.status).toBe(200)
+    expect(body.titles.map((t: { id: string }) => t.id).sort()).toEqual(['t1', 't2'])
+  })
+
+  it('falls back to visible titles in original order when rankByTaste rejects', async () => {
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      { id: 't1', name: 'Clean Title', overview: null, contentScore: cleanScore },
+      { id: 't2', name: 'Also Clean', overview: null, contentScore: cleanScore },
+    ])
+    ;(prisma.modeSettings.findUniqueOrThrow as ReturnType<typeof vi.fn>).mockResolvedValue(familyThresholds)
+    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(rankByTaste as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('anthropic rate limited'))
+
+    const req = new NextRequest('http://localhost/api/recommendations?mode=FAMILY')
+    const res = await GET(req)
+    const body = await res.json()
+
+    expect(res.status).toBe(200)
+    expect(body.titles.map((t: { id: string }) => t.id)).toEqual(['t1', 't2'])
+  })
 })

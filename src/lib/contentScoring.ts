@@ -19,6 +19,7 @@ async function synthesizeContentScore(titleName: string, year: number | null): P
   const message = await client.messages.create({
     model: 'claude-sonnet-5',
     max_tokens: 500,
+    thinking: { type: 'disabled' },
     messages: [
       {
         role: 'user',
@@ -26,9 +27,9 @@ async function synthesizeContentScore(titleName: string, year: number | null): P
       },
     ],
   })
-  const block = message.content[0]
-  const text = block.type === 'text' ? block.text : ''
-  return SynthesizedScoreSchema.parse(JSON.parse(text))
+  const text = message.content.find((b) => b.type === 'text')?.text ?? ''
+  const cleaned = text.trim().replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '')
+  return SynthesizedScoreSchema.parse(JSON.parse(cleaned))
 }
 
 export async function getOrCreateContentScore(titleId: string) {

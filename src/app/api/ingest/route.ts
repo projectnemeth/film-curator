@@ -3,6 +3,10 @@ import { discoverByProvider, getWatchProviders, PROVIDER_IDS } from '@/lib/tmdb'
 import { prisma } from '@/lib/prisma'
 
 export async function GET(req: NextRequest) {
+  if (!process.env.CRON_SECRET) {
+    return NextResponse.json({ error: 'server misconfigured: CRON_SECRET is not set' }, { status: 500 })
+  }
+
   const authHeader = req.headers.get('authorization')
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
@@ -16,7 +20,8 @@ export async function GET(req: NextRequest) {
       let items
       try {
         items = await discoverByProvider(providerId, mediaType)
-      } catch {
+      } catch (error) {
+        console.error(`Failed to discover titles for provider ${providerId} (${mediaType}):`, error)
         results.failed++
         continue
       }
@@ -41,7 +46,8 @@ export async function GET(req: NextRequest) {
             },
           })
           results.ingested++
-        } catch {
+        } catch (error) {
+          console.error(`Failed to ingest title tmdbId=${item.id} name=${item.title ?? item.name ?? 'Unknown'}:`, error)
           results.failed++
         }
       }

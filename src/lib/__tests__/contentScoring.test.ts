@@ -48,4 +48,51 @@ describe('getOrCreateContentScore', () => {
     expect(mockCreate).toHaveBeenCalledWith({ data: { titleId: 't1', ...synthesized } })
     expect(result.violence).toBe(3)
   })
+
+  it('finds the text block even when a thinking block precedes it', async () => {
+    ;(prisma.contentScore.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue(null)
+    ;(prisma.title.findUniqueOrThrow as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 't1', name: 'Jurassic Park', year: 1993 })
+
+    const synthesized = { violence: 3, language: 1, sexNudity: 0, scariness: 5, isUnrated: false, isNC17: false, sourceNotes: 'Peril from dinosaurs, no gore shown on screen.' }
+    const mockCreate = vi.fn().mockResolvedValue({ id: 'cs1', titleId: 't1', ...synthesized, computedAt: new Date() })
+    ;(prisma.contentScore.create as ReturnType<typeof vi.fn>) = mockCreate
+
+    ;(getAnthropicClient as ReturnType<typeof vi.fn>).mockReturnValue({
+      messages: {
+        create: vi.fn().mockResolvedValue({
+          content: [
+            { type: 'thinking', thinking: 'some reasoning...' },
+            { type: 'text', text: JSON.stringify(synthesized) },
+          ],
+        }),
+      },
+    })
+
+    const result = await getOrCreateContentScore('t1')
+
+    expect(mockCreate).toHaveBeenCalledWith({ data: { titleId: 't1', ...synthesized } })
+    expect(result.violence).toBe(3)
+  })
+
+  it('strips a markdown code fence wrapping the JSON response', async () => {
+    ;(prisma.contentScore.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue(null)
+    ;(prisma.title.findUniqueOrThrow as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 't1', name: 'Jurassic Park', year: 1993 })
+
+    const synthesized = { violence: 3, language: 1, sexNudity: 0, scariness: 5, isUnrated: false, isNC17: false, sourceNotes: 'Peril from dinosaurs, no gore shown on screen.' }
+    const mockCreate = vi.fn().mockResolvedValue({ id: 'cs1', titleId: 't1', ...synthesized, computedAt: new Date() })
+    ;(prisma.contentScore.create as ReturnType<typeof vi.fn>) = mockCreate
+
+    ;(getAnthropicClient as ReturnType<typeof vi.fn>).mockReturnValue({
+      messages: {
+        create: vi.fn().mockResolvedValue({
+          content: [{ type: 'text', text: '```json\n' + JSON.stringify(synthesized) + '\n```' }],
+        }),
+      },
+    })
+
+    const result = await getOrCreateContentScore('t1')
+
+    expect(mockCreate).toHaveBeenCalledWith({ data: { titleId: 't1', ...synthesized } })
+    expect(result.violence).toBe(3)
+  })
 })

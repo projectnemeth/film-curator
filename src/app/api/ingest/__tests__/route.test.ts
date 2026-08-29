@@ -32,6 +32,16 @@ describe('GET /api/ingest', () => {
     expect(res.status).toBe(401)
   })
 
+  it('returns 500 when CRON_SECRET is not configured, rather than authenticating "Bearer undefined"', async () => {
+    delete process.env.CRON_SECRET
+
+    const req = new NextRequest('http://localhost/api/ingest', {
+      headers: { authorization: 'Bearer undefined' },
+    })
+    const res = await GET(req)
+    expect(res.status).toBe(500)
+  })
+
   it('ingests titles for every provider and media type, counting failures', async () => {
     ;(discoverByProvider as ReturnType<typeof vi.fn>)
       .mockResolvedValueOnce([{ id: 1, title: 'A', overview: '', poster_path: null, release_date: '2020-01-01' }])

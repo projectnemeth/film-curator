@@ -18,12 +18,17 @@ export async function GET(req: NextRequest) {
 
   const overrideByTitleId = new Map(overrides.map((o) => [o.titleId, o]))
 
-  const visible: Array<{ id: string; name: string; overview: string | null; contentScore: ContentScoreInput; filterReason: string }> = []
+  const visible: Array<{ id: string; name: string; overview: string | null; contentScore: ContentScoreInput | null; filterReason: string }> = []
 
   for (const title of titles) {
-    let score = title.contentScore
+    let score: ContentScoreInput | null = title.contentScore
     if (!score) {
-      score = await getOrCreateContentScore(title.id)
+      try {
+        score = await getOrCreateContentScore(title.id)
+      } catch (error) {
+        console.error(`Failed to score title ${title.id}:`, error)
+        score = null
+      }
     }
     const override = overrideByTitleId.get(title.id) ?? null
     const reason = evaluateTitle(score, thresholds, override)
@@ -36,12 +41,17 @@ export async function GET(req: NextRequest) {
     .filter((t) => t.rating !== 'NOT_SEEN')
     .map((t) => ({ titleName: t.title.name, rating: t.rating }))
 
-  const rankedIds = await rankByTaste(
-    visible.map((v) => ({ id: v.id, name: v.name, overview: v.overview })),
-    history
-  )
-  const byId = new Map(visible.map((v) => [v.id, v]))
-  const ranked = rankedIds.map((id) => byId.get(id)).filter((v): v is typeof visible[number] => Boolean(v))
+  let ranked = visible
+  try {
+    const rankedIds = await rankByTaste(
+      visible.map((v) => ({ id: v.id, name: v.name, overview: v.overview })),
+      history
+    )
+    const byId = new Map(visible.map((v) => [v.id, v]))
+    ranked = rankedIds.map((id) => byId.get(id)).filter((v): v is typeof visible[number] => Boolean(v))
+  } catch (error) {
+    console.error('Failed to rank titles by taste, falling back to unranked order:', error)
+  }
 
   return NextResponse.json({ mode, titles: ranked })
 }
