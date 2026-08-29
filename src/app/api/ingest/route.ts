@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { discoverByProvider, getWatchProviders, getCertification, PROVIDER_IDS } from '@/lib/tmdb'
+import { discoverByProvider, getWatchProviders, getCertification, getCredits, PROVIDER_IDS } from '@/lib/tmdb'
 import { prisma } from '@/lib/prisma'
 
 export const maxDuration = 300
@@ -30,17 +30,21 @@ export async function GET(req: NextRequest) {
 
       for (const item of items) {
         try {
-          const [providers, mpaaRating] = await Promise.all([
+          const [providers, mpaaRating, credits] = await Promise.all([
             getWatchProviders(item.id, mediaType),
             getCertification(item.id, mediaType),
+            getCredits(item.id, mediaType),
           ])
+          const { director, topCast } = credits
           const dateStr = item.release_date ?? item.first_air_date
           const year = dateStr ? Number(dateStr.slice(0, 4)) : null
           const mpaaRatingUpdate = mpaaRating ? { mpaaRating } : {}
+          const directorUpdate = director ? { director } : {}
+          const topCastUpdate = topCast.length > 0 ? { topCast } : {}
 
           await prisma.title.upsert({
             where: { familyId_tmdbId: { familyId, tmdbId: item.id } },
-            update: { providers, ...mpaaRatingUpdate },
+            update: { providers, ...mpaaRatingUpdate, ...directorUpdate, ...topCastUpdate },
             create: {
               familyId,
               tmdbId: item.id,
@@ -50,6 +54,8 @@ export async function GET(req: NextRequest) {
               overview: item.overview,
               providers,
               mpaaRating,
+              director,
+              topCast,
             },
           })
           results.ingested++

@@ -12,6 +12,9 @@ type Title = {
   posterPath: string | null
   mpaaRating: string | null
   contentScore: ContentScore
+  overview?: string | null
+  director?: string | null
+  topCast?: string[]
 }
 
 const QUICK_RATINGS = [
@@ -96,6 +99,11 @@ export default function HomePage() {
                     {title.providers.length > 0 ? title.providers.join(', ') : 'availability unknown'}
                   </div>
                   {title.mpaaRating && <span className="text-xs text-textSecondary">{title.mpaaRating}</span>}
+                  {title.overview && <p className="text-xs text-textSecondary">{title.overview}</p>}
+                  {title.director && <p className="text-xs text-textSecondary">Directed by {title.director}</p>}
+                  {title.topCast && title.topCast.length > 0 && (
+                    <p className="text-xs text-textSecondary">Starring {title.topCast.join(', ')}</p>
+                  )}
 
                   {mode === 'ADULT' && title.mpaaRating && !score && status !== 'loading' && status !== 'error' && (
                     <button

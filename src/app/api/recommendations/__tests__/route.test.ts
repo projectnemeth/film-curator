@@ -98,7 +98,7 @@ describe('GET /api/recommendations', () => {
   it('includes mpaaRating and contentScore in each returned title for the frontend to render', async () => {
     const score = { violence: 3, language: 1, sexNudity: 0, scariness: 2, sourceNotes: 'test' }
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
-      { id: 't1', name: 'A', overview: null, mpaaRating: 'R', posterPath: null, providers: [], contentScore: score, year: 2020 },
+      { id: 't1', name: 'A', overview: null, mpaaRating: 'R', posterPath: null, providers: [], contentScore: score, year: 2020, director: null, topCast: [] },
     ])
     ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
@@ -109,6 +109,33 @@ describe('GET /api/recommendations', () => {
 
     expect(body.titles[0].mpaaRating).toBe('R')
     expect(body.titles[0].contentScore).toEqual(score)
+  })
+
+  it('includes overview, director, and topCast in each returned title', async () => {
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      {
+        id: 't1',
+        name: 'Jurassic Park',
+        overview: 'Dinosaurs run amok.',
+        mpaaRating: 'PG-13',
+        posterPath: null,
+        providers: [],
+        contentScore: null,
+        year: 1993,
+        director: 'Steven Spielberg',
+        topCast: ['Sam Neill', 'Laura Dern'],
+      },
+    ])
+    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockResolvedValue(['t1'])
+
+    const req = new NextRequest('http://localhost/api/recommendations?mode=ADULT')
+    const body = await (await GET(req)).json()
+
+    expect(body.titles[0].overview).toBe('Dinosaurs run amok.')
+    expect(body.titles[0].director).toBe('Steven Spielberg')
+    expect(body.titles[0].topCast).toEqual(['Sam Neill', 'Laura Dern'])
   })
 })
 

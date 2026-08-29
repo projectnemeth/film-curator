@@ -52,6 +52,9 @@ export async function GET(req: NextRequest) {
       providers: t.providers,
       mpaaRating: t.mpaaRating,
       contentScore: t.contentScore,
+      overview: t.overview,
+      director: t.director,
+      topCast: t.topCast,
     })),
   })
 }

@@ -38,6 +38,64 @@ describe('HomePage', () => {
     expect(await screen.findByText('PG-13')).toBeInTheDocument()
   })
 
+  it('shows the plot overview, director, and top cast when present', async () => {
+    ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
+      if (init?.method === 'POST') return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
+      return Promise.resolve({
+        json: async () => ({
+          mode: 'FAMILY',
+          titles: [
+            {
+              id: 't8',
+              name: 'Jurassic Park',
+              year: 1993,
+              providers: ['netflix'],
+              posterPath: '/poster.jpg',
+              mpaaRating: 'PG-13',
+              contentScore: null,
+              overview: 'Dinosaurs run amok.',
+              director: 'Steven Spielberg',
+              topCast: ['Sam Neill', 'Laura Dern'],
+            },
+          ],
+        }),
+      })
+    })
+    render(<HomePage />)
+    expect(await screen.findByText('Dinosaurs run amok.')).toBeInTheDocument()
+    expect(await screen.findByText(/Directed by Steven Spielberg/)).toBeInTheDocument()
+    expect(await screen.findByText(/Starring Sam Neill, Laura Dern/)).toBeInTheDocument()
+  })
+
+  it('omits director and cast lines when there is nothing to show', async () => {
+    ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
+      if (init?.method === 'POST') return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
+      return Promise.resolve({
+        json: async () => ({
+          mode: 'FAMILY',
+          titles: [
+            {
+              id: 't9',
+              name: 'Obscure Title',
+              year: 2024,
+              providers: [],
+              posterPath: null,
+              mpaaRating: 'G',
+              contentScore: null,
+              overview: null,
+              director: null,
+              topCast: [],
+            },
+          ],
+        }),
+      })
+    })
+    render(<HomePage />)
+    await screen.findByText(/Obscure Title/)
+    expect(screen.queryByText(/Directed by/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Starring/)).not.toBeInTheDocument()
+  })
+
   it('flags titles with no known provider as availability unknown', async () => {
     ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
       if (init?.method === 'POST') return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })

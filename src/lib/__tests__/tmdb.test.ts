@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { searchTitle, getWatchProviders, discoverByProvider, getCertification, PROVIDER_IDS } from '../tmdb'
+import { searchTitle, getWatchProviders, discoverByProvider, getCertification, getCredits, PROVIDER_IDS } from '../tmdb'
 
 const originalFetch = global.fetch
 const originalEnv = process.env.TMDB_API_KEY
@@ -96,5 +96,53 @@ describe('getCertification', () => {
       json: async () => ({ results: [{ iso_3166_1: 'US', release_dates: [{ certification: '' }] }] }),
     }) as unknown as typeof fetch
     expect(await getCertification(1, 'movie')).toBeNull()
+  })
+})
+
+describe('getCredits', () => {
+  it('returns the director and top 3 billed cast for a movie, sorted by billing order', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        cast: [
+          { name: 'Jeff Goldblum', order: 2 },
+          { name: 'Sam Neill', order: 0 },
+          { name: 'Laura Dern', order: 1 },
+          { name: 'Richard Attenborough', order: 3 },
+        ],
+        crew: [
+          { name: 'Kathleen Kennedy', job: 'Producer' },
+          { name: 'Steven Spielberg', job: 'Director' },
+        ],
+      }),
+    }) as unknown as typeof fetch
+
+    const result = await getCredits(1, 'movie')
+    expect(result.director).toBe('Steven Spielberg')
+    expect(result.topCast).toEqual(['Sam Neill', 'Laura Dern', 'Jeff Goldblum'])
+  })
+
+  it('returns null director and top cast for a TV show with no Director-credited crew', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        cast: [
+          { name: 'Winona Ryder', order: 0 },
+          { name: 'David Harbour', order: 1 },
+        ],
+        crew: [{ name: 'The Duffer Brothers', job: 'Executive Producer' }],
+      }),
+    }) as unknown as typeof fetch
+
+    const result = await getCredits(1, 'tv')
+    expect(result.director).toBeNull()
+    expect(result.topCast).toEqual(['Winona Ryder', 'David Harbour'])
+  })
+
+  it('returns null director and empty cast when the response has neither', async () => {
+    global.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ cast: [], crew: [] }) }) as unknown as typeof fetch
+    const result = await getCredits(1, 'movie')
+    expect(result.director).toBeNull()
+    expect(result.topCast).toEqual([])
   })
 })

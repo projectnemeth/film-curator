@@ -35,6 +35,8 @@ model Title {
   posterPath   String?
   overview     String?
   mpaaRating   String?
+  director     String?
+  topCast      String[]
   providers    String[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt

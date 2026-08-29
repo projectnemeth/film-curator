@@ -77,3 +77,25 @@ export async function getCertification(tmdbId: number, mediaType: 'movie' | 'tv'
   const us = results.find((r) => r.iso_3166_1 === 'US')
   return us?.rating || null
 }
+
+const TOP_CAST_COUNT = 3
+
+type TmdbCastMember = { name: string; order: number }
+type TmdbCrewMember = { name: string; job: string }
+
+export type Credits = { director: string | null; topCast: string[] }
+
+export async function getCredits(tmdbId: number, mediaType: 'movie' | 'tv'): Promise<Credits> {
+  const data = await tmdbFetch(`/${mediaType}/${tmdbId}/credits`)
+  const cast: TmdbCastMember[] = data.cast ?? []
+  const crew: TmdbCrewMember[] = data.crew ?? []
+
+  const topCast = [...cast]
+    .sort((a, b) => a.order - b.order)
+    .slice(0, TOP_CAST_COUNT)
+    .map((c) => c.name)
+
+  const director = crew.find((c) => c.job === 'Director')?.name ?? null
+
+  return { director, topCast }
+}

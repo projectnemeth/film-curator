@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { searchTitle, getWatchProviders, getCertification } from '@/lib/tmdb'
+import { searchTitle, getWatchProviders, getCertification, getCredits } from '@/lib/tmdb'
 import { prisma } from '@/lib/prisma'
 
 export async function GET(req: NextRequest) {
@@ -11,17 +11,21 @@ export async function GET(req: NextRequest) {
 
   for (const result of results.slice(0, 10)) {
     const mediaType = result.title ? 'movie' : 'tv'
-    const [providers, mpaaRating] = await Promise.all([
+    const [providers, mpaaRating, credits] = await Promise.all([
       getWatchProviders(result.id, mediaType),
       getCertification(result.id, mediaType),
+      getCredits(result.id, mediaType),
     ])
+    const { director, topCast } = credits
     const dateStr = result.release_date ?? result.first_air_date
     const year = dateStr ? Number(dateStr.slice(0, 4)) : null
     const mpaaRatingUpdate = mpaaRating ? { mpaaRating } : {}
+    const directorUpdate = director ? { director } : {}
+    const topCastUpdate = topCast.length > 0 ? { topCast } : {}
 
     const title = await prisma.title.upsert({
       where: { familyId_tmdbId: { familyId: 'default', tmdbId: result.id } },
-      update: { providers, ...mpaaRatingUpdate },
+      update: { providers, ...mpaaRatingUpdate, ...directorUpdate, ...topCastUpdate },
       create: {
         familyId: 'default',
         tmdbId: result.id,
@@ -31,6 +35,8 @@ export async function GET(req: NextRequest) {
         overview: result.overview,
         providers,
         mpaaRating,
+        director,
+        topCast,
       },
     })
     titles.push(title)
