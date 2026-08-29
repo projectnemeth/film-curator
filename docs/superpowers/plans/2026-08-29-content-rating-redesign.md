@@ -1572,7 +1572,7 @@ Replace `src/app/page.tsx` entirely:
 
 ```tsx
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ModeToggle } from '@/components/ModeToggle'
 
 type ContentScore = { violence: number; language: number; sexNudity: number; scariness: number; sourceNotes: string | null } | null
@@ -1610,14 +1610,9 @@ export default function HomePage() {
       .finally(() => setLoading(false))
   }
 
-  useState(() => {
+  useEffect(() => {
     load(mode)
-  })
-
-  function changeMode(next: 'FAMILY' | 'ADULT') {
-    setMode(next)
-    load(next)
-  }
+  }, [mode])
 
   async function submitRating(titleId: string, rating: string) {
     await fetch('/api/taste', {
@@ -1645,7 +1640,7 @@ export default function HomePage() {
   return (
     <main className="max-w-6xl mx-auto px-6 py-8">
       <h1 className="font-display text-3xl tracking-wide text-textPrimary mb-6">Film Curator</h1>
-      <ModeToggle mode={mode} onChange={changeMode} />
+      <ModeToggle mode={mode} onChange={setMode} />
       {loading ? (
         <p className="text-textSecondary">Loading...</p>
       ) : (
@@ -1750,7 +1745,7 @@ export default function HomePage() {
 }
 ```
 
-Note the change from the original `useEffect(() => { ... }, [mode])` to an explicit `changeMode` handler that calls `load` directly — this avoids re-fetching on every render and keeps the mode-change trigger explicit and easy to test, matching how `ModeToggle`'s `onChange` is already wired everywhere else in this codebase. `useState(() => { load(mode) })` runs the initializer function exactly once on mount to trigger the first load, mirroring the effect of the original `useEffect` for the initial render only, since `changeMode` now owns every subsequent load.
+This keeps the original `useEffect(() => { load(mode) }, [mode])` pattern from before this task, unchanged — it already only re-runs when `mode` actually changes, and `ModeToggle`'s `onChange` can go straight to `setMode`. (An earlier draft of this plan used a `useState(() => load(mode))` "run once" trick instead, but `useState`'s lazy initializer runs during React's render phase — including server-side during Next.js's static prerendering of this page, where a relative-URL `fetch()` has no valid origin and throws. `useEffect` never runs server-side, which is exactly why the original pattern never had this problem. Corrected here after Task 4's implementer caught the resulting build-time error.)
 
 `submitRating` is reused directly for the new "I don't want to see this" button (passing `'NOT_INTERESTED'`) — no separate handler needed, since it already does exactly the right thing: records the rating with the current `mode`, and marks the title as rated in local state (so it flips to the `✓ Rated: NOT_INTERESTED` display, same as any other quick rating).
 
