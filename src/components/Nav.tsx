@@ -7,12 +7,16 @@ export function Nav() {
   if (pathname === '/login') return null
 
   return (
-    <nav>
-      <Link href="/">Dashboard</Link>
-      {' | '}
-      <Link href="/rate">Rate More Movies</Link>
-      {' | '}
-      <Link href="/settings">Settings</Link>
+    <nav className="flex gap-6 items-center px-6 py-4 border-b border-border bg-surface">
+      <Link href="/" className="text-sm font-medium text-textPrimary hover:text-accent transition-colors">
+        Dashboard
+      </Link>
+      <Link href="/rate" className="text-sm font-medium text-textPrimary hover:text-accent transition-colors">
+        Rate More Movies
+      </Link>
+      <Link href="/settings" className="text-sm font-medium text-textPrimary hover:text-accent transition-colors">
+        Settings
+      </Link>
     </nav>
   )
 }
