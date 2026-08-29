@@ -25,7 +25,9 @@ export async function rankByTaste(candidates: CandidateTitle[], tasteHistory: Ta
     ],
   })
 
-  const text = message.content.find((b) => b.type === 'text')?.text ?? ''
+  const textBlocks = message.content.filter((b) => b.type === 'text')
+  const lastBlock = textBlocks[textBlocks.length - 1]
+  const text = lastBlock?.type === 'text' ? lastBlock.text : ''
   const cleaned = text.trim().replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '')
   const parsed = RankingResponseSchema.parse(JSON.parse(cleaned))
   return parsed.rankedTitleIds

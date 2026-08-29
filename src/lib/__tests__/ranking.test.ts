@@ -52,4 +52,21 @@ describe('rankByTaste', () => {
     const result = await rankByTaste(candidates, [{ titleName: 'Jurassic Park', rating: 'LOVED' }])
     expect(result).toEqual(['b', 'a'])
   })
+
+  it('uses the last text block, not the first, when Claude narrates before its final JSON answer', async () => {
+    const candidates = [{ id: 'a', name: 'A', overview: null }, { id: 'b', name: 'B', overview: null }]
+    ;(getAnthropicClient as ReturnType<typeof vi.fn>).mockReturnValue({
+      messages: {
+        create: vi.fn().mockResolvedValue({
+          content: [
+            { type: 'text', text: 'Let me think through this ranking before giving my final answer...' },
+            { type: 'text', text: JSON.stringify({ rankedTitleIds: ['b', 'a'] }) },
+          ],
+        }),
+      },
+    })
+
+    const result = await rankByTaste(candidates, [{ titleName: 'Jurassic Park', rating: 'LOVED' }])
+    expect(result).toEqual(['b', 'a'])
+  })
 })

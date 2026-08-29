@@ -122,4 +122,29 @@ describe('getOrCreateContentScore', () => {
     expect(mockCreate).toHaveBeenCalledWith({ data: { titleId: 't1', ...synthesized } })
     expect(result.violence).toBe(3)
   })
+
+  it('uses the last text block, not the first, when Claude narrates before its final JSON answer', async () => {
+    ;(prisma.contentScore.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue(null)
+    ;(prisma.title.findUniqueOrThrow as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 't1', name: 'Jurassic Park', year: 1993 })
+
+    const synthesized = { violence: 3, language: 1, sexNudity: 0, scariness: 5, isUnrated: false, isNC17: false, sourceNotes: 'Common Sense Media: dinosaur peril, no gore shown.' }
+    const mockCreate = vi.fn().mockResolvedValue({ id: 'cs1', titleId: 't1', ...synthesized, computedAt: new Date() })
+    ;(prisma.contentScore.create as ReturnType<typeof vi.fn>) = mockCreate
+
+    ;(getAnthropicClient as ReturnType<typeof vi.fn>).mockReturnValue({
+      messages: {
+        create: vi.fn().mockResolvedValue({
+          content: [
+            { type: 'text', text: 'Good, I have the IMDb Parents Guide content. Let me retry...' },
+            { type: 'text', text: JSON.stringify(synthesized) },
+          ],
+        }),
+      },
+    })
+
+    const result = await getOrCreateContentScore('t1')
+
+    expect(mockCreate).toHaveBeenCalledWith({ data: { titleId: 't1', ...synthesized } })
+    expect(result.violence).toBe(3)
+  })
 })
