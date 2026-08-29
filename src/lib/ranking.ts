@@ -57,11 +57,14 @@ export async function rankByTasteCached(
 
   const rankedIds = await rankByTaste(candidates, tasteHistory)
 
-  await prisma.rankingCache.upsert({
-    where: { familyId_mode: { familyId, mode } },
-    update: { inputFingerprint: fingerprint, rankedIds },
-    create: { familyId, mode, inputFingerprint: fingerprint, rankedIds },
-  })
+  const isComplete = rankedIds.length === candidates.length && candidates.every((c) => rankedIds.includes(c.id))
+  if (isComplete) {
+    await prisma.rankingCache.upsert({
+      where: { familyId_mode: { familyId, mode } },
+      update: { inputFingerprint: fingerprint, rankedIds },
+      create: { familyId, mode, inputFingerprint: fingerprint, rankedIds },
+    })
+  }
 
   return rankedIds
 }

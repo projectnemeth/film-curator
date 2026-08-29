@@ -78,4 +78,29 @@ describe('GET /api/ingest', () => {
       })
     )
   })
+
+  it('does not overwrite an existing rating when getCertification returns null', async () => {
+    ;(discoverByProvider as ReturnType<typeof vi.fn>)
+      .mockResolvedValueOnce([{ id: 1, title: 'A', overview: '', poster_path: null, release_date: '2020-01-01' }])
+      .mockResolvedValue([])
+    ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
+    ;(getCertification as ReturnType<typeof vi.fn>).mockResolvedValue(null)
+    ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({})
+
+    const req = new NextRequest('http://localhost/api/ingest', { headers: { authorization: 'Bearer test-secret' } })
+    await GET(req)
+
+    expect(prisma.title.upsert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        update: expect.not.objectContaining({ mpaaRating: expect.anything() }),
+      })
+    )
+  })
+})
+
+describe('maxDuration', () => {
+  it('exports a maxDuration of 300 seconds — this route makes two TMDB calls per item across up to ~160 items', async () => {
+    const routeModule = await import('../route')
+    expect(routeModule.maxDuration).toBe(300)
+  })
 })

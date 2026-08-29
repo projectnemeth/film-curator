@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { discoverByProvider, getWatchProviders, getCertification, PROVIDER_IDS } from '@/lib/tmdb'
 import { prisma } from '@/lib/prisma'
 
+export const maxDuration = 300
+
 export async function GET(req: NextRequest) {
   if (!process.env.CRON_SECRET) {
     return NextResponse.json({ error: 'server misconfigured: CRON_SECRET is not set' }, { status: 500 })
@@ -34,10 +36,11 @@ export async function GET(req: NextRequest) {
           ])
           const dateStr = item.release_date ?? item.first_air_date
           const year = dateStr ? Number(dateStr.slice(0, 4)) : null
+          const mpaaRatingUpdate = mpaaRating ? { mpaaRating } : {}
 
           await prisma.title.upsert({
             where: { familyId_tmdbId: { familyId, tmdbId: item.id } },
-            update: { providers, mpaaRating },
+            update: { providers, ...mpaaRatingUpdate },
             create: {
               familyId,
               tmdbId: item.id,

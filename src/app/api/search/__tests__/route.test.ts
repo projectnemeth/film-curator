@@ -58,4 +58,20 @@ describe('GET /api/search', () => {
       expect.objectContaining({ update: expect.objectContaining({ mpaaRating: 'PG-13' }) })
     )
   })
+
+  it('does not overwrite an existing rating when getCertification returns null', async () => {
+    ;(searchTitle as ReturnType<typeof vi.fn>).mockResolvedValue([
+      { id: 42, title: 'Jurassic Park', overview: '...', poster_path: '/x.jpg', release_date: '1993-06-11' },
+    ])
+    ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
+    ;(getCertification as ReturnType<typeof vi.fn>).mockResolvedValue(null)
+    ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 't1', name: 'Jurassic Park' })
+
+    const req = new NextRequest('http://localhost/api/search?q=jurassic')
+    await GET(req)
+
+    expect(prisma.title.upsert).toHaveBeenCalledWith(
+      expect.objectContaining({ update: expect.not.objectContaining({ mpaaRating: expect.anything() }) })
+    )
+  })
 })

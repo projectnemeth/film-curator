@@ -17,10 +17,11 @@ export async function GET(req: NextRequest) {
     ])
     const dateStr = result.release_date ?? result.first_air_date
     const year = dateStr ? Number(dateStr.slice(0, 4)) : null
+    const mpaaRatingUpdate = mpaaRating ? { mpaaRating } : {}
 
     const title = await prisma.title.upsert({
       where: { familyId_tmdbId: { familyId: 'default', tmdbId: result.id } },
-      update: { providers, mpaaRating },
+      update: { providers, ...mpaaRatingUpdate },
       create: {
         familyId: 'default',
         tmdbId: result.id,

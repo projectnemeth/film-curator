@@ -142,4 +142,24 @@ describe('rankByTasteCached', () => {
     await expect(rankByTasteCached('default', 'FAMILY', candidates, history)).rejects.toThrow()
     expect(prisma.rankingCache.upsert).not.toHaveBeenCalled()
   })
+
+  it('does not cache an incomplete ranking (missing a candidate id), but still returns it', async () => {
+    const twoCandidates = [
+      { id: 't1', name: 'A', overview: null },
+      { id: 't2', name: 'B', overview: null },
+    ]
+    ;(prisma.rankingCache.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue(null)
+    ;(getAnthropicClient as ReturnType<typeof vi.fn>).mockReturnValue({
+      messages: {
+        create: vi.fn().mockResolvedValue({
+          content: [{ type: 'text', text: JSON.stringify({ rankedTitleIds: ['t1'] }) }],
+        }),
+      },
+    })
+
+    const result = await rankByTasteCached('default', 'FAMILY', twoCandidates, history)
+
+    expect(result).toEqual(['t1'])
+    expect(prisma.rankingCache.upsert).not.toHaveBeenCalled()
+  })
 })

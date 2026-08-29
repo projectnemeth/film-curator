@@ -132,6 +132,23 @@ describe('HomePage', () => {
     expect(screen.queryByRole('button', { name: /Why is this rated/ })).not.toBeInTheDocument()
   })
 
+  it('does not show a "Rate this" button in Adult Mode for a title with no MPAA rating (e.g. admitted via manual override)', async () => {
+    ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
+      if (init?.method === 'POST') return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
+      return Promise.resolve({
+        json: async () => ({
+          mode: 'ADULT',
+          titles: [{ id: 't7', name: 'Manually Approved Title', year: 2024, providers: ['netflix'], posterPath: null, mpaaRating: null, contentScore: null }],
+        }),
+      })
+    }) as unknown as typeof fetch
+
+    render(<HomePage />)
+    fireEvent.click(screen.getByRole('button', { name: 'Adult Mode' }))
+    await screen.findByText(/Manually Approved Title/)
+    expect(screen.queryByRole('button', { name: /Why is this rated/ })).not.toBeInTheDocument()
+  })
+
   it('shows a retry option when rating content fails', async () => {
     ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
       if (init?.method === 'POST' && url.includes('/rate-content')) {

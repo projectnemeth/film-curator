@@ -97,7 +97,7 @@ export default function HomePage() {
                   </div>
                   {title.mpaaRating && <span className="text-xs text-textSecondary">{title.mpaaRating}</span>}
 
-                  {mode === 'ADULT' && !score && status !== 'loading' && status !== 'error' && (
+                  {mode === 'ADULT' && title.mpaaRating && !score && status !== 'loading' && status !== 'error' && (
                     <button
                       onClick={() => rateContent(title.id)}
                       className="text-xs text-accent underline hover:text-accentGlow transition-colors text-left"
