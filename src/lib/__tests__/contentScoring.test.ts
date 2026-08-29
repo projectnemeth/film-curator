@@ -147,4 +147,22 @@ describe('getOrCreateContentScore', () => {
     expect(mockCreate).toHaveBeenCalledWith({ data: { titleId: 't1', ...synthesized } })
     expect(result.violence).toBe(3)
   })
+
+  it('passes an abort signal through to the Claude API call when provided', async () => {
+    ;(prisma.contentScore.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue(null)
+    ;(prisma.title.findUniqueOrThrow as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 't1', name: 'Jurassic Park', year: 1993 })
+
+    const synthesized = { violence: 3, language: 1, sexNudity: 0, scariness: 5, isUnrated: false, isNC17: false, sourceNotes: 'test' }
+    const mockCreate = vi.fn().mockResolvedValue({ content: [{ type: 'text', text: JSON.stringify(synthesized) }] })
+    ;(getAnthropicClient as ReturnType<typeof vi.fn>).mockReturnValue({ messages: { create: mockCreate } })
+    ;(prisma.contentScore.create as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 'cs1', titleId: 't1', ...synthesized, computedAt: new Date() })
+
+    const controller = new AbortController()
+    await getOrCreateContentScore('t1', controller.signal)
+
+    expect(mockCreate).toHaveBeenCalledWith(
+      expect.objectContaining({ model: 'claude-sonnet-5' }),
+      expect.objectContaining({ signal: controller.signal })
+    )
+  })
 })
