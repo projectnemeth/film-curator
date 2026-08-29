@@ -20,18 +20,18 @@ async function synthesizeContentScore(titleName: string, year: number | null, si
     {
       model: 'claude-sonnet-5',
       max_tokens: 2048,
-      thinking: { type: 'adaptive' },
+      thinking: { type: 'disabled' },
       tools: [
         {
           type: 'web_search_20260209',
           name: 'web_search',
-          max_uses: 3,
+          max_uses: 1,
           allowed_domains: ['commonsensemedia.org', 'imdb.com'],
         },
         {
           type: 'web_fetch_20260209',
           name: 'web_fetch',
-          max_uses: 3,
+          max_uses: 1,
           allowed_domains: ['commonsensemedia.org', 'imdb.com'],
         },
       ],
