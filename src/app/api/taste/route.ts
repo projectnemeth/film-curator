@@ -3,8 +3,10 @@ import { getNextTitleToRate, recordTasteRating } from '@/lib/tasteInterview'
 
 const VALID_RATINGS = ['DISLIKED', 'LIKED', 'LOVED', 'NOT_SEEN', 'TOO_INAPPROPRIATE']
 
-export async function GET() {
-  const title = await getNextTitleToRate('default')
+export async function GET(req: NextRequest) {
+  const modeParam = req.nextUrl.searchParams.get('mode')
+  const mode: 'FAMILY' | 'ADULT' = modeParam === 'ADULT' ? 'ADULT' : 'FAMILY'
+  const title = await getNextTitleToRate('default', mode)
   return NextResponse.json({ title })
 }
 

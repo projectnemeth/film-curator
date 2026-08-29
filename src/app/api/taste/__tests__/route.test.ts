@@ -10,11 +10,35 @@ import { getNextTitleToRate, recordTasteRating } from '@/lib/tasteInterview'
 import { GET, POST } from '../route'
 
 describe('GET /api/taste', () => {
+  beforeEach(() => vi.clearAllMocks())
+
   it('returns the next title to rate', async () => {
     ;(getNextTitleToRate as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 't1', name: 'A' })
-    const res = await GET()
+    const req = new NextRequest('http://localhost/api/taste?mode=FAMILY')
+    const res = await GET(req)
     const body = await res.json()
     expect(body.title.id).toBe('t1')
+  })
+
+  it('defaults to FAMILY when mode is missing', async () => {
+    ;(getNextTitleToRate as ReturnType<typeof vi.fn>).mockResolvedValue(null)
+    const req = new NextRequest('http://localhost/api/taste')
+    await GET(req)
+    expect(getNextTitleToRate).toHaveBeenCalledWith('default', 'FAMILY')
+  })
+
+  it('passes through ADULT when requested', async () => {
+    ;(getNextTitleToRate as ReturnType<typeof vi.fn>).mockResolvedValue(null)
+    const req = new NextRequest('http://localhost/api/taste?mode=ADULT')
+    await GET(req)
+    expect(getNextTitleToRate).toHaveBeenCalledWith('default', 'ADULT')
+  })
+
+  it('defaults to FAMILY for an invalid mode value', async () => {
+    ;(getNextTitleToRate as ReturnType<typeof vi.fn>).mockResolvedValue(null)
+    const req = new NextRequest('http://localhost/api/taste?mode=nonsense')
+    await GET(req)
+    expect(getNextTitleToRate).toHaveBeenCalledWith('default', 'FAMILY')
   })
 })
 

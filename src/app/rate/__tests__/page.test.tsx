@@ -5,7 +5,7 @@ import RatePage from '../page'
 describe('RatePage', () => {
   beforeEach(() => {
     let call = 0
-    global.fetch = vi.fn().mockImplementation((_url: string, init?: RequestInit) => {
+    global.fetch = vi.fn().mockImplementation((url: string, init?: RequestInit) => {
       if (init?.method === 'POST') {
         return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
       }
@@ -20,6 +20,19 @@ describe('RatePage', () => {
   it('shows the current title to rate', async () => {
     render(<RatePage />)
     expect(await screen.findByText(/Jurassic Park/)).toBeInTheDocument()
+  })
+
+  it('requests the taste API with the default FAMILY mode on initial load', async () => {
+    render(<RatePage />)
+    await screen.findByText(/Jurassic Park/)
+    expect(fetch).toHaveBeenCalledWith('/api/taste?mode=FAMILY')
+  })
+
+  it('refetches with ADULT mode when Adult Mode is clicked', async () => {
+    render(<RatePage />)
+    await screen.findByText(/Jurassic Park/)
+    fireEvent.click(screen.getByRole('button', { name: 'Adult Mode' }))
+    await waitFor(() => expect(fetch).toHaveBeenCalledWith('/api/taste?mode=ADULT'))
   })
 
   it('submits a rating and loads the next title', async () => {
