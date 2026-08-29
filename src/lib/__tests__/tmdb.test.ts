@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { searchTitle, getWatchProviders, discoverByProvider, PROVIDER_IDS } from '../tmdb'
+import { searchTitle, getWatchProviders, discoverByProvider, getCertification, PROVIDER_IDS } from '../tmdb'
 
 const originalFetch = global.fetch
 const originalEnv = process.env.TMDB_API_KEY
@@ -58,5 +58,43 @@ describe('discoverByProvider', () => {
     expect(calledUrl).toContain('/discover/movie')
     expect(calledUrl).toContain(`with_watch_providers=${PROVIDER_IDS.netflix}`)
     expect(calledUrl).toContain('sort_by=popularity.desc')
+  })
+})
+
+describe('getCertification', () => {
+  it('returns the US certification for a movie', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        results: [
+          { iso_3166_1: 'FR', release_dates: [{ certification: '' }] },
+          { iso_3166_1: 'US', release_dates: [{ certification: 'PG-13' }, { certification: 'PG-13' }] },
+        ],
+      }),
+    }) as unknown as typeof fetch
+
+    expect(await getCertification(1, 'movie')).toBe('PG-13')
+  })
+
+  it('returns the US rating for a TV show', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ results: [{ iso_3166_1: 'GB', rating: '15' }, { iso_3166_1: 'US', rating: 'TV-14' }] }),
+    }) as unknown as typeof fetch
+
+    expect(await getCertification(1, 'tv')).toBe('TV-14')
+  })
+
+  it('returns null when there is no US entry', async () => {
+    global.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ results: [] }) }) as unknown as typeof fetch
+    expect(await getCertification(1, 'movie')).toBeNull()
+  })
+
+  it('returns null when the US entry has no certification value set', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ results: [{ iso_3166_1: 'US', release_dates: [{ certification: '' }] }] }),
+    }) as unknown as typeof fetch
+    expect(await getCertification(1, 'movie')).toBeNull()
   })
 })

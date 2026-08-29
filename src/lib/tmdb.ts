@@ -59,3 +59,21 @@ export async function discoverByProvider(providerId: number, mediaType: 'movie' 
   })
   return data.results
 }
+
+type TmdbMovieReleaseDate = { certification: string }
+type TmdbMovieReleaseDatesResult = { iso_3166_1: string; release_dates: TmdbMovieReleaseDate[] }
+type TmdbTvContentRatingsResult = { iso_3166_1: string; rating: string }
+
+export async function getCertification(tmdbId: number, mediaType: 'movie' | 'tv'): Promise<string | null> {
+  if (mediaType === 'movie') {
+    const data = await tmdbFetch(`/movie/${tmdbId}/release_dates`)
+    const results: TmdbMovieReleaseDatesResult[] = data.results ?? []
+    const us = results.find((r) => r.iso_3166_1 === 'US')
+    const withCert = us?.release_dates.find((rd) => rd.certification)
+    return withCert?.certification || null
+  }
+  const data = await tmdbFetch(`/tv/${tmdbId}/content_ratings`)
+  const results: TmdbTvContentRatingsResult[] = data.results ?? []
+  const us = results.find((r) => r.iso_3166_1 === 'US')
+  return us?.rating || null
+}

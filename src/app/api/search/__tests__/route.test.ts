@@ -4,12 +4,13 @@ import { NextRequest } from 'next/server'
 vi.mock('@/lib/tmdb', () => ({
   searchTitle: vi.fn(),
   getWatchProviders: vi.fn(),
+  getCertification: vi.fn(),
 }))
 vi.mock('@/lib/prisma', () => ({
   prisma: { title: { upsert: vi.fn() } },
 }))
 
-import { searchTitle, getWatchProviders } from '@/lib/tmdb'
+import { searchTitle, getWatchProviders, getCertification } from '@/lib/tmdb'
 import { prisma } from '@/lib/prisma'
 import { GET } from '../route'
 
@@ -27,6 +28,7 @@ describe('GET /api/search', () => {
       { id: 42, title: 'Jurassic Park', overview: '...', poster_path: '/x.jpg', release_date: '1993-06-11' },
     ])
     ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
+    ;(getCertification as ReturnType<typeof vi.fn>).mockResolvedValue(null)
     ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 't1', name: 'Jurassic Park' })
 
     const req = new NextRequest('http://localhost/api/search?q=jurassic')
@@ -39,5 +41,21 @@ describe('GET /api/search', () => {
       })
     )
     expect(body.titles).toEqual([{ id: 't1', name: 'Jurassic Park' }])
+  })
+
+  it('captures the MPAA rating alongside providers', async () => {
+    ;(searchTitle as ReturnType<typeof vi.fn>).mockResolvedValue([
+      { id: 42, title: 'Jurassic Park', overview: '...', poster_path: '/x.jpg', release_date: '1993-06-11' },
+    ])
+    ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
+    ;(getCertification as ReturnType<typeof vi.fn>).mockResolvedValue('PG-13')
+    ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 't1', name: 'Jurassic Park' })
+
+    const req = new NextRequest('http://localhost/api/search?q=jurassic')
+    await GET(req)
+
+    expect(prisma.title.upsert).toHaveBeenCalledWith(
+      expect.objectContaining({ update: expect.objectContaining({ mpaaRating: 'PG-13' }) })
+    )
   })
 })
