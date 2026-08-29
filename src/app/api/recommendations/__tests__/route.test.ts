@@ -10,9 +10,13 @@ vi.mock('@/lib/prisma', () => ({
   },
 }))
 vi.mock('@/lib/ranking', () => ({ rankByTaste: vi.fn() }))
+vi.mock('@/lib/contentScoring', () => ({
+  getOrCreateContentScore: vi.fn(),
+}))
 
 import { prisma } from '@/lib/prisma'
 import { rankByTaste } from '@/lib/ranking'
+import { getOrCreateContentScore } from '@/lib/contentScoring'
 import { GET } from '../route'
 
 const cleanScore = { violence: 1, language: 1, sexNudity: 0, scariness: 1, isUnrated: false, isNC17: false }
@@ -87,5 +91,6 @@ describe('GET /api/recommendations', () => {
     const body = await res.json()
 
     expect(body.titles.map((t: { id: string }) => t.id)).toEqual(['t1'])
+    expect(getOrCreateContentScore).not.toHaveBeenCalled()
   })
 })
