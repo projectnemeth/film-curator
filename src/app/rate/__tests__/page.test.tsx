@@ -11,7 +11,7 @@ describe('RatePage', () => {
       }
       call++
       if (call === 1) {
-        return Promise.resolve({ json: async () => ({ title: { id: 't1', name: 'Jurassic Park', year: 1993, overview: 'Dinosaurs.' } }) })
+        return Promise.resolve({ json: async () => ({ title: { id: 't1', name: 'Jurassic Park', year: 1993, overview: 'Dinosaurs.', posterPath: '/poster.jpg' } }) })
       }
       return Promise.resolve({ json: async () => ({ title: null }) })
     }) as unknown as typeof fetch
@@ -31,5 +31,11 @@ describe('RatePage', () => {
       '/api/taste',
       expect.objectContaining({ method: 'POST', body: JSON.stringify({ titleId: 't1', rating: 'LOVED' }) })
     )
+  })
+
+  it('renders a poster image when posterPath is present', async () => {
+    render(<RatePage />)
+    const img = await screen.findByAltText(/Jurassic Park poster/i)
+    expect(img).toHaveAttribute('src', expect.stringContaining('/poster.jpg'))
   })
 })

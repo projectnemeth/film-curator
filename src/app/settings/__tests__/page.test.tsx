@@ -11,7 +11,7 @@ describe('SettingsPage', () => {
         })
       }
       if (url.startsWith('/api/overrides')) {
-        return Promise.resolve({ json: async () => ({ overrides: [{ id: 'o1', titleId: 't1', decision: 'APPROVED', title: { name: 'Jurassic Park' } }] }) })
+        return Promise.resolve({ json: async () => ({ overrides: [{ id: 'o1', titleId: 't1', decision: 'APPROVED', title: { name: 'Jurassic Park', posterPath: '/poster.jpg' } }] }) })
       }
       return Promise.resolve({ json: async () => ({}) })
     }) as unknown as typeof fetch

@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 
-type Title = { id: string; name: string; year: number | null; overview: string | null }
+type Title = { id: string; name: string; year: number | null; overview: string | null; posterPath: string | null }
 
 const RATINGS = [
   { value: 'DISLIKED', label: 'Disliked' },
@@ -42,6 +42,16 @@ export default function RatePage() {
   return (
     <main>
       <h1>Rate More Movies</h1>
+      {title.posterPath ? (
+        <img
+          src={`https://image.tmdb.org/t/p/w200${title.posterPath}`}
+          alt={`${title.name} poster`}
+          width={92}
+          height={138}
+        />
+      ) : (
+        <div style={{ width: 92, height: 138, background: '#ccc' }} aria-hidden="true" />
+      )}
       <h2>
         {title.name} {title.year ? `(${title.year})` : ''}
       </h2>

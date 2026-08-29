@@ -11,7 +11,7 @@ type Settings = {
   allowNC17: boolean
 }
 
-type OverrideRow = { id: string; titleId: string; decision: string; title: { name: string } }
+type OverrideRow = { id: string; titleId: string; decision: string; title: { name: string; posterPath: string | null } }
 
 function OverridesManager() {
   const [overrides, setOverrides] = useState<OverrideRow[]>([])
@@ -43,6 +43,16 @@ function OverridesManager() {
       <ul>
         {overrides.map((o) => (
           <li key={o.id}>
+            {o.title.posterPath ? (
+              <img
+                src={`https://image.tmdb.org/t/p/w200${o.title.posterPath}`}
+                alt={`${o.title.name} poster`}
+                width={40}
+                height={60}
+              />
+            ) : (
+              <div style={{ width: 40, height: 60, background: '#ccc', display: 'inline-block' }} aria-hidden="true" />
+            )}
             {o.title.name}: {o.decision}
           </li>
         ))}
