@@ -2,11 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { discoverByProvider, getWatchProviders, PROVIDER_IDS } from '@/lib/tmdb'
 import { prisma } from '@/lib/prisma'
 import { getOrCreateContentScore } from '@/lib/contentScoring'
+import { timeoutForNextAttempt } from '@/lib/scoringSchedule'
 
 export const maxDuration = 300
-
-const SCORING_TIME_BUDGET_MS = 240_000
-const PER_TITLE_TIMEOUT_MS = 50_000
 
 export async function GET(req: NextRequest) {
   if (!process.env.CRON_SECRET) {
@@ -72,10 +70,11 @@ export async function GET(req: NextRequest) {
   }
 
   for (const title of unscoredTitles) {
-    if (Date.now() - functionStart > SCORING_TIME_BUDGET_MS) break
+    const timeout = timeoutForNextAttempt(functionStart, Date.now())
+    if (timeout === null) break
 
     const controller = new AbortController()
-    const timer = setTimeout(() => controller.abort(), PER_TITLE_TIMEOUT_MS)
+    const timer = setTimeout(() => controller.abort(), timeout)
     try {
       await getOrCreateContentScore(title.id, controller.signal)
       results.scored++
