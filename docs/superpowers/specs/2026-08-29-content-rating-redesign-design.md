@@ -32,10 +32,21 @@ user pulls up voluntarily on a specific title they're already considering
 
 ## Visibility rules
 
-| Mode | Shown automatically | Never shown | Optional info |
+Both modes use an explicit **allow-list**, not a block-list — anything
+not named below is hidden, including any rating value the system doesn't
+recognize. This matches the fail-closed principle already used everywhere
+else in this app (unscored/unrated defaults to hidden, never shown).
+
+| Mode | Shown automatically | Everything else | Optional info |
 |---|---|---|---|
-| Family | G, PG (+ TV-Y/Y7/G/PG) | Everything else (PG-13, R, NC-17, TV-14, TV-MA, unrated/unknown) | none — no button in Family Mode |
-| Adult | G, PG, PG-13, R (+ TV-Y..TV-14, TV-MA) | NC-17, unrated/unknown (no TMDB certification found) | "Rate this" button available on any shown, unscored title |
+| Family | G, PG, TV-Y, TV-Y7, TV-G, TV-PG | Hidden (PG-13, R, NC-17, TV-14, TV-MA, unrated/unknown, anything else) | none — no button in Family Mode |
+| Adult | PG-13, R, TV-14, TV-MA | Hidden (G, PG, NC-17, unrated/unknown, anything else) | "Rate this" button available on any shown, unscored title |
+
+Family and Adult Mode are deliberately **non-overlapping buckets**, not
+"Adult shows everything Family shows, plus more" — G/PG movies live in
+Family Mode only; PG-13/R movies live in Adult Mode only. If a G-rated
+movie also needs to show up for an adult browsing session, that's what
+Family Mode is for.
 
 PG-13 is deliberately excluded from Family Mode entirely for now — no
 nuanced exception system, no button. This can be revisited later if it
@@ -108,13 +119,12 @@ cancellation support. No more shared time-budget math across many titles
   including a 2024 release — that field is effectively unpopulated in
   practice. TMDB gives us the letter grade only; the reasoning behind it
   still requires the Claude+web-search report.
-- **A pure `ratingTierForMode(mpaaRating, mode)` function** in
-  `src/lib/filtering.ts`, replacing the threshold-comparison logic. Given
-  a certification string and a mode, returns `SHOW`, `HIDE`, or (Family
-  Mode is never ambiguous — every rating maps to `SHOW` or `HIDE`
-  directly, no third state needed there). `evaluateTitle` still checks
-  `Override` first (unchanged, highest precedence), then falls back to
-  this tier lookup.
+- **A pure `isTitleVisible(mpaaRating, override, mode)` function** in
+  `src/lib/filtering.ts`, replacing the threshold-comparison logic.
+  Checks `Override` first (unchanged, highest precedence — an approved
+  override wins even over NC-17; a rejected override wins even over G),
+  then falls back to an allow-list lookup per mode (see Visibility rules
+  above).
 - **A new on-demand scoring endpoint** (e.g.
   `POST /api/titles/[id]/rate-content`) for the button, replacing any
   batch/lazy scoring path.
@@ -174,6 +184,50 @@ same redesign:
 - A failed ranking (existing fallback-to-unranked-order behavior) is
   never cached — only a real, successful ranking gets saved, so a
   transient failure can't lock in a bad order for future loads.
+
+## Mode-scoped taste ratings (a third, related change)
+
+Today, `TasteRating` holds one rating per title per family, full stop —
+there's no concept of *whose* taste it reflects. But Family Mode and
+Adult Mode are genuinely different audiences (kids watching together vs.
+an adult's own personal taste), and a rating given in one context
+shouldn't quietly influence recommendations in the other. If the family
+loved a PG movie together, that's a family-taste signal; if an adult
+rates an R movie they watched alone, that's a separate, personal signal
+for a completely different pool of movies (Family and Adult Mode no
+longer even show overlapping ratings, per the visibility rules above) —
+but the underlying mechanism needs to generalize correctly regardless.
+
+- `TasteRating` gains a `mode: Mode` field. Whichever mode you're
+  browsing in when you submit a rating is recorded as that rating's mode
+  — no new UI concept, since every screen that submits a rating (the
+  dashboard's quick-rate flow, the dedicated `/rate` taste-training page)
+  already has a mode toggle.
+- The unique key becomes `(familyId, titleId, mode)` instead of
+  `(familyId, titleId)` — the same title can hold independent ratings for
+  each mode over time.
+- Recommendations in a given mode only look at that mode's own
+  `TasteRating` rows when building taste history for `rankByTaste` — a
+  family rating never influences an Adult Mode ranking and vice versa.
+- The taste-training page's "already rated, don't ask again" check is
+  scoped the same way — a title rated in Family Mode can still come up to
+  be rated in Adult Mode later, since they're independent signals.
+- This is a plain discriminator column, not two databases or two tables
+  — the same pattern already used for `RankingCache` and (formerly)
+  `ModeSettings`.
+
+## "Not interested" quick action
+
+Next to the dashboard's existing "I've seen this" link (which expands
+into Disliked/Liked/Loved for a movie you've already watched), a second,
+single-click "I don't want to see this" button covers the case where you
+haven't seen it and don't want to. It records a new `TasteRatingValue`,
+`NOT_INTERESTED`, immediately — no expansion step, since there's nothing
+to disambiguate. Like every other taste signal, it's mode-scoped and it
+only ever *ranks* the title (and similar ones) lower over time via
+`rankByTaste` — it doesn't hard-block or remove the title from the
+catalog, so there's no separate suppression mechanism to build or
+maintain.
 
 ## Known trade-off: TMDB certification coverage isn't complete
 
