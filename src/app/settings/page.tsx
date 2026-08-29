@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { ModeToggle } from '@/components/ModeToggle'
 
 type Settings = {
   mode: string
@@ -54,7 +55,7 @@ function OverridesManager() {
             ) : (
               <div className="w-10 aspect-[2/3] bg-border rounded" aria-hidden="true" />
             )}
-            <span className="text-sm text-textPrimary">
+            <span className={`text-sm ${o.decision === 'REJECTED' ? 'text-danger' : 'text-textPrimary'}`}>
               {o.title.name}: {o.decision}
             </span>
           </li>
@@ -65,12 +66,12 @@ function OverridesManager() {
           placeholder="Title ID"
           value={titleId}
           onChange={(e) => setTitleId(e.target.value)}
-          className="bg-surface border border-border rounded px-3 py-1.5 text-sm text-textPrimary"
+          className="bg-surface border border-border rounded px-3 py-1.5 text-sm text-textPrimary focus:outline-none focus:ring-2 focus:ring-accent"
         />
         <select
           value={decision}
           onChange={(e) => setDecision(e.target.value as 'APPROVED' | 'REJECTED')}
-          className="bg-surface border border-border rounded px-3 py-1.5 text-sm text-textPrimary"
+          className="bg-surface border border-border rounded px-3 py-1.5 text-sm text-textPrimary focus:outline-none focus:ring-2 focus:ring-accent"
         >
           <option value="APPROVED">Approve</option>
           <option value="REJECTED">Reject</option>
@@ -116,26 +117,7 @@ export default function SettingsPage() {
   return (
     <main className="max-w-4xl mx-auto px-6 py-8">
       <h1 className="font-display text-3xl tracking-wide text-textPrimary mb-6">Content Filter Settings</h1>
-      <div role="group" aria-label="mode toggle" className="inline-flex bg-surface border border-border rounded-full p-1 mb-8">
-        <button
-          aria-pressed={mode === 'FAMILY'}
-          onClick={() => setMode('FAMILY')}
-          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-            mode === 'FAMILY' ? 'bg-accent text-bg' : 'text-textSecondary'
-          }`}
-        >
-          Family Mode
-        </button>
-        <button
-          aria-pressed={mode === 'ADULT'}
-          onClick={() => setMode('ADULT')}
-          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-            mode === 'ADULT' ? 'bg-accent text-bg' : 'text-textSecondary'
-          }`}
-        >
-          Adult Mode
-        </button>
-      </div>
+      <ModeToggle mode={mode} onChange={setMode} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="flex flex-col gap-4">
           {(['maxViolence', 'maxLanguage', 'maxSexNudity', 'maxScariness'] as const).map((field) => (
@@ -145,7 +127,7 @@ export default function SettingsPage() {
                 type="number"
                 value={settings[field]}
                 onChange={(e) => setSettings({ ...settings, [field]: Number(e.target.value) })}
-                className="font-mono bg-surface border border-border rounded px-3 py-1.5 w-20 text-textPrimary"
+                className="font-mono bg-surface border border-border rounded px-3 py-1.5 w-20 text-textPrimary focus:outline-none focus:ring-2 focus:ring-accent"
               />
             </label>
           ))}

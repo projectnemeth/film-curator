@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { ModeToggle } from '@/components/ModeToggle'
 
 type Title = {
   id: string
@@ -44,26 +45,7 @@ export default function HomePage() {
   return (
     <main className="max-w-6xl mx-auto px-6 py-8">
       <h1 className="font-display text-3xl tracking-wide text-textPrimary mb-6">Film Curator</h1>
-      <div role="group" aria-label="mode toggle" className="inline-flex bg-surface border border-border rounded-full p-1 mb-8">
-        <button
-          aria-pressed={mode === 'FAMILY'}
-          onClick={() => setMode('FAMILY')}
-          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-            mode === 'FAMILY' ? 'bg-accent text-bg' : 'text-textSecondary'
-          }`}
-        >
-          Family Mode
-        </button>
-        <button
-          aria-pressed={mode === 'ADULT'}
-          onClick={() => setMode('ADULT')}
-          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-            mode === 'ADULT' ? 'bg-accent text-bg' : 'text-textSecondary'
-          }`}
-        >
-          Adult Mode
-        </button>
-      </div>
+      <ModeToggle mode={mode} onChange={setMode} />
       {loading ? (
         <p className="text-textSecondary">Loading...</p>
       ) : (

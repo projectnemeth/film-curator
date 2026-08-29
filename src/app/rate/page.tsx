@@ -75,7 +75,11 @@ export default function RatePage() {
             <button
               key={r.value}
               onClick={() => rate(r.value)}
-              className="text-sm border border-accent text-accent rounded px-3 py-1.5 hover:bg-accent hover:text-bg transition-colors"
+              className={
+                r.value === 'TOO_INAPPROPRIATE'
+                  ? 'text-sm border border-danger text-danger rounded px-3 py-1.5 hover:bg-danger hover:text-bg transition-colors'
+                  : 'text-sm border border-accent text-accent rounded px-3 py-1.5 hover:bg-accent hover:text-bg transition-colors'
+              }
             >
               {r.label}
             </button>
