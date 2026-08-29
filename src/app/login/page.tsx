@@ -28,26 +28,46 @@ function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-sm">
+      <label className="flex flex-col gap-2 text-sm text-textSecondary">
         Family Passcode
         <input
           type="password"
           value={passcode}
           onChange={(e) => setPasscode(e.target.value)}
+          className="bg-surface border border-border rounded px-3 py-2 text-textPrimary focus:outline-none focus:ring-2 focus:ring-accent"
         />
       </label>
-      <button type="submit" disabled={submitting}>Enter</button>
-      {error && <p role="alert">{error}</p>}
+      <button
+        type="submit"
+        disabled={submitting}
+        className="bg-accent text-bg font-medium rounded px-4 py-2 hover:bg-accentGlow transition-colors disabled:opacity-50"
+      >
+        Enter
+      </button>
+      {error && (
+        <p role="alert" className="text-danger text-sm">
+          {error}
+        </p>
+      )}
     </form>
   )
 }
 
 export default function LoginPage() {
   return (
-    <main>
-      <h1>Film Curator</h1>
-      <Suspense fallback={<p>Loading...</p>}>
+    <main className="min-h-screen flex flex-col items-center justify-center gap-8 px-6 bg-bg">
+      <div className="max-w-md text-center">
+        <h1 className="font-display text-4xl tracking-wide text-accent mb-4">
+          Tonight&apos;s movie, already figured out.
+        </h1>
+        <p className="text-textSecondary text-sm leading-relaxed">
+          Film Curator searches Netflix, Disney+, Prime Video, and Peacock for what&apos;s
+          actually available, filters it against content you&apos;re comfortable with, and
+          ranks it by your family&apos;s taste. It&apos;s a private app for one family — this one.
+        </p>
+      </div>
+      <Suspense fallback={<p className="text-textSecondary">Loading...</p>}>
         <LoginForm />
       </Suspense>
     </main>
