@@ -90,6 +90,16 @@ describe('scoring phase', () => {
     expect(body.skipped).toBe(0)
   })
 
+  it('passes a real AbortSignal to getOrCreateContentScore, so the per-title timeout can actually cancel it', async () => {
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([{ id: 't1', name: 'Title One' }])
+    ;(getOrCreateContentScore as ReturnType<typeof vi.fn>).mockResolvedValue({})
+
+    const req = new NextRequest('http://localhost/api/ingest', { headers: { authorization: 'Bearer test-secret' } })
+    await GET(req)
+
+    expect(getOrCreateContentScore).toHaveBeenCalledWith('t1', expect.any(AbortSignal))
+  })
+
   it('counts a scoring failure as skipped and continues to the next title', async () => {
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
       { id: 't1', name: 'Fails' },

@@ -3,6 +3,8 @@ import { prisma } from '@/lib/prisma'
 import { evaluateTitle, isVisibleInMode, type ContentScoreInput } from '@/lib/filtering'
 import { rankByTaste } from '@/lib/ranking'
 
+export const maxDuration = 60
+
 export async function GET(req: NextRequest) {
   const modeParam = req.nextUrl.searchParams.get('mode')
   const mode: 'FAMILY' | 'ADULT' = modeParam === 'ADULT' ? 'ADULT' : 'FAMILY'

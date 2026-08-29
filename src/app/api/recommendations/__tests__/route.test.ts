@@ -94,3 +94,10 @@ describe('GET /api/recommendations', () => {
     expect(getOrCreateContentScore).not.toHaveBeenCalled()
   })
 })
+
+describe('maxDuration', () => {
+  it('exports a maxDuration of 60 seconds — this route still calls rankByTaste live, unlike the removed content-scoring loop', async () => {
+    const routeModule = await import('../route')
+    expect(routeModule.maxDuration).toBe(60)
+  })
+})
