@@ -386,22 +386,35 @@ export async function rankByTasteCached(
 
 Note: if `rankByTaste` throws, `rankByTasteCached` throws too (the upsert is never reached) — a failed ranking is never cached. This is intentional; don't add a try/catch here, the caller's own try/catch (in `/api/recommendations`) already handles the fallback.
 
-- [ ] **Step 9: Write `src/lib/__tests__/ranking.test.ts`**
+- [ ] **Step 9: Extend `src/lib/__tests__/ranking.test.ts`**
 
-First check whether this file already exists (`ls src/lib/__tests__/ | grep ranking`). If it exists, add these tests to it without disturbing any existing ones. If not, create it:
+This file already exists (confirmed 2026-08-29) with a `describe('rankByTaste', ...)` block, a `// @vitest-environment node` directive on line 1, and `vi.mock('../anthropic', () => ({ getAnthropicClient: vi.fn() }))`. Do NOT overwrite the file or duplicate its existing mocks/imports — leave the `// @vitest-environment node` line and the entire existing `describe('rankByTaste', ...)` block exactly as they are, and make only these additions:
+
+1. Add a second `vi.mock` call alongside the existing one:
 
 ```typescript
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-
 vi.mock('../prisma', () => ({
   prisma: { rankingCache: { findUnique: vi.fn(), upsert: vi.fn() } },
 }))
-vi.mock('../anthropic', () => ({ getAnthropicClient: vi.fn() }))
+```
 
-import { prisma } from '../prisma'
-import { getAnthropicClient } from '../anthropic'
-import { rankByTasteCached, computeRankingFingerprint } from '../ranking'
+2. Change the existing import line
 
+```typescript
+import { rankByTaste } from '../ranking'
+```
+
+to:
+
+```typescript
+import { rankByTaste, rankByTasteCached, computeRankingFingerprint } from '../ranking'
+```
+
+and add `import { prisma } from '../prisma'` alongside the existing `import { getAnthropicClient } from '../anthropic'` line.
+
+3. Append these two new `describe` blocks AFTER the existing `describe('rankByTaste', ...)` block closes (i.e., at the end of the file):
+
+```typescript
 const candidates = [{ id: 't1', name: 'A', overview: null }]
 const history = [{ titleName: 'B', rating: 'LIKED' }]
 
