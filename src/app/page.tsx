@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ModeToggle } from '@/components/ModeToggle'
 
 type ContentScore = { violence: number; language: number; sexNudity: number; scariness: number; sourceNotes: string | null } | null
@@ -37,14 +37,9 @@ export default function HomePage() {
       .finally(() => setLoading(false))
   }
 
-  useState(() => {
+  useEffect(() => {
     load(mode)
-  })
-
-  function changeMode(next: 'FAMILY' | 'ADULT') {
-    setMode(next)
-    load(next)
-  }
+  }, [mode])
 
   async function submitRating(titleId: string, rating: string) {
     await fetch('/api/taste', {
@@ -72,7 +67,7 @@ export default function HomePage() {
   return (
     <main className="max-w-6xl mx-auto px-6 py-8">
       <h1 className="font-display text-3xl tracking-wide text-textPrimary mb-6">Film Curator</h1>
-      <ModeToggle mode={mode} onChange={changeMode} />
+      <ModeToggle mode={mode} onChange={setMode} />
       {loading ? (
         <p className="text-textSecondary">Loading...</p>
       ) : (
