@@ -36,14 +36,22 @@ by typography and poster art instead.
 - `--border`: `#2A2C38`
 - `--accent`: `#E5A34A` (gold — badges, active states, primary actions)
 - `--accent-glow`: `#F2C078` (hover/focus states on accent elements)
-- `--danger`: `#C7443A` (rejected overrides, "too inappropriate" rating, form errors)
+- `--danger`: `#D65A50` (rejected overrides, "too inappropriate" rating, form
+  errors — revised from the original `#C7443A` after a post-implementation
+  accessibility review found the original failed WCAG AA contrast (3.75:1)
+  against `--bg`; this value passes at 4.72:1)
 - `--text-primary`: `#F2F2F2`
-- `--text-secondary`: `#7A7F94`
+- `--text-secondary`: `#8B8FA5` (revised from the original `#7A7F94` after the
+  same review found it failed AA contrast (4.13:1) against `--surface`; this
+  value passes at 5.13:1 on `--surface` and 5.70:1 on `--bg`)
 
 **Type:**
 - Display: Bebas Neue — used sparingly, for page titles, section labels, and
-  rating badges (FAMILY/ADULT, content-score chips) only. Never for body
-  copy or buttons with more than a couple words.
+  content-status chips (e.g. "not yet rated") only. Never for body copy,
+  buttons, or the Family/Adult mode toggle itself — the toggle's own labels
+  stay in the body face (Inter), consistent with the "plain, quiet toggle"
+  decision below; "FAMILY"/"ADULT" as a display-face badge refers only to a
+  future per-title content-rating badge, not the toggle control.
 - Body/UI: Inter — everything else (labels, buttons, form fields, list text).
 - Data/mono: a monospace face (e.g. IBM Plex Mono) for the numeric threshold
   values on the Settings page only — gives that page a deliberately more
