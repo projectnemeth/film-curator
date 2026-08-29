@@ -23,6 +23,7 @@ enum TasteRatingValue {
   LOVED
   NOT_SEEN
   TOO_INAPPROPRIATE
+  NOT_INTERESTED
 }
 
 model Title {
@@ -59,16 +60,13 @@ model ContentScore {
   computedAt  DateTime @default(now())
 }
 
-model ModeSettings {
-  id           String  @id @default(cuid())
-  familyId     String  @default("default")
-  mode         Mode
-  maxViolence  Int
-  maxLanguage  Int
-  maxSexNudity Int
-  maxScariness Int
-  allowUnrated Boolean @default(false)
-  allowNC17    Boolean @default(false)
+model RankingCache {
+  id               String   @id @default(cuid())
+  familyId         String   @default("default")
+  mode             Mode
+  inputFingerprint String
+  rankedIds        String[]
+  updatedAt        DateTime @updatedAt
 
   @@unique([familyId, mode])
 }
@@ -90,8 +88,9 @@ model TasteRating {
   familyId String           @default("default")
   titleId  String
   title    Title            @relation(fields: [titleId], references: [id])
+  mode     Mode             @default(FAMILY)
   rating   TasteRatingValue
   ratedAt  DateTime         @default(now())
 
-  @@unique([familyId, titleId])
+  @@unique([familyId, titleId, mode])
 }

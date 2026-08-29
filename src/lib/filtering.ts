@@ -1,47 +1,15 @@
-export type ContentScoreInput = {
-  violence: number
-  language: number
-  sexNudity: number
-  scariness: number
-  isUnrated: boolean
-  isNC17: boolean
-}
-
-export type ModeThresholds = {
-  maxViolence: number
-  maxLanguage: number
-  maxSexNudity: number
-  maxScariness: number
-  allowUnrated: boolean
-  allowNC17: boolean
-}
-
 export type OverrideInput = { decision: 'APPROVED' | 'REJECTED' } | null
 
-export type FilterReason = 'override_approved' | 'override_rejected' | 'passes' | 'fails_category' | 'unscored'
+const FAMILY_SHOWN_RATINGS = new Set(['G', 'PG', 'TV-Y', 'TV-Y7', 'TV-G', 'TV-PG'])
+const ADULT_SHOWN_RATINGS = new Set(['PG-13', 'R', 'TV-14', 'TV-MA'])
 
-export function evaluateTitle(
-  score: ContentScoreInput | null,
-  thresholds: ModeThresholds,
-  override: OverrideInput
-): FilterReason {
-  if (override?.decision === 'APPROVED') return 'override_approved'
-  if (override?.decision === 'REJECTED') return 'override_rejected'
-  if (!score) return 'unscored'
-  if (score.isNC17 && !thresholds.allowNC17) return 'fails_category'
-  if (score.isUnrated && !thresholds.allowUnrated) return 'fails_category'
-
-  const withinThresholds =
-    score.violence <= thresholds.maxViolence &&
-    score.language <= thresholds.maxLanguage &&
-    score.sexNudity <= thresholds.maxSexNudity &&
-    score.scariness <= thresholds.maxScariness
-
-  return withinThresholds ? 'passes' : 'fails_category'
+export function isRatingVisibleInMode(mpaaRating: string | null, mode: 'FAMILY' | 'ADULT'): boolean {
+  if (!mpaaRating) return false
+  return mode === 'FAMILY' ? FAMILY_SHOWN_RATINGS.has(mpaaRating) : ADULT_SHOWN_RATINGS.has(mpaaRating)
 }
 
-export function isVisibleInMode(reason: FilterReason, mode: 'FAMILY' | 'ADULT'): boolean {
-  if (reason === 'override_rejected' || reason === 'fails_category') return false
-  if (reason === 'override_approved' || reason === 'passes') return true
-  return mode === 'ADULT' // reason === 'unscored'
+export function isTitleVisible(mpaaRating: string | null, override: OverrideInput, mode: 'FAMILY' | 'ADULT'): boolean {
+  if (override?.decision === 'APPROVED') return true
+  if (override?.decision === 'REJECTED') return false
+  return isRatingVisibleInMode(mpaaRating, mode)
 }

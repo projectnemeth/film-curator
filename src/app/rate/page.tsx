@@ -34,7 +34,7 @@ export default function RatePage() {
     await fetch('/api/taste', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ titleId: title.id, rating }),
+      body: JSON.stringify({ titleId: title.id, rating, mode }),
     })
     loadNext(mode)
   }

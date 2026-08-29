@@ -42,7 +42,7 @@ describe('RatePage', () => {
     await waitFor(() => expect(screen.getByText(/No more titles to rate/)).toBeInTheDocument())
     expect(fetch).toHaveBeenCalledWith(
       '/api/taste',
-      expect.objectContaining({ method: 'POST', body: JSON.stringify({ titleId: 't1', rating: 'LOVED' }) })
+      expect.objectContaining({ method: 'POST', body: JSON.stringify({ titleId: 't1', rating: 'LOVED', mode: 'FAMILY' }) })
     )
   })
 

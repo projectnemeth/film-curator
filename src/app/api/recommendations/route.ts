@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { evaluateTitle, isVisibleInMode, type ContentScoreInput } from '@/lib/filtering'
-import { rankByTaste } from '@/lib/ranking'
+import { isTitleVisible } from '@/lib/filtering'
+import { rankByTasteCached } from '@/lib/ranking'
 
 export const maxDuration = 60
 
@@ -10,24 +10,18 @@ export async function GET(req: NextRequest) {
   const mode: 'FAMILY' | 'ADULT' = modeParam === 'ADULT' ? 'ADULT' : 'FAMILY'
   const familyId = 'default'
 
-  const [titles, thresholds, overrides, tasteHistory] = await Promise.all([
+  const [titles, overrides, tasteHistory] = await Promise.all([
     prisma.title.findMany({ where: { familyId }, include: { contentScore: true } }),
-    prisma.modeSettings.findUniqueOrThrow({ where: { familyId_mode: { familyId, mode } } }),
     prisma.override.findMany({ where: { familyId } }),
-    prisma.tasteRating.findMany({ where: { familyId }, include: { title: true } }),
+    prisma.tasteRating.findMany({ where: { familyId, mode }, include: { title: true } }),
   ])
 
   const overrideByTitleId = new Map(overrides.map((o) => [o.titleId, o]))
 
-  const visible: Array<{ id: string; name: string; overview: string | null; contentScore: ContentScoreInput | null; filterReason: string }> = []
-  for (const title of titles) {
-    const score: ContentScoreInput | null = title.contentScore
+  const visible = titles.filter((title) => {
     const override = overrideByTitleId.get(title.id) ?? null
-    const reason = evaluateTitle(score, thresholds, override)
-    if (isVisibleInMode(reason, mode)) {
-      visible.push({ ...title, contentScore: score, filterReason: reason })
-    }
-  }
+    return isTitleVisible(title.mpaaRating, override, mode)
+  })
 
   const history = tasteHistory
     .filter((t) => t.rating !== 'NOT_SEEN')
@@ -35,7 +29,9 @@ export async function GET(req: NextRequest) {
 
   let rankedIds: string[]
   try {
-    rankedIds = await rankByTaste(
+    rankedIds = await rankByTasteCached(
+      familyId,
+      mode,
       visible.map((v) => ({ id: v.id, name: v.name, overview: v.overview })),
       history
     )
@@ -46,5 +42,16 @@ export async function GET(req: NextRequest) {
   const byId = new Map(visible.map((v) => [v.id, v]))
   const ranked = rankedIds.map((id) => byId.get(id)).filter((v): v is typeof visible[number] => Boolean(v))
 
-  return NextResponse.json({ mode, titles: ranked })
+  return NextResponse.json({
+    mode,
+    titles: ranked.map((t) => ({
+      id: t.id,
+      name: t.name,
+      year: t.year,
+      posterPath: t.posterPath,
+      providers: t.providers,
+      mpaaRating: t.mpaaRating,
+      contentScore: t.contentScore,
+    })),
+  })
 }

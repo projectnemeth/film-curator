@@ -1,5 +1,7 @@
 import { z } from 'zod'
+import { createHash } from 'crypto'
 import { getAnthropicClient } from './anthropic'
+import { prisma } from './prisma'
 
 const RankingResponseSchema = z.object({
   rankedTitleIds: z.array(z.string()),
@@ -31,4 +33,35 @@ export async function rankByTaste(candidates: CandidateTitle[], tasteHistory: Ta
   const cleaned = text.trim().replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '')
   const parsed = RankingResponseSchema.parse(JSON.parse(cleaned))
   return parsed.rankedTitleIds
+}
+
+export function computeRankingFingerprint(candidateIds: string[], tasteHistory: TasteHistoryEntry[]): string {
+  const sortedIds = [...candidateIds].sort()
+  const sortedHistory = tasteHistory.map((h) => `${h.titleName}:${h.rating}`).sort()
+  return createHash('sha256').update(sortedIds.join(',') + '|' + sortedHistory.join(',')).digest('hex')
+}
+
+export async function rankByTasteCached(
+  familyId: string,
+  mode: 'FAMILY' | 'ADULT',
+  candidates: CandidateTitle[],
+  tasteHistory: TasteHistoryEntry[]
+): Promise<string[]> {
+  if (candidates.length === 0) return []
+
+  const fingerprint = computeRankingFingerprint(candidates.map((c) => c.id), tasteHistory)
+  const cached = await prisma.rankingCache.findUnique({ where: { familyId_mode: { familyId, mode } } })
+  if (cached && cached.inputFingerprint === fingerprint) {
+    return cached.rankedIds
+  }
+
+  const rankedIds = await rankByTaste(candidates, tasteHistory)
+
+  await prisma.rankingCache.upsert({
+    where: { familyId_mode: { familyId, mode } },
+    update: { inputFingerprint: fingerprint, rankedIds },
+    create: { familyId, mode, inputFingerprint: fingerprint, rankedIds },
+  })
+
+  return rankedIds
 }
