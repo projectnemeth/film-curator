@@ -107,6 +107,26 @@ describe('scoring phase', () => {
     expect(body.skipped).toBe(1)
   })
 
+  it('returns 200 with scored/skipped at 0 and ingestion counts intact when the unscored-titles query fails', async () => {
+    ;(discoverByProvider as ReturnType<typeof vi.fn>)
+      .mockResolvedValueOnce([{ id: 1, title: 'A', overview: '', poster_path: null, release_date: '2020-01-01' }])
+      .mockResolvedValue([])
+    ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
+    ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({})
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('db unavailable'))
+
+    const req = new NextRequest('http://localhost/api/ingest', { headers: { authorization: 'Bearer test-secret' } })
+    const res = await GET(req)
+    const body = await res.json()
+
+    expect(res.status).toBe(200)
+    expect(body.ingested).toBe(1)
+    expect(body.failed).toBe(0)
+    expect(body.scored).toBe(0)
+    expect(body.skipped).toBe(0)
+    expect(getOrCreateContentScore).not.toHaveBeenCalled()
+  })
+
   it('stops starting new scoring attempts once the time budget is exceeded', async () => {
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
       { id: 't1', name: 'First' },

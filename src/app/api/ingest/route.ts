@@ -18,6 +18,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
 
+  const functionStart = Date.now()
   const familyId = 'default'
   const results = { ingested: 0, failed: 0, scored: 0, skipped: 0 }
 
@@ -60,14 +61,18 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  const unscoredTitles = await prisma.title.findMany({
-    where: { familyId, contentScore: null },
-    orderBy: { createdAt: 'desc' },
-  })
+  let unscoredTitles: Awaited<ReturnType<typeof prisma.title.findMany>> = []
+  try {
+    unscoredTitles = await prisma.title.findMany({
+      where: { familyId, contentScore: null },
+      orderBy: { createdAt: 'desc' },
+    })
+  } catch (error) {
+    console.error('Failed to query unscored titles for the scoring phase:', error)
+  }
 
-  const scoringStart = Date.now()
   for (const title of unscoredTitles) {
-    if (Date.now() - scoringStart > SCORING_TIME_BUDGET_MS) break
+    if (Date.now() - functionStart > SCORING_TIME_BUDGET_MS) break
 
     const controller = new AbortController()
     const timer = setTimeout(() => controller.abort(), PER_TITLE_TIMEOUT_MS)
