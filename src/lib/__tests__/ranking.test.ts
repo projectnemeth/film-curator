@@ -132,6 +132,49 @@ describe('rankByTaste', () => {
     expect(promptText).toContain('Movie Number 0')
     expect(promptText).toContain('Movie Number 59')
   })
+
+  it('includes director, writer, cast, and studio in the prompt for both candidates and taste history', async () => {
+    const candidates = [
+      {
+        id: 'a',
+        name: 'Killers of the Flower Moon',
+        overview: null,
+        director: 'Martin Scorsese',
+        writer: 'Eric Roth',
+        topCast: ['Leonardo DiCaprio', 'Robert De Niro'],
+        studio: 'Apple Studios',
+      },
+    ]
+    mockClaudeReturns([0])
+
+    await rankByTaste(candidates, [
+      { titleName: 'Oppenheimer', rating: 'LOVED', director: 'Christopher Nolan', writer: 'Christopher Nolan', topCast: ['Cillian Murphy'], studio: 'Universal Pictures' },
+    ])
+
+    const createMock = (getAnthropicClient as ReturnType<typeof vi.fn>).mock.results[0].value.messages.create
+    const promptText = createMock.mock.calls[0][0].messages[0].content as string
+
+    expect(promptText).toContain('dir: Martin Scorsese')
+    expect(promptText).toContain('writer: Eric Roth')
+    expect(promptText).toContain('cast: Leonardo DiCaprio, Robert De Niro')
+    expect(promptText).toContain('studio: Apple Studios')
+    expect(promptText).toContain('dir: Christopher Nolan')
+    expect(promptText).toContain('studio: Universal Pictures')
+  })
+
+  it('omits the affinity tag entirely for a candidate or history entry with no known metadata', async () => {
+    const candidates = [{ id: 'a', name: 'Mystery Movie', overview: 'A movie.' }]
+    mockClaudeReturns([0])
+
+    await rankByTaste(candidates, [{ titleName: 'Another Mystery', rating: 'LIKED' }])
+
+    const createMock = (getAnthropicClient as ReturnType<typeof vi.fn>).mock.results[0].value.messages.create
+    const promptText = createMock.mock.calls[0][0].messages[0].content as string
+
+    expect(promptText).toContain('"Mystery Movie" — A movie.')
+    expect(promptText).toContain('"Another Mystery": LIKED')
+    expect(promptText).not.toContain('dir:')
+  })
 })
 
 const candidates = [{ id: 't1', name: 'A', overview: null }]
