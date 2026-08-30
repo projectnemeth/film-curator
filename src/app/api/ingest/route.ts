@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { discoverByProvider, getWatchProviders, getCertification, getCredits, PROVIDER_IDS } from '@/lib/tmdb'
 import { prisma } from '@/lib/prisma'
-import { hasTimeRemaining } from '@/lib/ingestSchedule'
+import { hasTimeRemaining, rotateProviderOrder } from '@/lib/ingestSchedule'
 
 export const maxDuration = 300
 
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
   const results = { ingested: 0, failed: 0 }
   const mediaType = 'movie' as const
 
-  providerLoop: for (const providerId of Object.values(PROVIDER_IDS)) {
+  providerLoop: for (const providerId of rotateProviderOrder(Object.values(PROVIDER_IDS), functionStart)) {
     for (let page = 1; page <= MAX_PAGES_PER_PROVIDER; page++) {
       if (!hasTimeRemaining(functionStart, Date.now())) break providerLoop
 
