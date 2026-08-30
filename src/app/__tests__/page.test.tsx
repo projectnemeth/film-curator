@@ -145,6 +145,21 @@ describe('HomePage', () => {
     expect(await screen.findByText(/Rated: LIKED/)).toBeInTheDocument()
   })
 
+  it('shows a previously-submitted rating on initial load, before any click — survives a refresh', async () => {
+    ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
+      if (init?.method === 'POST') return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
+      return Promise.resolve({
+        json: async () => ({
+          mode: 'FAMILY',
+          titles: [{ id: 't10', name: 'Already Rated Movie', year: 2020, providers: ['netflix'], posterPath: null, mpaaRating: 'PG', contentScore: null, tasteRating: 'LOVED' }],
+        }),
+      })
+    })
+    render(<HomePage />)
+    expect(await screen.findByText(/Rated: LOVED/)).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: "I've seen this" })).not.toBeInTheDocument()
+  })
+
   it('marks a title not-interested with a single click, scoped to the active mode', async () => {
     render(<HomePage />)
     await screen.findByText(/Jurassic Park/)

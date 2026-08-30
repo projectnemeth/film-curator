@@ -17,6 +17,7 @@ export async function GET(req: NextRequest) {
   ])
 
   const overrideByTitleId = new Map(overrides.map((o) => [o.titleId, o]))
+  const tasteRatingByTitleId = new Map(tasteHistory.map((t) => [t.titleId, t.rating]))
 
   const visible = titles.filter((title) => {
     const override = overrideByTitleId.get(title.id) ?? null
@@ -55,6 +56,7 @@ export async function GET(req: NextRequest) {
       overview: t.overview,
       director: t.director,
       topCast: t.topCast,
+      tasteRating: tasteRatingByTitleId.get(t.id) ?? null,
     })),
   })
 }

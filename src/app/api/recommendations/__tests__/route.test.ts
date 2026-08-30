@@ -137,6 +137,24 @@ describe('GET /api/recommendations', () => {
     expect(body.titles[0].director).toBe('Steven Spielberg')
     expect(body.titles[0].topCast).toEqual(['Sam Neill', 'Laura Dern'])
   })
+
+  it("includes the family's own taste rating for the active mode, so it survives a page refresh", async () => {
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      { id: 't1', name: 'Rated Title', overview: null, mpaaRating: 'PG-13', posterPath: null, providers: [], contentScore: null, year: 2020, director: null, topCast: [] },
+      { id: 't2', name: 'Unrated Title', overview: null, mpaaRating: 'PG-13', posterPath: null, providers: [], contentScore: null, year: 2020, director: null, topCast: [] },
+    ])
+    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      { titleId: 't1', rating: 'LOVED', title: { name: 'Rated Title' } },
+    ])
+    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockResolvedValue(['t1', 't2'])
+
+    const req = new NextRequest('http://localhost/api/recommendations?mode=ADULT')
+    const body = await (await GET(req)).json()
+
+    expect(body.titles.find((t: { id: string }) => t.id === 't1').tasteRating).toBe('LOVED')
+    expect(body.titles.find((t: { id: string }) => t.id === 't2').tasteRating).toBeNull()
+  })
 })
 
 describe('maxDuration', () => {

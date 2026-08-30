@@ -15,6 +15,7 @@ type Title = {
   overview?: string | null
   director?: string | null
   topCast?: string[]
+  tasteRating?: string | null
 }
 
 const QUICK_RATINGS = [
@@ -36,7 +37,14 @@ export default function HomePage() {
     setLoading(true)
     fetch(`/api/recommendations?mode=${currentMode}`)
       .then((res) => res.json())
-      .then((data) => setTitles(data.titles))
+      .then((data) => {
+        setTitles(data.titles)
+        const ratedFromServer: Record<string, string> = {}
+        for (const t of data.titles as Title[]) {
+          if (t.tasteRating) ratedFromServer[t.id] = t.tasteRating
+        }
+        setRated(ratedFromServer)
+      })
       .finally(() => setLoading(false))
   }
 
