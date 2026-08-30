@@ -51,11 +51,12 @@ export async function getWatchProviders(tmdbId: number, mediaType: 'movie' | 'tv
   return flatrate.map((p) => PROVIDER_NAME_MAP[p.provider_name]).filter((slug): slug is string => Boolean(slug))
 }
 
-export async function discoverByProvider(providerId: number, mediaType: 'movie' | 'tv'): Promise<TmdbSearchResult[]> {
+export async function discoverByProvider(providerId: number, mediaType: 'movie' | 'tv', page: number = 1): Promise<TmdbSearchResult[]> {
   const data = await tmdbFetch(`/discover/${mediaType}`, {
     with_watch_providers: String(providerId),
     watch_region: 'US',
     sort_by: 'popularity.desc',
+    page: String(page),
   })
   return data.results
 }

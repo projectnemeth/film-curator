@@ -49,7 +49,7 @@ describe('getWatchProviders', () => {
 })
 
 describe('discoverByProvider', () => {
-  it('requests discover sorted by popularity for the given provider', async () => {
+  it('requests discover sorted by popularity for the given provider, defaulting to page 1', async () => {
     const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ results: [] }) })
     global.fetch = fetchMock as unknown as typeof fetch
 
@@ -58,6 +58,16 @@ describe('discoverByProvider', () => {
     expect(calledUrl).toContain('/discover/movie')
     expect(calledUrl).toContain(`with_watch_providers=${PROVIDER_IDS.netflix}`)
     expect(calledUrl).toContain('sort_by=popularity.desc')
+    expect(calledUrl).toContain('page=1')
+  })
+
+  it('requests a specific page when given one', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ results: [] }) })
+    global.fetch = fetchMock as unknown as typeof fetch
+
+    await discoverByProvider(PROVIDER_IDS.netflix, 'movie', 3)
+    const calledUrl = fetchMock.mock.calls[0][0] as string
+    expect(calledUrl).toContain('page=3')
   })
 })
 
