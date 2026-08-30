@@ -207,7 +207,7 @@ describe('GET /api/recommendations', () => {
     expect(body.loved[0].tasteRating).toBe('LOVED')
   })
 
-  it('excludes titles rated DISLIKED, LIKED, TOO_INAPPROPRIATE, or NOT_INTERESTED from both sections', async () => {
+  it('excludes titles rated DISLIKED, LIKED, TOO_INAPPROPRIATE, or NOT_INTERESTED from all sections', async () => {
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
       title({ id: 't1', name: 'Disliked' }),
       title({ id: 't2', name: 'Liked' }),
@@ -226,7 +226,43 @@ describe('GET /api/recommendations', () => {
     const body = await (await GET(req)).json()
 
     expect(body.notSeen).toEqual([])
+    expect(body.watchlist).toEqual([])
     expect(body.loved).toEqual([])
+  })
+
+  it('puts WATCHLISTED titles in watchlist, most-recently-saved first, and excludes them from notSeen', async () => {
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      title({ id: 't1', name: 'Saved Earlier' }),
+      title({ id: 't2', name: 'Saved Later' }),
+    ])
+    ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      { titleId: 't1', rating: 'WATCHLISTED', ratedAt: new Date('2026-01-01'), title: { name: 'Saved Earlier' } },
+      { titleId: 't2', rating: 'WATCHLISTED', ratedAt: new Date('2026-06-01'), title: { name: 'Saved Later' } },
+    ])
+    // Echo back whatever candidates actually reach ranking, so this test fails
+    // if a WATCHLISTED title leaks into the notSeen candidate pool instead of
+    // just trusting an empty mock return value that would pass either way.
+    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockImplementation(async (_f: string, _m: string, candidates: { id: string }[]) => candidates.map((c) => c.id))
+
+    const req = new NextRequest('http://localhost/api/recommendations?mode=ADULT')
+    const body = await (await GET(req)).json()
+
+    expect(body.notSeen).toEqual([])
+    expect(body.watchlist.map((t: { id: string }) => t.id)).toEqual(['t2', 't1'])
+    expect(body.watchlist[0].tasteRating).toBe('WATCHLISTED')
+  })
+
+  it('excludes WATCHLISTED titles from the taste-history sent to ranking, same as NOT_SEEN', async () => {
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([title({ id: 't2' })])
+    ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      { titleId: 't1', rating: 'WATCHLISTED', ratedAt: new Date(), title: { name: 'Saved Movie' } },
+    ])
+    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockResolvedValue([])
+
+    const req = new NextRequest('http://localhost/api/recommendations?mode=ADULT')
+    await GET(req)
+
+    expect(rankByTasteCached).toHaveBeenCalledWith('default', 'ADULT', expect.anything(), [])
   })
 })
 

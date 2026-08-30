@@ -5,10 +5,13 @@ import { rankByTasteCached } from '@/lib/ranking'
 
 export const maxDuration = 60
 
-// Once a title has been rated anything other than LOVED, it drops off the
-// dashboard entirely — the family has already told us what they think.
-// A missing rating or an explicit NOT_SEEN both mean "haven't watched yet."
+// Once a title has been rated anything other than LOVED or WATCHLISTED, it
+// drops off the dashboard entirely — the family has already told us what
+// they think. A missing rating or an explicit NOT_SEEN both mean "haven't
+// watched yet." LOVED and WATCHLISTED each get their own section instead
+// of disappearing or staying in the general pool.
 const HIDDEN_AFTER_RATING = new Set(['DISLIKED', 'LIKED', 'TOO_INAPPROPRIATE', 'NOT_INTERESTED'])
+const MOVED_TO_OWN_SECTION = new Set(['LOVED', 'WATCHLISTED'])
 
 function mapTitle(
   t: {
@@ -59,11 +62,15 @@ export async function GET(req: NextRequest) {
 
   const visible = titles.filter((title) => isRatingVisibleInMode(title.mpaaRating, mode))
 
-  const notSeenCandidates = visible.filter((t) => !HIDDEN_AFTER_RATING.has(tasteRatingByTitleId.get(t.id) ?? '') && tasteRatingByTitleId.get(t.id) !== 'LOVED')
+  const notSeenCandidates = visible.filter((t) => {
+    const rating = tasteRatingByTitleId.get(t.id) ?? ''
+    return !HIDDEN_AFTER_RATING.has(rating) && !MOVED_TO_OWN_SECTION.has(rating)
+  })
   const loved = visible.filter((t) => tasteRatingByTitleId.get(t.id) === 'LOVED')
+  const watchlist = visible.filter((t) => tasteRatingByTitleId.get(t.id) === 'WATCHLISTED')
 
   const history = tasteHistory
-    .filter((t) => t.rating !== 'NOT_SEEN')
+    .filter((t) => t.rating !== 'NOT_SEEN' && t.rating !== 'WATCHLISTED')
     .map((t) => ({
       titleName: t.title.name,
       rating: t.rating,
@@ -96,15 +103,18 @@ export async function GET(req: NextRequest) {
   const notSeenById = new Map(notSeenCandidates.map((v) => [v.id, v]))
   const notSeenRanked = rankedIds.map((id) => notSeenById.get(id)).filter((v): v is typeof notSeenCandidates[number] => Boolean(v))
 
-  const lovedSorted = [...loved].sort((a, b) => {
-    const aTime = ratedAtByTitleId.get(a.id)?.getTime() ?? 0
-    const bTime = ratedAtByTitleId.get(b.id)?.getTime() ?? 0
-    return bTime - aTime
-  })
+  function sortByRatedAtDesc(list: typeof visible) {
+    return [...list].sort((a, b) => {
+      const aTime = ratedAtByTitleId.get(a.id)?.getTime() ?? 0
+      const bTime = ratedAtByTitleId.get(b.id)?.getTime() ?? 0
+      return bTime - aTime
+    })
+  }
 
   return NextResponse.json({
     mode,
     notSeen: notSeenRanked.map((t) => mapTitle(t, tasteRatingByTitleId.get(t.id) ?? null)),
-    loved: lovedSorted.map((t) => mapTitle(t, 'LOVED')),
+    watchlist: sortByRatedAtDesc(watchlist).map((t) => mapTitle(t, 'WATCHLISTED')),
+    loved: sortByRatedAtDesc(loved).map((t) => mapTitle(t, 'LOVED')),
   })
 }
