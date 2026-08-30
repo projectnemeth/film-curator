@@ -192,7 +192,7 @@ describe('GET /api/ingest', () => {
 })
 
 describe('maxDuration', () => {
-  it('exports a maxDuration of 300 seconds — this route makes two TMDB calls per item across up to ~160 items', async () => {
+  it('exports a maxDuration of 300 seconds — this route makes three TMDB calls per item across up to ~800 items (10 pages x 4 providers x 20/page)', async () => {
     const routeModule = await import('../route')
     expect(routeModule.maxDuration).toBe(300)
   })

@@ -61,17 +61,27 @@ export async function discoverByProvider(providerId: number, mediaType: 'movie' 
   return data.results
 }
 
-type TmdbMovieReleaseDate = { certification: string }
+// TMDB release_dates `type`: 1=Premiere, 2=Limited theatrical, 3=Theatrical,
+// 4=Digital, 5=Physical, 6=TV. A single US block can list several of these,
+// each with its own crowd-sourced certification, and they don't always
+// agree (a digital/TV re-release entry can carry a different value than the
+// original theatrical release). Wide theatrical (3) is treated as the
+// canonical MPAA source; other types are only a fallback when no theatrical
+// entry exists at all.
+type TmdbMovieReleaseDate = { certification: string; type: number }
 type TmdbMovieReleaseDatesResult = { iso_3166_1: string; release_dates: TmdbMovieReleaseDate[] }
 type TmdbTvContentRatingsResult = { iso_3166_1: string; rating: string }
+const THEATRICAL_RELEASE_TYPE = 3
 
 export async function getCertification(tmdbId: number, mediaType: 'movie' | 'tv'): Promise<string | null> {
   if (mediaType === 'movie') {
     const data = await tmdbFetch(`/movie/${tmdbId}/release_dates`)
     const results: TmdbMovieReleaseDatesResult[] = data.results ?? []
     const us = results.find((r) => r.iso_3166_1 === 'US')
-    const withCert = us?.release_dates.find((rd) => rd.certification)
-    return withCert?.certification || null
+    const withCerts = (us?.release_dates ?? []).filter((rd) => rd.certification)
+    if (withCerts.length === 0) return null
+    const theatrical = withCerts.find((rd) => rd.type === THEATRICAL_RELEASE_TYPE)
+    return (theatrical ?? withCerts[0]).certification
   }
   const data = await tmdbFetch(`/tv/${tmdbId}/content_ratings`)
   const results: TmdbTvContentRatingsResult[] = data.results ?? []

@@ -77,8 +77,47 @@ describe('getCertification', () => {
       ok: true,
       json: async () => ({
         results: [
-          { iso_3166_1: 'FR', release_dates: [{ certification: '' }] },
-          { iso_3166_1: 'US', release_dates: [{ certification: 'PG-13' }, { certification: 'PG-13' }] },
+          { iso_3166_1: 'FR', release_dates: [{ certification: '', type: 3 }] },
+          { iso_3166_1: 'US', release_dates: [{ certification: 'PG-13', type: 3 }] },
+        ],
+      }),
+    }) as unknown as typeof fetch
+
+    expect(await getCertification(1, 'movie')).toBe('PG-13')
+  })
+
+  it('prefers the wide theatrical release (type 3) when the US block has conflicting certifications', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        results: [
+          {
+            iso_3166_1: 'US',
+            release_dates: [
+              { certification: 'PG', type: 6 }, // an edited-for-TV re-release, listed first
+              { certification: 'R', type: 3 }, // the actual wide theatrical release
+              { certification: 'PG-13', type: 4 }, // a digital release
+            ],
+          },
+        ],
+      }),
+    }) as unknown as typeof fetch
+
+    expect(await getCertification(1, 'movie')).toBe('R')
+  })
+
+  it('falls back to the first available certification when no theatrical (type 3) entry exists', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        results: [
+          {
+            iso_3166_1: 'US',
+            release_dates: [
+              { certification: 'PG-13', type: 4 },
+              { certification: 'R', type: 5 },
+            ],
+          },
         ],
       }),
     }) as unknown as typeof fetch

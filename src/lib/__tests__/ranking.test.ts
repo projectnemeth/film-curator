@@ -10,6 +10,16 @@ import { getAnthropicClient } from '../anthropic'
 import { prisma } from '../prisma'
 import { rankByTaste, rankByTasteCached, computeRankingFingerprint } from '../ranking'
 
+function mockClaudeReturns(rankedIndices: number[]) {
+  ;(getAnthropicClient as ReturnType<typeof vi.fn>).mockReturnValue({
+    messages: {
+      create: vi.fn().mockResolvedValue({
+        content: [{ type: 'text', text: JSON.stringify({ rankedIndices }) }],
+      }),
+    },
+  })
+}
+
 describe('rankByTaste', () => {
   beforeEach(() => vi.clearAllMocks())
 
@@ -26,15 +36,9 @@ describe('rankByTaste', () => {
     expect(getAnthropicClient).not.toHaveBeenCalled()
   })
 
-  it('parses and returns the ranked id order from Claude', async () => {
+  it('parses and returns the ranked id order from Claude, by index', async () => {
     const candidates = [{ id: 'a', name: 'A', overview: null }, { id: 'b', name: 'B', overview: null }]
-    ;(getAnthropicClient as ReturnType<typeof vi.fn>).mockReturnValue({
-      messages: {
-        create: vi.fn().mockResolvedValue({
-          content: [{ type: 'text', text: JSON.stringify({ rankedTitleIds: ['b', 'a'] }) }],
-        }),
-      },
-    })
+    mockClaudeReturns([1, 0])
 
     const result = await rankByTaste(candidates, [{ titleName: 'Jurassic Park', rating: 'LOVED' }])
     expect(result).toEqual(['b', 'a'])
@@ -47,7 +51,7 @@ describe('rankByTaste', () => {
         create: vi.fn().mockResolvedValue({
           content: [
             { type: 'thinking', thinking: 'some reasoning...' },
-            { type: 'text', text: JSON.stringify({ rankedTitleIds: ['b', 'a'] }) },
+            { type: 'text', text: JSON.stringify({ rankedIndices: [1, 0] }) },
           ],
         }),
       },
@@ -64,7 +68,7 @@ describe('rankByTaste', () => {
         create: vi.fn().mockResolvedValue({
           content: [
             { type: 'text', text: 'Let me think through this ranking before giving my final answer...' },
-            { type: 'text', text: JSON.stringify({ rankedTitleIds: ['b', 'a'] }) },
+            { type: 'text', text: JSON.stringify({ rankedIndices: [1, 0] }) },
           ],
         }),
       },
@@ -72,6 +76,61 @@ describe('rankByTaste', () => {
 
     const result = await rankByTaste(candidates, [{ titleName: 'Jurassic Park', rating: 'LOVED' }])
     expect(result).toEqual(['b', 'a'])
+  })
+
+  it('fills in any index Claude omitted, appended in original order, so the result always covers every candidate', async () => {
+    const candidates = [
+      { id: 'a', name: 'A', overview: null },
+      { id: 'b', name: 'B', overview: null },
+      { id: 'c', name: 'C', overview: null },
+    ]
+    mockClaudeReturns([2]) // only ranked index 2, omitting 0 and 1
+
+    const result = await rankByTaste(candidates, [{ titleName: 'X', rating: 'LOVED' }])
+    expect(result).toEqual(['c', 'a', 'b'])
+  })
+
+  it('drops a duplicate or out-of-range index instead of losing or repeating a candidate', async () => {
+    const candidates = [
+      { id: 'a', name: 'A', overview: null },
+      { id: 'b', name: 'B', overview: null },
+    ]
+    mockClaudeReturns([0, 0, 99]) // duplicate of 0, plus an out-of-range index
+
+    const result = await rankByTaste(candidates, [{ titleName: 'X', rating: 'LOVED' }])
+    expect(result).toEqual(['a', 'b'])
+  })
+
+  it('caps the ranked subset well below a size that could truncate the response, appending the rest unranked', async () => {
+    // Simulates the real production scenario that broke this: hundreds of
+    // candidates, each with a name and overview, sent to Claude in one call.
+    const bigCandidateList = Array.from({ length: 400 }, (_, i) => ({
+      id: `title-${i}`,
+      name: `Movie Number ${i}`,
+      overview: 'A reasonably long plot summary that takes up real space in the prompt. '.repeat(3),
+    }))
+    // Claude only ever sees indices 0..59 (the capped subset) — respond with all of them reversed.
+    mockClaudeReturns(Array.from({ length: 60 }, (_, i) => 59 - i))
+
+    const result = await rankByTaste(bigCandidateList, [{ titleName: 'X', rating: 'LOVED' }])
+
+    // Every one of the 400 candidates is present exactly once.
+    expect(result).toHaveLength(400)
+    expect(new Set(result).size).toBe(400)
+    // The first 60 are the ranked (reversed) subset; the remaining 340 are appended, untouched, in original order.
+    expect(result[0]).toBe('title-59')
+    expect(result[59]).toBe('title-0')
+    expect(result[60]).toBe('title-60')
+    expect(result[399]).toBe('title-399')
+
+    // Only the capped subset's names/overviews were ever sent to Claude — confirms the request
+    // itself stays small regardless of how large the real candidate list grows.
+    const createMock = (getAnthropicClient as ReturnType<typeof vi.fn>).mock.results[0].value.messages.create
+    const promptText = createMock.mock.calls[0][0].messages[0].content as string
+    expect(promptText).not.toContain('Movie Number 60')
+    expect(promptText).not.toContain('Movie Number 399')
+    expect(promptText).toContain('Movie Number 0')
+    expect(promptText).toContain('Movie Number 59')
   })
 })
 
@@ -108,9 +167,7 @@ describe('rankByTasteCached', () => {
 
   it('recomputes and saves a new cache row when the fingerprint does not match', async () => {
     ;(prisma.rankingCache.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue({ inputFingerprint: 'stale', rankedIds: ['old'] })
-    ;(getAnthropicClient as ReturnType<typeof vi.fn>).mockReturnValue({
-      messages: { create: vi.fn().mockResolvedValue({ content: [{ type: 'text', text: JSON.stringify({ rankedTitleIds: ['t1'] }) }] }) },
-    })
+    mockClaudeReturns([0])
     ;(prisma.rankingCache.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({})
 
     const result = await rankByTasteCached('default', 'FAMILY', candidates, history)
@@ -123,9 +180,7 @@ describe('rankByTasteCached', () => {
 
   it('recomputes when no cache row exists yet', async () => {
     ;(prisma.rankingCache.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue(null)
-    ;(getAnthropicClient as ReturnType<typeof vi.fn>).mockReturnValue({
-      messages: { create: vi.fn().mockResolvedValue({ content: [{ type: 'text', text: JSON.stringify({ rankedTitleIds: ['t1'] }) }] }) },
-    })
+    mockClaudeReturns([0])
     ;(prisma.rankingCache.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({})
 
     const result = await rankByTasteCached('default', 'FAMILY', candidates, history)
@@ -143,23 +198,18 @@ describe('rankByTasteCached', () => {
     expect(prisma.rankingCache.upsert).not.toHaveBeenCalled()
   })
 
-  it('does not cache an incomplete ranking (missing a candidate id), but still returns it', async () => {
+  it('caches a ranking that rankByTaste self-repaired from a partial Claude response, since the result is still complete', async () => {
     const twoCandidates = [
       { id: 't1', name: 'A', overview: null },
       { id: 't2', name: 'B', overview: null },
     ]
     ;(prisma.rankingCache.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue(null)
-    ;(getAnthropicClient as ReturnType<typeof vi.fn>).mockReturnValue({
-      messages: {
-        create: vi.fn().mockResolvedValue({
-          content: [{ type: 'text', text: JSON.stringify({ rankedTitleIds: ['t1'] }) }],
-        }),
-      },
-    })
+    mockClaudeReturns([0]) // omits index 1 — rankByTaste fills it in itself
+    ;(prisma.rankingCache.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({})
 
     const result = await rankByTasteCached('default', 'FAMILY', twoCandidates, history)
 
-    expect(result).toEqual(['t1'])
-    expect(prisma.rankingCache.upsert).not.toHaveBeenCalled()
+    expect(result).toEqual(['t1', 't2'])
+    expect(prisma.rankingCache.upsert).toHaveBeenCalled()
   })
 })
