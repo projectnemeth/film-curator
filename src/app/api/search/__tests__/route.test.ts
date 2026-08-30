@@ -4,21 +4,26 @@ import { NextRequest } from 'next/server'
 vi.mock('@/lib/tmdb', () => ({
   searchTitle: vi.fn(),
   getWatchProviders: vi.fn(),
-  getCertification: vi.fn(),
-  getCredits: vi.fn(),
+  getMovieDetails: vi.fn(),
 }))
 vi.mock('@/lib/prisma', () => ({
   prisma: { title: { upsert: vi.fn() } },
 }))
 
-import { searchTitle, getWatchProviders, getCertification, getCredits } from '@/lib/tmdb'
+import { searchTitle, getWatchProviders, getMovieDetails } from '@/lib/tmdb'
 import { prisma } from '@/lib/prisma'
 import { GET } from '../route'
 
 describe('GET /api/search', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    ;(getCredits as ReturnType<typeof vi.fn>).mockResolvedValue({ director: null, topCast: [] })
+    ;(getMovieDetails as ReturnType<typeof vi.fn>).mockResolvedValue({
+      certification: null,
+      director: null,
+      writer: null,
+      topCast: [],
+      studio: null,
+    })
   })
 
   it('returns 400 when q is missing', async () => {
@@ -32,7 +37,6 @@ describe('GET /api/search', () => {
       { id: 42, title: 'Jurassic Park', overview: '...', poster_path: '/x.jpg', release_date: '1993-06-11' },
     ])
     ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
-    ;(getCertification as ReturnType<typeof vi.fn>).mockResolvedValue(null)
     ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 't1', name: 'Jurassic Park' })
 
     const req = new NextRequest('http://localhost/api/search?q=jurassic')
@@ -52,7 +56,7 @@ describe('GET /api/search', () => {
       { id: 42, title: 'Jurassic Park', overview: '...', poster_path: '/x.jpg', release_date: '1993-06-11' },
     ])
     ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
-    ;(getCertification as ReturnType<typeof vi.fn>).mockResolvedValue('PG-13')
+    ;(getMovieDetails as ReturnType<typeof vi.fn>).mockResolvedValue({ certification: 'PG-13', director: null, writer: null, topCast: [], studio: null })
     ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 't1', name: 'Jurassic Park' })
 
     const req = new NextRequest('http://localhost/api/search?q=jurassic')
@@ -63,12 +67,11 @@ describe('GET /api/search', () => {
     )
   })
 
-  it('does not overwrite an existing rating when getCertification returns null', async () => {
+  it('does not overwrite an existing rating when the certification comes back null', async () => {
     ;(searchTitle as ReturnType<typeof vi.fn>).mockResolvedValue([
       { id: 42, title: 'Jurassic Park', overview: '...', poster_path: '/x.jpg', release_date: '1993-06-11' },
     ])
     ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
-    ;(getCertification as ReturnType<typeof vi.fn>).mockResolvedValue(null)
     ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 't1', name: 'Jurassic Park' })
 
     const req = new NextRequest('http://localhost/api/search?q=jurassic')
@@ -79,13 +82,18 @@ describe('GET /api/search', () => {
     )
   })
 
-  it('captures the director and top cast alongside providers', async () => {
+  it('captures the director, writer, top cast, and studio alongside providers', async () => {
     ;(searchTitle as ReturnType<typeof vi.fn>).mockResolvedValue([
       { id: 42, title: 'Jurassic Park', overview: '...', poster_path: '/x.jpg', release_date: '1993-06-11' },
     ])
     ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
-    ;(getCertification as ReturnType<typeof vi.fn>).mockResolvedValue(null)
-    ;(getCredits as ReturnType<typeof vi.fn>).mockResolvedValue({ director: 'Steven Spielberg', topCast: ['Sam Neill', 'Laura Dern'] })
+    ;(getMovieDetails as ReturnType<typeof vi.fn>).mockResolvedValue({
+      certification: null,
+      director: 'Steven Spielberg',
+      writer: 'David Koepp',
+      topCast: ['Sam Neill', 'Laura Dern'],
+      studio: 'Universal Pictures',
+    })
     ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 't1', name: 'Jurassic Park' })
 
     const req = new NextRequest('http://localhost/api/search?q=jurassic')
@@ -93,19 +101,27 @@ describe('GET /api/search', () => {
 
     expect(prisma.title.upsert).toHaveBeenCalledWith(
       expect.objectContaining({
-        update: expect.objectContaining({ director: 'Steven Spielberg', topCast: ['Sam Neill', 'Laura Dern'] }),
-        create: expect.objectContaining({ director: 'Steven Spielberg', topCast: ['Sam Neill', 'Laura Dern'] }),
+        update: expect.objectContaining({
+          director: 'Steven Spielberg',
+          writer: 'David Koepp',
+          topCast: ['Sam Neill', 'Laura Dern'],
+          studio: 'Universal Pictures',
+        }),
+        create: expect.objectContaining({
+          director: 'Steven Spielberg',
+          writer: 'David Koepp',
+          topCast: ['Sam Neill', 'Laura Dern'],
+          studio: 'Universal Pictures',
+        }),
       })
     )
   })
 
-  it('does not overwrite an existing director/cast when getCredits returns none', async () => {
+  it('does not overwrite existing director/writer/cast/studio when TMDB returns none of them', async () => {
     ;(searchTitle as ReturnType<typeof vi.fn>).mockResolvedValue([
       { id: 42, title: 'Jurassic Park', overview: '...', poster_path: '/x.jpg', release_date: '1993-06-11' },
     ])
     ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
-    ;(getCertification as ReturnType<typeof vi.fn>).mockResolvedValue(null)
-    ;(getCredits as ReturnType<typeof vi.fn>).mockResolvedValue({ director: null, topCast: [] })
     ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 't1', name: 'Jurassic Park' })
 
     const req = new NextRequest('http://localhost/api/search?q=jurassic')
@@ -113,7 +129,9 @@ describe('GET /api/search', () => {
 
     const call = (prisma.title.upsert as ReturnType<typeof vi.fn>).mock.calls[0][0]
     expect(call.update).not.toHaveProperty('director')
+    expect(call.update).not.toHaveProperty('writer')
     expect(call.update).not.toHaveProperty('topCast')
+    expect(call.update).not.toHaveProperty('studio')
   })
 
   it('skips TV results, only adding movies', async () => {
@@ -122,7 +140,7 @@ describe('GET /api/search', () => {
       { id: 42, title: 'Jurassic Park', overview: '...', poster_path: '/x.jpg', release_date: '1993-06-11' },
     ])
     ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
-    ;(getCertification as ReturnType<typeof vi.fn>).mockResolvedValue('PG-13')
+    ;(getMovieDetails as ReturnType<typeof vi.fn>).mockResolvedValue({ certification: 'PG-13', director: null, writer: null, topCast: [], studio: null })
     ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 't1', name: 'Jurassic Park' })
 
     const req = new NextRequest('http://localhost/api/search?q=x')

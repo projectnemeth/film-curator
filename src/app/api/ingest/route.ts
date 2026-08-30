@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { discoverByProvider, getWatchProviders, getCertification, getCredits, PROVIDER_IDS } from '@/lib/tmdb'
+import { discoverByProvider, getWatchProviders, getMovieDetails, PROVIDER_IDS } from '@/lib/tmdb'
 import { prisma } from '@/lib/prisma'
 import { hasTimeRemaining, rotateProviderOrder } from '@/lib/ingestSchedule'
 
@@ -58,37 +58,45 @@ export async function GET(req: NextRequest) {
         }
 
         try {
-          // Certification and credits are immutable once a title is
-          // released — skip re-fetching them from TMDB on every weekly
-          // sync once we already have them. Availability always changes,
-          // so getWatchProviders always runs.
+          // Certification, credits, and studio are all immutable once a
+          // title is released — skip re-fetching them from TMDB on every
+          // weekly sync once we already have all of them. Availability
+          // always changes, so getWatchProviders always runs.
           const existing = await prisma.title.findUnique({
             where: { familyId_tmdbId: { familyId, tmdbId: item.id } },
-            select: { mpaaRating: true, director: true, topCast: true },
+            select: { mpaaRating: true, director: true, writer: true, topCast: true, studio: true },
           })
-          const existingRating = existing?.mpaaRating ?? null
-          const existingDirector = existing?.director ?? null
-          const existingTopCast = existing?.topCast ?? []
-          const needsCertification = !existingRating
-          const needsCredits = !existingDirector || existingTopCast.length === 0
+          const needsDetails =
+            !existing?.mpaaRating ||
+            !existing?.director ||
+            !existing?.writer ||
+            !existing?.studio ||
+            existing.topCast.length === 0
 
-          const [providers, mpaaRating, credits] = await Promise.all([
+          const [providers, details] = await Promise.all([
             getWatchProviders(item.id),
-            needsCertification ? getCertification(item.id) : Promise.resolve(existingRating),
-            needsCredits
-              ? getCredits(item.id)
-              : Promise.resolve({ director: existingDirector, topCast: existingTopCast }),
+            needsDetails
+              ? getMovieDetails(item.id)
+              : Promise.resolve({
+                  certification: existing.mpaaRating,
+                  director: existing.director,
+                  writer: existing.writer,
+                  topCast: existing.topCast,
+                  studio: existing.studio,
+                }),
           ])
-          const { director, topCast } = credits
+          const { certification: mpaaRating, director, writer, topCast, studio } = details
           const dateStr = item.release_date ?? item.first_air_date
           const year = dateStr ? Number(dateStr.slice(0, 4)) : null
           const mpaaRatingUpdate = mpaaRating ? { mpaaRating } : {}
           const directorUpdate = director ? { director } : {}
+          const writerUpdate = writer ? { writer } : {}
           const topCastUpdate = topCast.length > 0 ? { topCast } : {}
+          const studioUpdate = studio ? { studio } : {}
 
           await prisma.title.upsert({
             where: { familyId_tmdbId: { familyId, tmdbId: item.id } },
-            update: { providers, ...mpaaRatingUpdate, ...directorUpdate, ...topCastUpdate },
+            update: { providers, ...mpaaRatingUpdate, ...directorUpdate, ...writerUpdate, ...topCastUpdate, ...studioUpdate },
             create: {
               familyId,
               tmdbId: item.id,
@@ -99,7 +107,9 @@ export async function GET(req: NextRequest) {
               providers,
               mpaaRating,
               director,
+              writer,
               topCast,
+              studio,
             },
           })
           results.ingested++
