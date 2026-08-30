@@ -24,7 +24,9 @@ function title(overrides: Record<string, unknown> = {}) {
     contentScore: null,
     year: 2020,
     director: null,
+    writer: null,
     topCast: [],
+    studio: null,
     ...overrides,
   }
 }
@@ -89,7 +91,7 @@ describe('GET /api/recommendations', () => {
     )
   })
 
-  it('includes mpaaRating, contentScore, overview, director, and topCast in each returned title', async () => {
+  it('includes mpaaRating, contentScore, overview, director, writer, topCast, and studio in each returned title', async () => {
     const score = { violence: 3, language: 1, sexNudity: 0, scariness: 2, sourceNotes: 'test' }
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
       title({
@@ -99,7 +101,9 @@ describe('GET /api/recommendations', () => {
         mpaaRating: 'R',
         contentScore: score,
         director: 'Steven Spielberg',
+        writer: 'David Koepp',
         topCast: ['Sam Neill', 'Laura Dern'],
+        studio: 'Universal Pictures',
       }),
     ])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
@@ -112,7 +116,59 @@ describe('GET /api/recommendations', () => {
     expect(body.notSeen[0].contentScore).toEqual(score)
     expect(body.notSeen[0].overview).toBe('Dinosaurs run amok.')
     expect(body.notSeen[0].director).toBe('Steven Spielberg')
+    expect(body.notSeen[0].writer).toBe('David Koepp')
     expect(body.notSeen[0].topCast).toEqual(['Sam Neill', 'Laura Dern'])
+    expect(body.notSeen[0].studio).toBe('Universal Pictures')
+  })
+
+  it('passes director, writer, topCast, and studio through to the ranking candidates', async () => {
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      title({ id: 't1', director: 'Christopher Nolan', writer: 'Christopher Nolan', topCast: ['Cillian Murphy'], studio: 'Universal Pictures' }),
+    ])
+    ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockResolvedValue(['t1'])
+
+    const req = new NextRequest('http://localhost/api/recommendations?mode=ADULT')
+    await GET(req)
+
+    expect(rankByTasteCached).toHaveBeenCalledWith(
+      'default',
+      'ADULT',
+      [expect.objectContaining({ id: 't1', director: 'Christopher Nolan', writer: 'Christopher Nolan', topCast: ['Cillian Murphy'], studio: 'Universal Pictures' })],
+      []
+    )
+  })
+
+  it('includes director, writer, topCast, and studio in the taste-history entries sent to ranking', async () => {
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([title({ id: 't2' })])
+    ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      {
+        titleId: 't1',
+        rating: 'LOVED',
+        ratedAt: new Date(),
+        title: { name: 'Oppenheimer', director: 'Christopher Nolan', writer: 'Christopher Nolan', topCast: ['Cillian Murphy'], studio: 'Universal Pictures' },
+      },
+    ])
+    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockResolvedValue([])
+
+    const req = new NextRequest('http://localhost/api/recommendations?mode=ADULT')
+    await GET(req)
+
+    expect(rankByTasteCached).toHaveBeenCalledWith(
+      'default',
+      'ADULT',
+      expect.anything(),
+      [
+        expect.objectContaining({
+          titleName: 'Oppenheimer',
+          rating: 'LOVED',
+          director: 'Christopher Nolan',
+          writer: 'Christopher Nolan',
+          topCast: ['Cillian Murphy'],
+          studio: 'Universal Pictures',
+        }),
+      ]
+    )
   })
 
   it('puts unrated and explicitly-not-seen titles in notSeen, ranked by taste', async () => {

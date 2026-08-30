@@ -10,7 +10,23 @@ export const maxDuration = 60
 // A missing rating or an explicit NOT_SEEN both mean "haven't watched yet."
 const HIDDEN_AFTER_RATING = new Set(['DISLIKED', 'LIKED', 'TOO_INAPPROPRIATE', 'NOT_INTERESTED'])
 
-function mapTitle(t: { id: string; name: string; year: number | null; posterPath: string | null; providers: string[]; mpaaRating: string | null; contentScore: unknown; overview: string | null; director: string | null; topCast: string[] }, tasteRating: string | null) {
+function mapTitle(
+  t: {
+    id: string
+    name: string
+    year: number | null
+    posterPath: string | null
+    providers: string[]
+    mpaaRating: string | null
+    contentScore: unknown
+    overview: string | null
+    director: string | null
+    writer: string | null
+    topCast: string[]
+    studio: string | null
+  },
+  tasteRating: string | null
+) {
   return {
     id: t.id,
     name: t.name,
@@ -21,7 +37,9 @@ function mapTitle(t: { id: string; name: string; year: number | null; posterPath
     contentScore: t.contentScore,
     overview: t.overview,
     director: t.director,
+    writer: t.writer,
     topCast: t.topCast,
+    studio: t.studio,
     tasteRating,
   }
 }
@@ -46,14 +64,29 @@ export async function GET(req: NextRequest) {
 
   const history = tasteHistory
     .filter((t) => t.rating !== 'NOT_SEEN')
-    .map((t) => ({ titleName: t.title.name, rating: t.rating }))
+    .map((t) => ({
+      titleName: t.title.name,
+      rating: t.rating,
+      director: t.title.director,
+      writer: t.title.writer,
+      topCast: t.title.topCast,
+      studio: t.title.studio,
+    }))
 
   let rankedIds: string[]
   try {
     rankedIds = await rankByTasteCached(
       familyId,
       mode,
-      notSeenCandidates.map((v) => ({ id: v.id, name: v.name, overview: v.overview })),
+      notSeenCandidates.map((v) => ({
+        id: v.id,
+        name: v.name,
+        overview: v.overview,
+        director: v.director,
+        writer: v.writer,
+        topCast: v.topCast,
+        studio: v.studio,
+      })),
       history
     )
   } catch (err) {

@@ -14,7 +14,9 @@ type Title = {
   contentScore: ContentScore
   overview?: string | null
   director?: string | null
+  writer?: string | null
   topCast?: string[]
+  studio?: string | null
   tasteRating?: string | null
 }
 
@@ -118,9 +120,11 @@ export default function HomePage() {
           {title.mpaaRating && <span className="text-xs text-textSecondary">{title.mpaaRating}</span>}
           {title.overview && <p className="text-xs text-textSecondary">{title.overview}</p>}
           {title.director && <p className="text-xs text-textSecondary">Directed by {title.director}</p>}
+          {title.writer && <p className="text-xs text-textSecondary">Written by {title.writer}</p>}
           {title.topCast && title.topCast.length > 0 && (
             <p className="text-xs text-textSecondary">Starring {title.topCast.join(', ')}</p>
           )}
+          {title.studio && <p className="text-xs text-textSecondary">{title.studio}</p>}
 
           {mode === 'ADULT' && title.mpaaRating && !score && status !== 'loading' && status !== 'error' && (
             <button

@@ -49,21 +49,32 @@ describe('HomePage', () => {
     expect(await screen.findByText('PG-13')).toBeInTheDocument()
   })
 
-  it('shows the plot overview, director, and top cast when present', async () => {
+  it('shows the plot overview, director, writer, top cast, and studio when present', async () => {
     mockRecommendations([
-      title({ overview: 'Dinosaurs run amok.', director: 'Steven Spielberg', topCast: ['Sam Neill', 'Laura Dern'] }),
+      title({
+        overview: 'Dinosaurs run amok.',
+        director: 'Steven Spielberg',
+        writer: 'David Koepp',
+        topCast: ['Sam Neill', 'Laura Dern'],
+        studio: 'Universal Pictures',
+      }),
     ])
     render(<HomePage />)
     expect(await screen.findByText('Dinosaurs run amok.')).toBeInTheDocument()
     expect(await screen.findByText(/Directed by Steven Spielberg/)).toBeInTheDocument()
+    expect(await screen.findByText(/Written by David Koepp/)).toBeInTheDocument()
     expect(await screen.findByText(/Starring Sam Neill, Laura Dern/)).toBeInTheDocument()
+    expect(await screen.findByText('Universal Pictures')).toBeInTheDocument()
   })
 
-  it('omits director and cast lines when there is nothing to show', async () => {
-    mockRecommendations([title({ id: 't9', name: 'Obscure Title', mpaaRating: 'G', overview: null, director: null, topCast: [] })])
+  it('omits director, writer, cast, and studio lines when there is nothing to show', async () => {
+    mockRecommendations([
+      title({ id: 't9', name: 'Obscure Title', mpaaRating: 'G', overview: null, director: null, writer: null, topCast: [], studio: null }),
+    ])
     render(<HomePage />)
     await screen.findByText(/Obscure Title/)
     expect(screen.queryByText(/Directed by/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Written by/)).not.toBeInTheDocument()
     expect(screen.queryByText(/Starring/)).not.toBeInTheDocument()
   })
 
