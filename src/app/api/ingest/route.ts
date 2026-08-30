@@ -42,10 +42,26 @@ export async function GET(req: NextRequest) {
         if (!hasTimeRemaining(functionStart, Date.now())) break providerLoop
 
         try {
+          // Certification and credits are immutable once a title is
+          // released — skip re-fetching them from TMDB on every weekly
+          // sync once we already have them. Availability always changes,
+          // so getWatchProviders always runs.
+          const existing = await prisma.title.findUnique({
+            where: { familyId_tmdbId: { familyId, tmdbId: item.id } },
+            select: { mpaaRating: true, director: true, topCast: true },
+          })
+          const existingRating = existing?.mpaaRating ?? null
+          const existingDirector = existing?.director ?? null
+          const existingTopCast = existing?.topCast ?? []
+          const needsCertification = !existingRating
+          const needsCredits = !existingDirector || existingTopCast.length === 0
+
           const [providers, mpaaRating, credits] = await Promise.all([
             getWatchProviders(item.id, mediaType),
-            getCertification(item.id, mediaType),
-            getCredits(item.id, mediaType),
+            needsCertification ? getCertification(item.id, mediaType) : Promise.resolve(existingRating),
+            needsCredits
+              ? getCredits(item.id, mediaType)
+              : Promise.resolve({ director: existingDirector, topCast: existingTopCast }),
           ])
           const { director, topCast } = credits
           const dateStr = item.release_date ?? item.first_air_date

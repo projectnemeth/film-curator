@@ -61,14 +61,12 @@ describe('RatePage', () => {
 
   it('redirects to /login when the fetch returns 401', async () => {
     const originalLocation = window.location
-    // @ts-expect-error - narrowing window.location for the test
-    delete window.location
-    window.location = { ...originalLocation, href: '' } as Location
+    Object.defineProperty(window, 'location', { value: { ...originalLocation, href: '' }, writable: true })
     global.fetch = vi.fn().mockImplementation(() => Promise.resolve({ ok: false, status: 401, json: async () => ({}) })) as unknown as typeof fetch
 
     render(<RatePage />)
     await waitFor(() => expect(window.location.href).toBe('/login'))
 
-    window.location = originalLocation
+    Object.defineProperty(window, 'location', { value: originalLocation, writable: true })
   })
 })

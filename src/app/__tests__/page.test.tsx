@@ -101,15 +101,13 @@ describe('HomePage', () => {
 
   it('redirects to /login when the recommendations fetch returns 401', async () => {
     const originalLocation = window.location
-    // @ts-expect-error - narrowing window.location for the test
-    delete window.location
-    window.location = { ...originalLocation, href: '' } as Location
+    Object.defineProperty(window, 'location', { value: { ...originalLocation, href: '' }, writable: true })
     ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation(() => Promise.resolve({ ok: false, status: 401, json: async () => ({}) }))
 
     render(<HomePage />)
     await waitFor(() => expect(window.location.href).toBe('/login'))
 
-    window.location = originalLocation
+    Object.defineProperty(window, 'location', { value: originalLocation, writable: true })
   })
 
   it('removes a title from Not Seen immediately after quick-rating it', async () => {

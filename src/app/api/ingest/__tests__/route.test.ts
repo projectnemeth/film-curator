@@ -9,7 +9,7 @@ vi.mock('@/lib/tmdb', () => ({
   PROVIDER_IDS: { netflix: 8, disney_plus: 337, prime_video: 9, peacock: 386 },
 }))
 vi.mock('@/lib/prisma', () => ({
-  prisma: { title: { upsert: vi.fn() } },
+  prisma: { title: { upsert: vi.fn(), findUnique: vi.fn() } },
 }))
 
 import { discoverByProvider, getWatchProviders, getCertification, getCredits } from '@/lib/tmdb'
@@ -132,6 +132,50 @@ describe('GET /api/ingest', () => {
     const call = (prisma.title.upsert as ReturnType<typeof vi.fn>).mock.calls[0][0]
     expect(call.update).not.toHaveProperty('director')
     expect(call.update).not.toHaveProperty('topCast')
+  })
+
+  it('skips re-fetching certification and credits for a title that already has them', async () => {
+    ;(discoverByProvider as ReturnType<typeof vi.fn>)
+      .mockResolvedValueOnce([{ id: 1, title: 'A', overview: '', poster_path: null, release_date: '2020-01-01' }])
+      .mockResolvedValue([])
+    ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
+    ;(prisma.title.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue({
+      mpaaRating: 'PG-13',
+      director: 'Steven Spielberg',
+      topCast: ['Sam Neill', 'Laura Dern'],
+    })
+    ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({})
+
+    const req = new NextRequest('http://localhost/api/ingest', { headers: { authorization: 'Bearer test-secret' } })
+    await GET(req)
+
+    expect(getCertification).not.toHaveBeenCalled()
+    expect(getCredits).not.toHaveBeenCalled()
+    expect(getWatchProviders).toHaveBeenCalled()
+    expect(prisma.title.upsert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        update: expect.objectContaining({
+          mpaaRating: 'PG-13',
+          director: 'Steven Spielberg',
+          topCast: ['Sam Neill', 'Laura Dern'],
+        }),
+      })
+    )
+  })
+
+  it('still fetches certification and credits for a new title with no existing row', async () => {
+    ;(discoverByProvider as ReturnType<typeof vi.fn>)
+      .mockResolvedValueOnce([{ id: 1, title: 'A', overview: '', poster_path: null, release_date: '2020-01-01' }])
+      .mockResolvedValue([])
+    ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
+    ;(prisma.title.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue(null)
+    ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({})
+
+    const req = new NextRequest('http://localhost/api/ingest', { headers: { authorization: 'Bearer test-secret' } })
+    await GET(req)
+
+    expect(getCertification).toHaveBeenCalledWith(1, 'movie')
+    expect(getCredits).toHaveBeenCalledWith(1, 'movie')
   })
 
   it('only discovers movies, never TV shows', async () => {
