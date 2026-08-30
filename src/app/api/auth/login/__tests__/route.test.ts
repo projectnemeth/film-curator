@@ -1,9 +1,13 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { NextRequest } from 'next/server'
 
-vi.mock('@/lib/session', () => ({
-  signSession: vi.fn().mockResolvedValue('signed-session-value'),
-}))
+vi.mock('@/lib/session', async () => {
+  const actual = await vi.importActual<typeof import('@/lib/session')>('@/lib/session')
+  return {
+    ...actual,
+    signSession: vi.fn().mockResolvedValue('signed-session-value'),
+  }
+})
 
 import { signSession } from '@/lib/session'
 import { POST } from '../route'

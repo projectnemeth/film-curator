@@ -1,14 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { signSession } from '@/lib/session'
-
-function constantTimeEqual(a: string, b: string): boolean {
-  if (a.length !== b.length) return false
-  let result = 0
-  for (let i = 0; i < a.length; i++) {
-    result |= a.charCodeAt(i) ^ b.charCodeAt(i)
-  }
-  return result === 0
-}
+import { signSession, constantTimeEqual } from '@/lib/session'
 
 export async function POST(req: NextRequest) {
   const passcode = process.env.FAMILY_PASSCODE

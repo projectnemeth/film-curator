@@ -12,11 +12,10 @@ export async function GET(req: NextRequest) {
   for (const result of results.slice(0, 10)) {
     if (!result.title) continue // movies only — skip TV and other result types
 
-    const mediaType = 'movie' as const
     const [providers, mpaaRating, credits] = await Promise.all([
-      getWatchProviders(result.id, mediaType),
-      getCertification(result.id, mediaType),
-      getCredits(result.id, mediaType),
+      getWatchProviders(result.id),
+      getCertification(result.id),
+      getCredits(result.id),
     ])
     const { director, topCast } = credits
     const dateStr = result.release_date ?? result.first_air_date

@@ -22,7 +22,6 @@ export async function GET(req: NextRequest) {
   const functionStart = Date.now()
   const familyId = 'default'
   const results = { ingested: 0, failed: 0 }
-  const mediaType = 'movie' as const
   const failedTmdbIds = new Set<number>()
   // Only true once every provider's catalog was walked to a natural empty
   // page, with no time-budget cutoff and no discovery-request failure —
@@ -41,9 +40,9 @@ export async function GET(req: NextRequest) {
 
       let items
       try {
-        items = await discoverByProvider(providerId, mediaType, page)
+        items = await discoverByProvider(providerId, page)
       } catch (error) {
-        console.error(`Failed to discover titles for provider ${providerId} (${mediaType}, page ${page}):`, error)
+        console.error(`Failed to discover titles for provider ${providerId} (page ${page}):`, error)
         results.failed++
         break
       }
@@ -74,10 +73,10 @@ export async function GET(req: NextRequest) {
           const needsCredits = !existingDirector || existingTopCast.length === 0
 
           const [providers, mpaaRating, credits] = await Promise.all([
-            getWatchProviders(item.id, mediaType),
-            needsCertification ? getCertification(item.id, mediaType) : Promise.resolve(existingRating),
+            getWatchProviders(item.id),
+            needsCertification ? getCertification(item.id) : Promise.resolve(existingRating),
             needsCredits
-              ? getCredits(item.id, mediaType)
+              ? getCredits(item.id)
               : Promise.resolve({ director: existingDirector, topCast: existingTopCast }),
           ])
           const { director, topCast } = credits

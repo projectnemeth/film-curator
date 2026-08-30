@@ -33,6 +33,9 @@ async function synthesizeContentScore(titleName: string, year: number | null, si
           name: 'web_fetch',
           max_uses: 1,
           allowed_domains: ['commonsensemedia.org', 'imdb.com'],
+          // Caps a runaway parents-guide page's token cost; approximate per
+          // Anthropic's docs, and well above what these pages typically need.
+          max_content_tokens: 20_000,
         },
       ],
       messages: [

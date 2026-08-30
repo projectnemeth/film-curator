@@ -175,22 +175,19 @@ describe('GET /api/ingest', () => {
     const req = new NextRequest('http://localhost/api/ingest', { headers: { authorization: 'Bearer test-secret' } })
     await GET(req)
 
-    expect(getCertification).toHaveBeenCalledWith(1, 'movie')
-    expect(getCredits).toHaveBeenCalledWith(1, 'movie')
+    expect(getCertification).toHaveBeenCalledWith(1)
+    expect(getCredits).toHaveBeenCalledWith(1)
   })
 
-  it('only discovers movies, never TV shows', async () => {
+  it('discovers from every provider', async () => {
     const req = new NextRequest('http://localhost/api/ingest', { headers: { authorization: 'Bearer test-secret' } })
     await GET(req)
 
     expect(discoverByProvider).toHaveBeenCalledTimes(4)
-    for (const call of (discoverByProvider as ReturnType<typeof vi.fn>).mock.calls) {
-      expect(call[1]).toBe('movie')
-    }
   })
 
   it('fetches a second page for a provider whose first page is full, and stops once a page comes back empty', async () => {
-    ;(discoverByProvider as ReturnType<typeof vi.fn>).mockImplementation(async (_providerId: number, _mediaType: string, page = 1) => {
+    ;(discoverByProvider as ReturnType<typeof vi.fn>).mockImplementation(async (_providerId: number, page = 1) => {
       if (page === 1) return [{ id: 1, title: 'Page One Movie', overview: '', poster_path: null, release_date: '2020-01-01' }]
       if (page === 2) return [{ id: 2, title: 'Page Two Movie', overview: '', poster_path: null, release_date: '2020-01-01' }]
       return []

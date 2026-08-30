@@ -45,14 +45,14 @@ export async function searchTitle(query: string): Promise<TmdbSearchResult[]> {
   return data.results
 }
 
-export async function getWatchProviders(tmdbId: number, mediaType: 'movie' | 'tv'): Promise<string[]> {
-  const data = await tmdbFetch(`/${mediaType}/${tmdbId}/watch/providers`)
+export async function getWatchProviders(tmdbId: number): Promise<string[]> {
+  const data = await tmdbFetch(`/movie/${tmdbId}/watch/providers`)
   const flatrate: TmdbWatchProvider[] = data.results?.US?.flatrate ?? []
   return flatrate.map((p) => PROVIDER_NAME_MAP[p.provider_name]).filter((slug): slug is string => Boolean(slug))
 }
 
-export async function discoverByProvider(providerId: number, mediaType: 'movie' | 'tv', page: number = 1): Promise<TmdbSearchResult[]> {
-  const data = await tmdbFetch(`/discover/${mediaType}`, {
+export async function discoverByProvider(providerId: number, page: number = 1): Promise<TmdbSearchResult[]> {
+  const data = await tmdbFetch('/discover/movie', {
     with_watch_providers: String(providerId),
     watch_region: 'US',
     sort_by: 'popularity.desc',
@@ -70,23 +70,16 @@ export async function discoverByProvider(providerId: number, mediaType: 'movie' 
 // entry exists at all.
 type TmdbMovieReleaseDate = { certification: string; type: number }
 type TmdbMovieReleaseDatesResult = { iso_3166_1: string; release_dates: TmdbMovieReleaseDate[] }
-type TmdbTvContentRatingsResult = { iso_3166_1: string; rating: string }
 const THEATRICAL_RELEASE_TYPE = 3
 
-export async function getCertification(tmdbId: number, mediaType: 'movie' | 'tv'): Promise<string | null> {
-  if (mediaType === 'movie') {
-    const data = await tmdbFetch(`/movie/${tmdbId}/release_dates`)
-    const results: TmdbMovieReleaseDatesResult[] = data.results ?? []
-    const us = results.find((r) => r.iso_3166_1 === 'US')
-    const withCerts = (us?.release_dates ?? []).filter((rd) => rd.certification)
-    if (withCerts.length === 0) return null
-    const theatrical = withCerts.find((rd) => rd.type === THEATRICAL_RELEASE_TYPE)
-    return (theatrical ?? withCerts[0]).certification
-  }
-  const data = await tmdbFetch(`/tv/${tmdbId}/content_ratings`)
-  const results: TmdbTvContentRatingsResult[] = data.results ?? []
+export async function getCertification(tmdbId: number): Promise<string | null> {
+  const data = await tmdbFetch(`/movie/${tmdbId}/release_dates`)
+  const results: TmdbMovieReleaseDatesResult[] = data.results ?? []
   const us = results.find((r) => r.iso_3166_1 === 'US')
-  return us?.rating || null
+  const withCerts = (us?.release_dates ?? []).filter((rd) => rd.certification)
+  if (withCerts.length === 0) return null
+  const theatrical = withCerts.find((rd) => rd.type === THEATRICAL_RELEASE_TYPE)
+  return (theatrical ?? withCerts[0]).certification
 }
 
 const TOP_CAST_COUNT = 3
@@ -96,8 +89,8 @@ type TmdbCrewMember = { name: string; job: string }
 
 export type Credits = { director: string | null; topCast: string[] }
 
-export async function getCredits(tmdbId: number, mediaType: 'movie' | 'tv'): Promise<Credits> {
-  const data = await tmdbFetch(`/${mediaType}/${tmdbId}/credits`)
+export async function getCredits(tmdbId: number): Promise<Credits> {
+  const data = await tmdbFetch(`/movie/${tmdbId}/credits`)
   const cast: TmdbCastMember[] = data.cast ?? []
   const crew: TmdbCrewMember[] = data.crew ?? []
 
