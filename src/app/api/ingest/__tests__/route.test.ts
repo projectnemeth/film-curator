@@ -9,7 +9,7 @@ vi.mock('@/lib/tmdb', () => ({
   PROVIDER_IDS: { netflix: 8, disney_plus: 337, prime_video: 9, peacock: 386 },
 }))
 vi.mock('@/lib/prisma', () => ({
-  prisma: { title: { upsert: vi.fn(), findUnique: vi.fn() } },
+  prisma: { title: { upsert: vi.fn(), findUnique: vi.fn(), updateMany: vi.fn() } },
 }))
 
 import { discoverByProvider, getWatchProviders, getCertification, getCredits } from '@/lib/tmdb'
@@ -25,6 +25,7 @@ beforeEach(() => {
   ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue([])
   ;(getCertification as ReturnType<typeof vi.fn>).mockResolvedValue(null)
   ;(getCredits as ReturnType<typeof vi.fn>).mockResolvedValue({ director: null, topCast: [] })
+  ;(prisma.title.updateMany as ReturnType<typeof vi.fn>).mockResolvedValue({ count: 0 })
 })
 
 afterEach(() => {
@@ -232,6 +233,87 @@ describe('GET /api/ingest', () => {
     expect(body.ingested).toBe(0)
 
     vi.restoreAllMocks()
+  })
+
+  it('prunes providers from titles untouched by a run that exhausts every provider cleanly', async () => {
+    ;(discoverByProvider as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(prisma.title.updateMany as ReturnType<typeof vi.fn>).mockResolvedValue({ count: 3 })
+
+    const req = new NextRequest('http://localhost/api/ingest', { headers: { authorization: 'Bearer test-secret' } })
+    const res = await GET(req)
+    const body = await res.json()
+
+    expect(prisma.title.updateMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({
+          familyId: 'default',
+          providers: { isEmpty: false },
+          updatedAt: { lt: expect.any(Date) },
+        }),
+        data: { providers: [] },
+      })
+    )
+    expect(body.pruned).toBe(3)
+  })
+
+  it('does not prune when the run is cut short by the time budget', async () => {
+    ;(discoverByProvider as ReturnType<typeof vi.fn>).mockResolvedValue([
+      { id: 1, title: 'A', overview: '', poster_path: null, release_date: '2020-01-01' },
+    ])
+    ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
+    ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({})
+
+    const realNow = Date.now.bind(Date)
+    let call = 0
+    vi.spyOn(Date, 'now').mockImplementation(() => {
+      call++
+      if (call <= 2) return realNow()
+      return realNow() + 999_999
+    })
+
+    const req = new NextRequest('http://localhost/api/ingest', { headers: { authorization: 'Bearer test-secret' } })
+    const res = await GET(req)
+    const body = await res.json()
+
+    expect(prisma.title.updateMany).not.toHaveBeenCalled()
+    expect(body.pruned).toBe(0)
+
+    vi.restoreAllMocks()
+  })
+
+  it('does not prune when a provider discovery request fails partway through', async () => {
+    ;(discoverByProvider as ReturnType<typeof vi.fn>)
+      .mockResolvedValueOnce([{ id: 1, title: 'A', overview: '', poster_path: null, release_date: '2020-01-01' }])
+      .mockRejectedValueOnce(new Error('boom'))
+      .mockResolvedValue([])
+    ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
+    ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({})
+
+    const req = new NextRequest('http://localhost/api/ingest', { headers: { authorization: 'Bearer test-secret' } })
+    const res = await GET(req)
+    const body = await res.json()
+
+    expect(prisma.title.updateMany).not.toHaveBeenCalled()
+    expect(body.pruned).toBe(0)
+  })
+
+  it('excludes titles whose ingest failed this run from pruning, even though the run otherwise completed', async () => {
+    ;(discoverByProvider as ReturnType<typeof vi.fn>)
+      .mockResolvedValueOnce([{ id: 42, title: 'A', overview: '', poster_path: null, release_date: '2020-01-01' }])
+      .mockResolvedValue([])
+    ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
+    ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockRejectedValueOnce(new Error('db down'))
+
+    const req = new NextRequest('http://localhost/api/ingest', { headers: { authorization: 'Bearer test-secret' } })
+    const res = await GET(req)
+    const body = await res.json()
+
+    expect(body.failed).toBe(1)
+    expect(prisma.title.updateMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({ tmdbId: { notIn: [42] } }),
+      })
+    )
   })
 })
 

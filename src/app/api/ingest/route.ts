@@ -23,10 +23,21 @@ export async function GET(req: NextRequest) {
   const familyId = 'default'
   const results = { ingested: 0, failed: 0 }
   const mediaType = 'movie' as const
+  const failedTmdbIds = new Set<number>()
+  // Only true once every provider's catalog was walked to a natural empty
+  // page, with no time-budget cutoff and no discovery-request failure —
+  // the guarantee needed before it's safe to treat "not touched this run"
+  // as "no longer available" (see the pruning step below).
+  let ranToCompletion = true
 
   providerLoop: for (const providerId of rotateProviderOrder(Object.values(PROVIDER_IDS), functionStart)) {
+    let providerExhausted = false
+
     for (let page = 1; page <= MAX_PAGES_PER_PROVIDER; page++) {
-      if (!hasTimeRemaining(functionStart, Date.now())) break providerLoop
+      if (!hasTimeRemaining(functionStart, Date.now())) {
+        ranToCompletion = false
+        break providerLoop
+      }
 
       let items
       try {
@@ -36,10 +47,16 @@ export async function GET(req: NextRequest) {
         results.failed++
         break
       }
-      if (items.length === 0) break // this provider's catalog is exhausted
+      if (items.length === 0) {
+        providerExhausted = true
+        break // this provider's catalog is exhausted
+      }
 
       for (const item of items) {
-        if (!hasTimeRemaining(functionStart, Date.now())) break providerLoop
+        if (!hasTimeRemaining(functionStart, Date.now())) {
+          ranToCompletion = false
+          break providerLoop
+        }
 
         try {
           // Certification and credits are immutable once a title is
@@ -90,10 +107,27 @@ export async function GET(req: NextRequest) {
         } catch (error) {
           console.error(`Failed to ingest title tmdbId=${item.id} name=${item.title ?? item.name ?? 'Unknown'}:`, error)
           results.failed++
+          failedTmdbIds.add(item.id)
         }
       }
     }
+
+    if (!providerExhausted) ranToCompletion = false
   }
 
-  return NextResponse.json(results)
+  let pruned = 0
+  if (ranToCompletion) {
+    const { count } = await prisma.title.updateMany({
+      where: {
+        familyId,
+        providers: { isEmpty: false },
+        updatedAt: { lt: new Date(functionStart) },
+        ...(failedTmdbIds.size > 0 ? { tmdbId: { notIn: [...failedTmdbIds] } } : {}),
+      },
+      data: { providers: [] },
+    })
+    pruned = count
+  }
+
+  return NextResponse.json({ ...results, pruned })
 }
