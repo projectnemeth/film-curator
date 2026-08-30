@@ -19,6 +19,7 @@ enum TasteRatingValue {
   NOT_SEEN
   TOO_INAPPROPRIATE
   NOT_INTERESTED
+  WATCHLISTED
 }
 
 model Title {

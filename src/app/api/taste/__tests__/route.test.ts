@@ -85,4 +85,15 @@ describe('POST /api/taste', () => {
     const res = await POST(req)
     expect(res.status).toBe(200)
   })
+
+  it('accepts WATCHLISTED as a valid rating', async () => {
+    ;(recordTasteRating as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 'r1' })
+    const req = new NextRequest('http://localhost/api/taste', {
+      method: 'POST',
+      body: JSON.stringify({ titleId: 't1', rating: 'WATCHLISTED', mode: 'FAMILY' }),
+    })
+    const res = await POST(req)
+    expect(res.status).toBe(200)
+    expect(recordTasteRating).toHaveBeenCalledWith('default', 't1', 'FAMILY', 'WATCHLISTED')
+  })
 })

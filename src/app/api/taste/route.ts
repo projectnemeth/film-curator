@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getNextTitleToRate, recordTasteRating } from '@/lib/tasteInterview'
 
-const VALID_RATINGS = ['DISLIKED', 'LIKED', 'LOVED', 'NOT_SEEN', 'TOO_INAPPROPRIATE', 'NOT_INTERESTED']
+const VALID_RATINGS = ['DISLIKED', 'LIKED', 'LOVED', 'NOT_SEEN', 'TOO_INAPPROPRIATE', 'NOT_INTERESTED', 'WATCHLISTED']
 
 export async function GET(req: NextRequest) {
   const modeParam = req.nextUrl.searchParams.get('mode')
