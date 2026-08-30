@@ -29,19 +29,29 @@ export default function HomePage() {
   const [notSeen, setNotSeen] = useState<Title[]>([])
   const [loved, setLoved] = useState<Title[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState(false)
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
   const [scores, setScores] = useState<Record<string, ContentScore>>({})
   const [ratingStatus, setRatingStatus] = useState<Record<string, 'loading' | 'error' | undefined>>({})
 
-  function load(currentMode: 'FAMILY' | 'ADULT') {
+  async function load(currentMode: 'FAMILY' | 'ADULT') {
     setLoading(true)
-    fetch(`/api/recommendations?mode=${currentMode}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setNotSeen(data.notSeen)
-        setLoved(data.loved)
-      })
-      .finally(() => setLoading(false))
+    setLoadError(false)
+    try {
+      const res = await fetch(`/api/recommendations?mode=${currentMode}`)
+      if (res.status === 401) {
+        window.location.href = '/login'
+        return
+      }
+      if (!res.ok) throw new Error('failed to load recommendations')
+      const data = await res.json()
+      setNotSeen(data.notSeen)
+      setLoved(data.loved)
+    } catch {
+      setLoadError(true)
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -180,6 +190,8 @@ export default function HomePage() {
       <ModeToggle mode={mode} onChange={setMode} />
       {loading ? (
         <p className="text-textSecondary">Loading...</p>
+      ) : loadError ? (
+        <p className="text-danger">Couldn&apos;t load your movies — try refreshing.</p>
       ) : (
         <>
           <section>

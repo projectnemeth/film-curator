@@ -21,6 +21,9 @@ export async function middleware(req: NextRequest) {
   const secret = process.env.SESSION_SECRET
 
   if (!cookie || !secret || !(await verifySession(cookie, secret, MAX_AGE_MS))) {
+    if (pathname.startsWith('/api/')) {
+      return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+    }
     const loginUrl = new URL('/login', req.url)
     loginUrl.searchParams.set('next', pathname)
     return NextResponse.redirect(loginUrl)

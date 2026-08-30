@@ -16,12 +16,24 @@ export default function RatePage() {
   const [mode, setMode] = useState<'FAMILY' | 'ADULT'>('FAMILY')
   const [title, setTitle] = useState<Title | null>(null)
   const [checked, setChecked] = useState(false)
+  const [loadError, setLoadError] = useState(false)
 
   async function loadNext(currentMode: 'FAMILY' | 'ADULT') {
-    const res = await fetch(`/api/taste?mode=${currentMode}`)
-    const data = await res.json()
-    setTitle(data.title)
-    setChecked(true)
+    setLoadError(false)
+    try {
+      const res = await fetch(`/api/taste?mode=${currentMode}`)
+      if (res.status === 401) {
+        window.location.href = '/login'
+        return
+      }
+      if (!res.ok) throw new Error('failed to load next title')
+      const data = await res.json()
+      setTitle(data.title)
+      setChecked(true)
+    } catch {
+      setLoadError(true)
+      setChecked(true)
+    }
   }
 
   useEffect(() => {
@@ -45,6 +57,8 @@ export default function RatePage() {
       <ModeToggle mode={mode} onChange={setMode} />
       {!checked ? (
         <p className="text-textSecondary">Loading...</p>
+      ) : loadError ? (
+        <p className="text-danger">Couldn&apos;t load the next title — try refreshing.</p>
       ) : !title ? (
         <p className="text-textSecondary">No more titles to rate right now.</p>
       ) : (

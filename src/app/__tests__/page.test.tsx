@@ -20,8 +20,8 @@ function mockRecommendations(notSeen: unknown[], loved: unknown[] = [], mode: 'F
     if (init?.method === 'POST' && url.includes('/rate-content')) {
       return Promise.resolve({ ok: true, json: async () => ({ score: {} }) })
     }
-    if (init?.method === 'POST') return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
-    return Promise.resolve({ json: async () => ({ mode, notSeen, loved }) })
+    if (init?.method === 'POST') return Promise.resolve({ ok: true, json: async () => ({ result: { id: 'r1' } }) })
+    return Promise.resolve({ ok: true, status: 200, json: async () => ({ mode, notSeen, loved }) })
   })
 }
 
@@ -92,6 +92,26 @@ describe('HomePage', () => {
     expect(await screen.findByText(/Nothing left to watch/)).toBeInTheDocument()
   })
 
+  it('shows an error message instead of an empty state when the recommendations fetch fails', async () => {
+    ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation(() => Promise.resolve({ ok: false, status: 500, json: async () => ({}) }))
+    render(<HomePage />)
+    expect(await screen.findByText(/Couldn't load your movies/)).toBeInTheDocument()
+    expect(screen.queryByText(/Nothing left to watch/)).not.toBeInTheDocument()
+  })
+
+  it('redirects to /login when the recommendations fetch returns 401', async () => {
+    const originalLocation = window.location
+    // @ts-expect-error - narrowing window.location for the test
+    delete window.location
+    window.location = { ...originalLocation, href: '' } as Location
+    ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation(() => Promise.resolve({ ok: false, status: 401, json: async () => ({}) }))
+
+    render(<HomePage />)
+    await waitFor(() => expect(window.location.href).toBe('/login'))
+
+    window.location = originalLocation
+  })
+
   it('removes a title from Not Seen immediately after quick-rating it', async () => {
     render(<HomePage />)
     await screen.findByText(/Jurassic Park/)
@@ -147,8 +167,10 @@ describe('HomePage', () => {
           json: async () => ({ score: { violence: 6, language: 3, sexNudity: 1, scariness: 4, sourceNotes: 'Found on Common Sense Media.' } }),
         })
       }
-      if (init?.method === 'POST') return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
+      if (init?.method === 'POST') return Promise.resolve({ ok: true, json: async () => ({ result: { id: 'r1' } }) })
       return Promise.resolve({
+        ok: true,
+        status: 200,
         json: async () => ({ mode: 'ADULT', notSeen: [title({ id: 't5', name: 'An R Movie', posterPath: null, mpaaRating: 'R' })], loved: [] }),
       })
     })
@@ -182,8 +204,10 @@ describe('HomePage', () => {
       if (init?.method === 'POST' && url.includes('/rate-content')) {
         return Promise.resolve({ ok: false, json: async () => ({ error: 'timed out' }) })
       }
-      if (init?.method === 'POST') return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
+      if (init?.method === 'POST') return Promise.resolve({ ok: true, json: async () => ({ result: { id: 'r1' } }) })
       return Promise.resolve({
+        ok: true,
+        status: 200,
         json: async () => ({ mode: 'ADULT', notSeen: [title({ id: 't6', name: 'A Slow Movie', providers: [], posterPath: null, mpaaRating: 'PG-13' })], loved: [] }),
       })
     })

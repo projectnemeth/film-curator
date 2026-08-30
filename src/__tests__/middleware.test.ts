@@ -24,4 +24,14 @@ describe('middleware', () => {
     expect(res.status === 307 || res.status === 308).toBe(true)
     expect(res.headers.get('location')).toContain('/login')
   })
+
+  it('returns 401 JSON for an unauthenticated API request instead of redirecting to a login HTML page', async () => {
+    const req = new NextRequest('http://localhost/api/recommendations?mode=FAMILY')
+    const res = await middleware(req)
+
+    expect(res.status).toBe(401)
+    expect(res.headers.get('location')).toBeNull()
+    const body = await res.json()
+    expect(body).toEqual({ error: 'unauthorized' })
+  })
 })

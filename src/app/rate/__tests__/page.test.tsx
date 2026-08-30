@@ -7,13 +7,13 @@ describe('RatePage', () => {
     let call = 0
     global.fetch = vi.fn().mockImplementation((url: string, init?: RequestInit) => {
       if (init?.method === 'POST') {
-        return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
+        return Promise.resolve({ ok: true, json: async () => ({ result: { id: 'r1' } }) })
       }
       call++
       if (call === 1) {
-        return Promise.resolve({ json: async () => ({ title: { id: 't1', name: 'Jurassic Park', year: 1993, overview: 'Dinosaurs.', posterPath: '/poster.jpg' } }) })
+        return Promise.resolve({ ok: true, status: 200, json: async () => ({ title: { id: 't1', name: 'Jurassic Park', year: 1993, overview: 'Dinosaurs.', posterPath: '/poster.jpg' } }) })
       }
-      return Promise.resolve({ json: async () => ({ title: null }) })
+      return Promise.resolve({ ok: true, status: 200, json: async () => ({ title: null }) })
     }) as unknown as typeof fetch
   })
 
@@ -50,5 +50,25 @@ describe('RatePage', () => {
     render(<RatePage />)
     const img = await screen.findByAltText(/Jurassic Park poster/i)
     expect(img).toHaveAttribute('src', expect.stringContaining('/poster.jpg'))
+  })
+
+  it('shows an error message instead of a false "no more titles" state when the fetch fails', async () => {
+    global.fetch = vi.fn().mockImplementation(() => Promise.resolve({ ok: false, status: 500, json: async () => ({}) })) as unknown as typeof fetch
+    render(<RatePage />)
+    expect(await screen.findByText(/Couldn't load the next title/)).toBeInTheDocument()
+    expect(screen.queryByText(/No more titles to rate/)).not.toBeInTheDocument()
+  })
+
+  it('redirects to /login when the fetch returns 401', async () => {
+    const originalLocation = window.location
+    // @ts-expect-error - narrowing window.location for the test
+    delete window.location
+    window.location = { ...originalLocation, href: '' } as Location
+    global.fetch = vi.fn().mockImplementation(() => Promise.resolve({ ok: false, status: 401, json: async () => ({}) })) as unknown as typeof fetch
+
+    render(<RatePage />)
+    await waitFor(() => expect(window.location.href).toBe('/login'))
+
+    window.location = originalLocation
   })
 })
