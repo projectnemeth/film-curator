@@ -15,13 +15,18 @@ function title(overrides: Record<string, unknown> = {}) {
   }
 }
 
-function mockRecommendations(notSeen: unknown[], loved: unknown[] = [], mode: 'FAMILY' | 'ADULT' = 'FAMILY') {
+function mockRecommendations(
+  notSeen: unknown[],
+  loved: unknown[] = [],
+  mode: 'FAMILY' | 'ADULT' = 'FAMILY',
+  watchlist: unknown[] = []
+) {
   ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
     if (init?.method === 'POST' && url.includes('/rate-content')) {
       return Promise.resolve({ ok: true, json: async () => ({ score: {} }) })
     }
     if (init?.method === 'POST') return Promise.resolve({ ok: true, json: async () => ({ result: { id: 'r1' } }) })
-    return Promise.resolve({ ok: true, status: 200, json: async () => ({ mode, notSeen, loved }) })
+    return Promise.resolve({ ok: true, status: 200, json: async () => ({ mode, notSeen, watchlist, loved }) })
   })
 }
 
@@ -146,6 +151,68 @@ describe('HomePage', () => {
     expect(screen.queryByRole('button', { name: "I've seen this" })).not.toBeInTheDocument()
   })
 
+  it('shows a "Save this!" button on Not Seen cards, and saving moves the title to Watchlist', async () => {
+    render(<HomePage />)
+    await screen.findByText(/Jurassic Park/)
+    fireEvent.click(screen.getByRole('button', { name: 'Save this!' }))
+
+    await waitFor(() =>
+      expect(fetch).toHaveBeenCalledWith(
+        '/api/taste',
+        expect.objectContaining({ method: 'POST', body: JSON.stringify({ titleId: 't1', rating: 'WATCHLISTED', mode: 'FAMILY' }) })
+      )
+    )
+    expect(await screen.findByText('Watchlist')).toBeInTheDocument()
+    expect(screen.getByText(/Jurassic Park/)).toBeInTheDocument()
+    expect(screen.queryByText(/Nothing left to watch/)).toBeInTheDocument()
+  })
+
+  it('shows quick-rate buttons directly (no expand step) and a Remove link on Watchlist cards', async () => {
+    mockRecommendations([], [], 'FAMILY', [title({ id: 't7', name: 'Saved Movie' })])
+    render(<HomePage />)
+    await screen.findByText(/Saved Movie/)
+
+    expect(screen.getByRole('button', { name: 'Loved' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Liked' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Disliked' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Remove from Watchlist' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: "I've seen this" })).not.toBeInTheDocument()
+  })
+
+  it('moves a watchlisted title to Loved when rated Loved from the Watchlist section', async () => {
+    mockRecommendations([], [], 'FAMILY', [title({ id: 't7', name: 'Saved Movie' })])
+    render(<HomePage />)
+    await screen.findByText(/Saved Movie/)
+    fireEvent.click(screen.getByRole('button', { name: 'Loved' }))
+
+    await waitFor(() =>
+      expect(fetch).toHaveBeenCalledWith(
+        '/api/taste',
+        expect.objectContaining({ method: 'POST', body: JSON.stringify({ titleId: 't7', rating: 'LOVED', mode: 'FAMILY' }) })
+      )
+    )
+    expect(await screen.findByText(/Loved — Worth a Rewatch/)).toBeInTheDocument()
+    expect(screen.getByText(/Saved Movie/)).toBeInTheDocument()
+    expect(screen.queryByText('Watchlist')).not.toBeInTheDocument()
+  })
+
+  it('moves a watchlisted title back to Not Seen when removed from the Watchlist', async () => {
+    mockRecommendations([], [], 'FAMILY', [title({ id: 't7', name: 'Saved Movie' })])
+    render(<HomePage />)
+    await screen.findByText(/Saved Movie/)
+    fireEvent.click(screen.getByRole('button', { name: 'Remove from Watchlist' }))
+
+    await waitFor(() =>
+      expect(fetch).toHaveBeenCalledWith(
+        '/api/taste',
+        expect.objectContaining({ method: 'POST', body: JSON.stringify({ titleId: 't7', rating: 'NOT_SEEN', mode: 'FAMILY' }) })
+      )
+    )
+    await waitFor(() => expect(screen.queryByText('Watchlist')).not.toBeInTheDocument())
+    expect(screen.getByText(/Saved Movie/)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: "I've seen this" })).toBeInTheDocument()
+  })
+
   it('renders titles already in the Loved section on initial load, with no quick-rate controls', async () => {
     mockRecommendations([], [title({ id: 't11', name: 'Already Loved Movie' })])
     render(<HomePage />)
@@ -172,7 +239,7 @@ describe('HomePage', () => {
     ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
       if (init?.method === 'POST' && url === '/api/taste') return Promise.resolve({ ok: false, status: 500, json: async () => ({}) })
       if (init?.method === 'POST') return Promise.resolve({ ok: true, json: async () => ({ result: { id: 'r1' } }) })
-      return Promise.resolve({ ok: true, status: 200, json: async () => ({ mode: 'FAMILY', notSeen: [title()], loved: [] }) })
+      return Promise.resolve({ ok: true, status: 200, json: async () => ({ mode: 'FAMILY', notSeen: [title()], watchlist: [], loved: [] }) })
     })
 
     render(<HomePage />)
@@ -196,7 +263,7 @@ describe('HomePage', () => {
       return Promise.resolve({
         ok: true,
         status: 200,
-        json: async () => ({ mode: 'ADULT', notSeen: [title({ id: 't5', name: 'An R Movie', posterPath: null, mpaaRating: 'R' })], loved: [] }),
+        json: async () => ({ mode: 'ADULT', notSeen: [title({ id: 't5', name: 'An R Movie', posterPath: null, mpaaRating: 'R' })], watchlist: [], loved: [] }),
       })
     })
 
@@ -233,7 +300,7 @@ describe('HomePage', () => {
       return Promise.resolve({
         ok: true,
         status: 200,
-        json: async () => ({ mode: 'ADULT', notSeen: [title({ id: 't6', name: 'A Slow Movie', providers: [], posterPath: null, mpaaRating: 'PG-13' })], loved: [] }),
+        json: async () => ({ mode: 'ADULT', notSeen: [title({ id: 't6', name: 'A Slow Movie', providers: [], posterPath: null, mpaaRating: 'PG-13' })], watchlist: [], loved: [] }),
       })
     })
 

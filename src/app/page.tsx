@@ -29,6 +29,7 @@ const QUICK_RATINGS = [
 export default function HomePage() {
   const [mode, setMode] = useState<'FAMILY' | 'ADULT'>('FAMILY')
   const [notSeen, setNotSeen] = useState<Title[]>([])
+  const [watchlist, setWatchlist] = useState<Title[]>([])
   const [loved, setLoved] = useState<Title[]>([])
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState(false)
@@ -49,6 +50,7 @@ export default function HomePage() {
       if (!res.ok) throw new Error('failed to load recommendations')
       const data = await res.json()
       setNotSeen(data.notSeen)
+      setWatchlist(data.watchlist)
       setLoved(data.loved)
     } catch {
       setLoadError(true)
@@ -70,10 +72,15 @@ export default function HomePage() {
         body: JSON.stringify({ titleId, rating, mode }),
       })
       if (!res.ok) throw new Error('failed to save rating')
-      const ratedTitle = notSeen.find((t) => t.id === titleId)
+      const ratedTitle =
+        notSeen.find((t) => t.id === titleId) ?? watchlist.find((t) => t.id === titleId) ?? loved.find((t) => t.id === titleId)
       setNotSeen((prev) => prev.filter((t) => t.id !== titleId))
-      if (rating === 'LOVED' && ratedTitle) {
-        setLoved((prev) => [{ ...ratedTitle, tasteRating: 'LOVED' }, ...prev])
+      setWatchlist((prev) => prev.filter((t) => t.id !== titleId))
+      setLoved((prev) => prev.filter((t) => t.id !== titleId))
+      if (ratedTitle) {
+        if (rating === 'LOVED') setLoved((prev) => [{ ...ratedTitle, tasteRating: 'LOVED' }, ...prev])
+        if (rating === 'WATCHLISTED') setWatchlist((prev) => [{ ...ratedTitle, tasteRating: 'WATCHLISTED' }, ...prev])
+        if (rating === 'NOT_SEEN') setNotSeen((prev) => [{ ...ratedTitle, tasteRating: 'NOT_SEEN' }, ...prev])
       }
       setExpanded((prev) => ({ ...prev, [titleId]: false }))
     } catch {
@@ -94,7 +101,7 @@ export default function HomePage() {
     }
   }
 
-  function renderCard(title: Title, { showQuickRate }: { showQuickRate: boolean }) {
+  function renderCard(title: Title, variant: 'notSeen' | 'watchlist' | 'loved') {
     const score = scores[title.id] ?? title.contentScore
     const status = ratingStatus[title.id]
     return (
@@ -158,7 +165,7 @@ export default function HomePage() {
             </div>
           )}
 
-          {showQuickRate && (
+          {variant === 'notSeen' && (
             <div className="mt-auto pt-2">
               {rateError[title.id] && (
                 <p className="text-xs text-danger pb-1.5">Couldn&apos;t save that rating — try again.</p>
@@ -184,6 +191,12 @@ export default function HomePage() {
                     I&apos;ve seen this
                   </button>
                   <button
+                    onClick={() => submitRating(title.id, 'WATCHLISTED')}
+                    className="text-xs text-textSecondary underline hover:text-accent transition-colors"
+                  >
+                    Save this!
+                  </button>
+                  <button
                     onClick={() => submitRating(title.id, 'NOT_INTERESTED')}
                     className="text-xs text-textSecondary underline hover:text-danger transition-colors"
                   >
@@ -191,6 +204,31 @@ export default function HomePage() {
                   </button>
                 </div>
               )}
+            </div>
+          )}
+
+          {variant === 'watchlist' && (
+            <div className="mt-auto pt-2 flex flex-col gap-1.5">
+              {rateError[title.id] && (
+                <p className="text-xs text-danger">Couldn&apos;t save that rating — try again.</p>
+              )}
+              <div className="flex flex-wrap gap-1.5">
+                {QUICK_RATINGS.map((r) => (
+                  <button
+                    key={r.value}
+                    onClick={() => submitRating(title.id, r.value)}
+                    className="text-xs border border-accent text-accent rounded px-2 py-1 hover:bg-accent hover:text-bg transition-colors"
+                  >
+                    {r.label}
+                  </button>
+                ))}
+              </div>
+              <button
+                onClick={() => submitRating(title.id, 'NOT_SEEN')}
+                className="text-xs text-textSecondary underline hover:text-danger transition-colors text-left"
+              >
+                Remove from Watchlist
+              </button>
             </div>
           )}
         </div>
@@ -214,16 +252,25 @@ export default function HomePage() {
               <p className="text-textSecondary text-sm">Nothing left to watch right now.</p>
             ) : (
               <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 list-none p-0">
-                {notSeen.map((title) => renderCard(title, { showQuickRate: true }))}
+                {notSeen.map((title) => renderCard(title, 'notSeen'))}
               </ul>
             )}
           </section>
+
+          {watchlist.length > 0 && (
+            <section>
+              <h2 className="font-display text-xl tracking-wide text-textPrimary mt-10 mb-4">Watchlist</h2>
+              <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 list-none p-0">
+                {watchlist.map((title) => renderCard(title, 'watchlist'))}
+              </ul>
+            </section>
+          )}
 
           {loved.length > 0 && (
             <section>
               <h2 className="font-display text-xl tracking-wide text-textPrimary mt-10 mb-4">Loved — Worth a Rewatch</h2>
               <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 list-none p-0">
-                {loved.map((title) => renderCard(title, { showQuickRate: false }))}
+                {loved.map((title) => renderCard(title, 'loved'))}
               </ul>
             </section>
           )}
