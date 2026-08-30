@@ -5,6 +5,27 @@ import { rankByTasteCached } from '@/lib/ranking'
 
 export const maxDuration = 60
 
+// Once a title has been rated anything other than LOVED, it drops off the
+// dashboard entirely — the family has already told us what they think.
+// A missing rating or an explicit NOT_SEEN both mean "haven't watched yet."
+const HIDDEN_AFTER_RATING = new Set(['DISLIKED', 'LIKED', 'TOO_INAPPROPRIATE', 'NOT_INTERESTED'])
+
+function mapTitle(t: { id: string; name: string; year: number | null; posterPath: string | null; providers: string[]; mpaaRating: string | null; contentScore: unknown; overview: string | null; director: string | null; topCast: string[] }, tasteRating: string | null) {
+  return {
+    id: t.id,
+    name: t.name,
+    year: t.year,
+    posterPath: t.posterPath,
+    providers: t.providers,
+    mpaaRating: t.mpaaRating,
+    contentScore: t.contentScore,
+    overview: t.overview,
+    director: t.director,
+    topCast: t.topCast,
+    tasteRating,
+  }
+}
+
 export async function GET(req: NextRequest) {
   const modeParam = req.nextUrl.searchParams.get('mode')
   const mode: 'FAMILY' | 'ADULT' = modeParam === 'ADULT' ? 'ADULT' : 'FAMILY'
@@ -18,11 +39,15 @@ export async function GET(req: NextRequest) {
 
   const overrideByTitleId = new Map(overrides.map((o) => [o.titleId, o]))
   const tasteRatingByTitleId = new Map(tasteHistory.map((t) => [t.titleId, t.rating]))
+  const ratedAtByTitleId = new Map(tasteHistory.map((t) => [t.titleId, t.ratedAt]))
 
   const visible = titles.filter((title) => {
     const override = overrideByTitleId.get(title.id) ?? null
     return isTitleVisible(title.mpaaRating, override, mode)
   })
+
+  const notSeenCandidates = visible.filter((t) => !HIDDEN_AFTER_RATING.has(tasteRatingByTitleId.get(t.id) ?? '') && tasteRatingByTitleId.get(t.id) !== 'LOVED')
+  const loved = visible.filter((t) => tasteRatingByTitleId.get(t.id) === 'LOVED')
 
   const history = tasteHistory
     .filter((t) => t.rating !== 'NOT_SEEN')
@@ -33,30 +58,25 @@ export async function GET(req: NextRequest) {
     rankedIds = await rankByTasteCached(
       familyId,
       mode,
-      visible.map((v) => ({ id: v.id, name: v.name, overview: v.overview })),
+      notSeenCandidates.map((v) => ({ id: v.id, name: v.name, overview: v.overview })),
       history
     )
   } catch (err) {
     console.error('Failed to rank titles by taste, falling back to unranked order:', err)
-    rankedIds = visible.map((v) => v.id)
+    rankedIds = notSeenCandidates.map((v) => v.id)
   }
-  const byId = new Map(visible.map((v) => [v.id, v]))
-  const ranked = rankedIds.map((id) => byId.get(id)).filter((v): v is typeof visible[number] => Boolean(v))
+  const notSeenById = new Map(notSeenCandidates.map((v) => [v.id, v]))
+  const notSeenRanked = rankedIds.map((id) => notSeenById.get(id)).filter((v): v is typeof notSeenCandidates[number] => Boolean(v))
+
+  const lovedSorted = [...loved].sort((a, b) => {
+    const aTime = ratedAtByTitleId.get(a.id)?.getTime() ?? 0
+    const bTime = ratedAtByTitleId.get(b.id)?.getTime() ?? 0
+    return bTime - aTime
+  })
 
   return NextResponse.json({
     mode,
-    titles: ranked.map((t) => ({
-      id: t.id,
-      name: t.name,
-      year: t.year,
-      posterPath: t.posterPath,
-      providers: t.providers,
-      mpaaRating: t.mpaaRating,
-      contentScore: t.contentScore,
-      overview: t.overview,
-      director: t.director,
-      topCast: t.topCast,
-      tasteRating: tasteRatingByTitleId.get(t.id) ?? null,
-    })),
+    notSeen: notSeenRanked.map((t) => mapTitle(t, tasteRatingByTitleId.get(t.id) ?? null)),
+    loved: lovedSorted.map((t) => mapTitle(t, 'LOVED')),
   })
 }

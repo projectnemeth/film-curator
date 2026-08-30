@@ -14,6 +14,22 @@ import { prisma } from '@/lib/prisma'
 import { rankByTasteCached } from '@/lib/ranking'
 import { GET } from '../route'
 
+function title(overrides: Record<string, unknown> = {}) {
+  return {
+    id: 't1',
+    name: 'A Title',
+    overview: null,
+    mpaaRating: 'PG-13',
+    posterPath: null,
+    providers: [],
+    contentScore: null,
+    year: 2020,
+    director: null,
+    topCast: [],
+    ...overrides,
+  }
+}
+
 describe('GET /api/recommendations', () => {
   beforeEach(() => vi.clearAllMocks())
 
@@ -31,26 +47,26 @@ describe('GET /api/recommendations', () => {
 
   it('shows PG-13 and R in Adult Mode but hides them in Family Mode', async () => {
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
-      { id: 't1', name: 'A PG Movie', overview: null, mpaaRating: 'PG', posterPath: null, providers: [], contentScore: null, year: 2020 },
-      { id: 't2', name: 'An R Movie', overview: null, mpaaRating: 'R', posterPath: null, providers: [], contentScore: null, year: 2020 },
+      title({ id: 't1', name: 'A PG Movie', mpaaRating: 'PG' }),
+      title({ id: 't2', name: 'An R Movie', mpaaRating: 'R' }),
     ])
     ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockImplementation(async (_f: string, _m: string, candidates: { id: string }[]) => candidates.map((c) => c.id))
 
     const family = await (await GET(new NextRequest('http://localhost/api/recommendations?mode=FAMILY'))).json()
-    expect(family.titles.map((t: { id: string }) => t.id)).toEqual(['t1'])
+    expect(family.notSeen.map((t: { id: string }) => t.id)).toEqual(['t1'])
 
     const adult = await (await GET(new NextRequest('http://localhost/api/recommendations?mode=ADULT'))).json()
     // Family and Adult are non-overlapping buckets (see src/lib/filtering.ts) — a PG title
     // does not carry over into Adult Mode, so only the R title shows here.
-    expect(adult.titles.map((t: { id: string }) => t.id)).toEqual(['t2'])
+    expect(adult.notSeen.map((t: { id: string }) => t.id)).toEqual(['t2'])
   })
 
   it('excludes titles with REJECTED overrides even when the rating would otherwise show', async () => {
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
-      { id: 't1', name: 'Clean Title', overview: null, mpaaRating: 'G', posterPath: null, providers: [], contentScore: null, year: 2020 },
-      { id: 't3', name: 'Rejected Title', overview: null, mpaaRating: 'G', posterPath: null, providers: [], contentScore: null, year: 2020 },
+      title({ id: 't1', name: 'Clean Title', mpaaRating: 'G' }),
+      title({ id: 't3', name: 'Rejected Title', mpaaRating: 'G' }),
     ])
     ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([{ titleId: 't3', decision: 'REJECTED' }])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
@@ -59,13 +75,13 @@ describe('GET /api/recommendations', () => {
     const req = new NextRequest('http://localhost/api/recommendations?mode=FAMILY')
     const body = await (await GET(req)).json()
 
-    expect(body.titles.map((t: { id: string }) => t.id)).toEqual(['t1'])
+    expect(body.notSeen.map((t: { id: string }) => t.id)).toEqual(['t1'])
   })
 
   it('falls back to visible titles in original order when ranking fails', async () => {
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
-      { id: 't1', name: 'A', overview: null, mpaaRating: 'G', posterPath: null, providers: [], contentScore: null, year: 2020 },
-      { id: 't2', name: 'B', overview: null, mpaaRating: 'G', posterPath: null, providers: [], contentScore: null, year: 2020 },
+      title({ id: 't1', name: 'A', mpaaRating: 'G' }),
+      title({ id: 't2', name: 'B', mpaaRating: 'G' }),
     ])
     ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
@@ -76,13 +92,11 @@ describe('GET /api/recommendations', () => {
     const body = await res.json()
 
     expect(res.status).toBe(200)
-    expect(body.titles.map((t: { id: string }) => t.id)).toEqual(['t1', 't2'])
+    expect(body.notSeen.map((t: { id: string }) => t.id)).toEqual(['t1', 't2'])
   })
 
   it('only reads taste ratings recorded in the active mode — family and adult ratings never cross-influence each other', async () => {
-    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
-      { id: 't1', name: 'A', overview: null, mpaaRating: 'R', posterPath: null, providers: [], contentScore: null, year: 2020 },
-    ])
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([title({ id: 't1', mpaaRating: 'R' })])
     ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockResolvedValue(['t1'])
@@ -95,36 +109,18 @@ describe('GET /api/recommendations', () => {
     )
   })
 
-  it('includes mpaaRating and contentScore in each returned title for the frontend to render', async () => {
+  it('includes mpaaRating, contentScore, overview, director, and topCast in each returned title', async () => {
     const score = { violence: 3, language: 1, sexNudity: 0, scariness: 2, sourceNotes: 'test' }
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
-      { id: 't1', name: 'A', overview: null, mpaaRating: 'R', posterPath: null, providers: [], contentScore: score, year: 2020, director: null, topCast: [] },
-    ])
-    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
-    ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
-    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockResolvedValue(['t1'])
-
-    const req = new NextRequest('http://localhost/api/recommendations?mode=ADULT')
-    const body = await (await GET(req)).json()
-
-    expect(body.titles[0].mpaaRating).toBe('R')
-    expect(body.titles[0].contentScore).toEqual(score)
-  })
-
-  it('includes overview, director, and topCast in each returned title', async () => {
-    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
-      {
+      title({
         id: 't1',
         name: 'Jurassic Park',
         overview: 'Dinosaurs run amok.',
-        mpaaRating: 'PG-13',
-        posterPath: null,
-        providers: [],
-        contentScore: null,
-        year: 1993,
+        mpaaRating: 'R',
+        contentScore: score,
         director: 'Steven Spielberg',
         topCast: ['Sam Neill', 'Laura Dern'],
-      },
+      }),
     ])
     ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
@@ -133,27 +129,72 @@ describe('GET /api/recommendations', () => {
     const req = new NextRequest('http://localhost/api/recommendations?mode=ADULT')
     const body = await (await GET(req)).json()
 
-    expect(body.titles[0].overview).toBe('Dinosaurs run amok.')
-    expect(body.titles[0].director).toBe('Steven Spielberg')
-    expect(body.titles[0].topCast).toEqual(['Sam Neill', 'Laura Dern'])
+    expect(body.notSeen[0].mpaaRating).toBe('R')
+    expect(body.notSeen[0].contentScore).toEqual(score)
+    expect(body.notSeen[0].overview).toBe('Dinosaurs run amok.')
+    expect(body.notSeen[0].director).toBe('Steven Spielberg')
+    expect(body.notSeen[0].topCast).toEqual(['Sam Neill', 'Laura Dern'])
   })
 
-  it("includes the family's own taste rating for the active mode, so it survives a page refresh", async () => {
+  it('puts unrated and explicitly-not-seen titles in notSeen, ranked by taste', async () => {
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
-      { id: 't1', name: 'Rated Title', overview: null, mpaaRating: 'PG-13', posterPath: null, providers: [], contentScore: null, year: 2020, director: null, topCast: [] },
-      { id: 't2', name: 'Unrated Title', overview: null, mpaaRating: 'PG-13', posterPath: null, providers: [], contentScore: null, year: 2020, director: null, topCast: [] },
+      title({ id: 't1', name: 'Never Rated' }),
+      title({ id: 't2', name: 'Marked Not Seen' }),
     ])
     ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
-      { titleId: 't1', rating: 'LOVED', title: { name: 'Rated Title' } },
+      { titleId: 't2', rating: 'NOT_SEEN', ratedAt: new Date('2026-01-01'), title: { name: 'Marked Not Seen' } },
     ])
-    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockResolvedValue(['t1', 't2'])
+    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockImplementation(async (_f: string, _m: string, candidates: { id: string }[]) => candidates.map((c) => c.id))
 
     const req = new NextRequest('http://localhost/api/recommendations?mode=ADULT')
     const body = await (await GET(req)).json()
 
-    expect(body.titles.find((t: { id: string }) => t.id === 't1').tasteRating).toBe('LOVED')
-    expect(body.titles.find((t: { id: string }) => t.id === 't2').tasteRating).toBeNull()
+    expect(body.notSeen.map((t: { id: string }) => t.id).sort()).toEqual(['t1', 't2'])
+    expect(body.loved).toEqual([])
+  })
+
+  it('puts LOVED titles in loved, most-recently-rated first, and excludes them from notSeen', async () => {
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      title({ id: 't1', name: 'Loved Earlier' }),
+      title({ id: 't2', name: 'Loved Later' }),
+    ])
+    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      { titleId: 't1', rating: 'LOVED', ratedAt: new Date('2026-01-01'), title: { name: 'Loved Earlier' } },
+      { titleId: 't2', rating: 'LOVED', ratedAt: new Date('2026-06-01'), title: { name: 'Loved Later' } },
+    ])
+    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockResolvedValue([])
+
+    const req = new NextRequest('http://localhost/api/recommendations?mode=ADULT')
+    const body = await (await GET(req)).json()
+
+    expect(body.notSeen).toEqual([])
+    expect(body.loved.map((t: { id: string }) => t.id)).toEqual(['t2', 't1'])
+    expect(body.loved[0].tasteRating).toBe('LOVED')
+  })
+
+  it('excludes titles rated DISLIKED, LIKED, TOO_INAPPROPRIATE, or NOT_INTERESTED from both sections', async () => {
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      title({ id: 't1', name: 'Disliked' }),
+      title({ id: 't2', name: 'Liked' }),
+      title({ id: 't3', name: 'Too Inappropriate' }),
+      title({ id: 't4', name: 'Not Interested' }),
+    ])
+    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      { titleId: 't1', rating: 'DISLIKED', ratedAt: new Date(), title: { name: 'Disliked' } },
+      { titleId: 't2', rating: 'LIKED', ratedAt: new Date(), title: { name: 'Liked' } },
+      { titleId: 't3', rating: 'TOO_INAPPROPRIATE', ratedAt: new Date(), title: { name: 'Too Inappropriate' } },
+      { titleId: 't4', rating: 'NOT_INTERESTED', ratedAt: new Date(), title: { name: 'Not Interested' } },
+    ])
+    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockResolvedValue([])
+
+    const req = new NextRequest('http://localhost/api/recommendations?mode=ADULT')
+    const body = await (await GET(req)).json()
+
+    expect(body.notSeen).toEqual([])
+    expect(body.loved).toEqual([])
   })
 })
 

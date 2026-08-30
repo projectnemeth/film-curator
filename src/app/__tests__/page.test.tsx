@@ -1,26 +1,37 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import HomePage from '../page'
 
+function title(overrides: Record<string, unknown> = {}) {
+  return {
+    id: 't1',
+    name: 'Jurassic Park',
+    year: 1993,
+    providers: ['netflix'],
+    posterPath: '/poster.jpg',
+    mpaaRating: 'PG-13',
+    contentScore: null,
+    ...overrides,
+  }
+}
+
+function mockRecommendations(notSeen: unknown[], loved: unknown[] = [], mode: 'FAMILY' | 'ADULT' = 'FAMILY') {
+  ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
+    if (init?.method === 'POST' && url.includes('/rate-content')) {
+      return Promise.resolve({ ok: true, json: async () => ({ score: {} }) })
+    }
+    if (init?.method === 'POST') return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
+    return Promise.resolve({ json: async () => ({ mode, notSeen, loved }) })
+  })
+}
+
 describe('HomePage', () => {
   beforeEach(() => {
-    global.fetch = vi.fn().mockImplementation((url: string, init?: RequestInit) => {
-      if (init?.method === 'POST' && url.includes('/rate-content')) {
-        return Promise.resolve({ ok: true, json: async () => ({ score: {} }) })
-      }
-      if (init?.method === 'POST') {
-        return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
-      }
-      return Promise.resolve({
-        json: async () => ({
-          mode: 'FAMILY',
-          titles: [{ id: 't1', name: 'Jurassic Park', year: 1993, providers: ['netflix'], posterPath: '/poster.jpg', mpaaRating: 'PG-13', contentScore: null }],
-        }),
-      })
-    }) as unknown as typeof fetch
+    global.fetch = vi.fn() as unknown as typeof fetch
+    mockRecommendations([title()])
   })
 
-  it('renders recommended titles for the default mode', async () => {
+  it('renders not-seen titles for the default mode', async () => {
     render(<HomePage />)
     expect(await screen.findByText(/Jurassic Park/)).toBeInTheDocument()
     expect(fetch).toHaveBeenCalledWith('/api/recommendations?mode=FAMILY')
@@ -39,28 +50,9 @@ describe('HomePage', () => {
   })
 
   it('shows the plot overview, director, and top cast when present', async () => {
-    ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
-      if (init?.method === 'POST') return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
-      return Promise.resolve({
-        json: async () => ({
-          mode: 'FAMILY',
-          titles: [
-            {
-              id: 't8',
-              name: 'Jurassic Park',
-              year: 1993,
-              providers: ['netflix'],
-              posterPath: '/poster.jpg',
-              mpaaRating: 'PG-13',
-              contentScore: null,
-              overview: 'Dinosaurs run amok.',
-              director: 'Steven Spielberg',
-              topCast: ['Sam Neill', 'Laura Dern'],
-            },
-          ],
-        }),
-      })
-    })
+    mockRecommendations([
+      title({ overview: 'Dinosaurs run amok.', director: 'Steven Spielberg', topCast: ['Sam Neill', 'Laura Dern'] }),
+    ])
     render(<HomePage />)
     expect(await screen.findByText('Dinosaurs run amok.')).toBeInTheDocument()
     expect(await screen.findByText(/Directed by Steven Spielberg/)).toBeInTheDocument()
@@ -68,28 +60,7 @@ describe('HomePage', () => {
   })
 
   it('omits director and cast lines when there is nothing to show', async () => {
-    ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
-      if (init?.method === 'POST') return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
-      return Promise.resolve({
-        json: async () => ({
-          mode: 'FAMILY',
-          titles: [
-            {
-              id: 't9',
-              name: 'Obscure Title',
-              year: 2024,
-              providers: [],
-              posterPath: null,
-              mpaaRating: 'G',
-              contentScore: null,
-              overview: null,
-              director: null,
-              topCast: [],
-            },
-          ],
-        }),
-      })
-    })
+    mockRecommendations([title({ id: 't9', name: 'Obscure Title', mpaaRating: 'G', overview: null, director: null, topCast: [] })])
     render(<HomePage />)
     await screen.findByText(/Obscure Title/)
     expect(screen.queryByText(/Directed by/)).not.toBeInTheDocument()
@@ -97,15 +68,7 @@ describe('HomePage', () => {
   })
 
   it('flags titles with no known provider as availability unknown', async () => {
-    ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
-      if (init?.method === 'POST') return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
-      return Promise.resolve({
-        json: async () => ({
-          mode: 'FAMILY',
-          titles: [{ id: 't3', name: 'Mystery Title', year: 2024, providers: [], posterPath: '/poster.jpg', mpaaRating: 'G', contentScore: null }],
-        }),
-      })
-    })
+    mockRecommendations([title({ id: 't3', name: 'Mystery Title', providers: [], mpaaRating: 'G' })])
     render(<HomePage />)
     expect(await screen.findByText(/availability unknown/)).toBeInTheDocument()
   })
@@ -117,21 +80,19 @@ describe('HomePage', () => {
   })
 
   it('shows a placeholder when posterPath is null', async () => {
-    ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
-      if (init?.method === 'POST') return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
-      return Promise.resolve({
-        json: async () => ({
-          mode: 'FAMILY',
-          titles: [{ id: 't4', name: 'No Poster Movie', year: 2024, providers: ['netflix'], posterPath: null, mpaaRating: 'PG', contentScore: null }],
-        }),
-      })
-    })
+    mockRecommendations([title({ id: 't4', name: 'No Poster Movie', posterPath: null, mpaaRating: 'PG' })])
     render(<HomePage />)
     expect(await screen.findByText(/No Poster Movie/)).toBeInTheDocument()
     expect(screen.queryByAltText(/No Poster Movie poster/i)).not.toBeInTheDocument()
   })
 
-  it('quick-rates a title through the two-step seen/rating flow', async () => {
+  it('shows a message when the Not Seen section is empty', async () => {
+    mockRecommendations([])
+    render(<HomePage />)
+    expect(await screen.findByText(/Nothing left to watch/)).toBeInTheDocument()
+  })
+
+  it('removes a title from Not Seen immediately after quick-rating it', async () => {
     render(<HomePage />)
     await screen.findByText(/Jurassic Park/)
     fireEvent.click(screen.getByRole('button', { name: "I've seen this" }))
@@ -142,25 +103,29 @@ describe('HomePage', () => {
         expect.objectContaining({ method: 'POST', body: JSON.stringify({ titleId: 't1', rating: 'LIKED', mode: 'FAMILY' }) })
       )
     )
-    expect(await screen.findByText(/Rated: LIKED/)).toBeInTheDocument()
+    await waitFor(() => expect(screen.queryByText(/Jurassic Park/)).not.toBeInTheDocument())
   })
 
-  it('shows a previously-submitted rating on initial load, before any click — survives a refresh', async () => {
-    ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
-      if (init?.method === 'POST') return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
-      return Promise.resolve({
-        json: async () => ({
-          mode: 'FAMILY',
-          titles: [{ id: 't10', name: 'Already Rated Movie', year: 2020, providers: ['netflix'], posterPath: null, mpaaRating: 'PG', contentScore: null, tasteRating: 'LOVED' }],
-        }),
-      })
-    })
+  it('moves a title to the Loved section immediately after rating it Loved', async () => {
     render(<HomePage />)
-    expect(await screen.findByText(/Rated: LOVED/)).toBeInTheDocument()
+    await screen.findByText(/Jurassic Park/)
+    fireEvent.click(screen.getByRole('button', { name: "I've seen this" }))
+    fireEvent.click(screen.getByRole('button', { name: 'Loved' }))
+
+    expect(await screen.findByText(/Loved — Worth a Rewatch/)).toBeInTheDocument()
+    expect(await screen.findByText(/Jurassic Park/)).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: "I've seen this" })).not.toBeInTheDocument()
   })
 
-  it('marks a title not-interested with a single click, scoped to the active mode', async () => {
+  it('renders titles already in the Loved section on initial load, with no quick-rate controls', async () => {
+    mockRecommendations([], [title({ id: 't11', name: 'Already Loved Movie' })])
+    render(<HomePage />)
+    expect(await screen.findByText(/Already Loved Movie/)).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: "I've seen this" })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: "I don't want to see this" })).not.toBeInTheDocument()
+  })
+
+  it('removes a title from Not Seen after marking it not-interested, without adding it to Loved', async () => {
     render(<HomePage />)
     await screen.findByText(/Jurassic Park/)
     fireEvent.click(screen.getByRole('button', { name: "I don't want to see this" }))
@@ -170,7 +135,8 @@ describe('HomePage', () => {
         expect.objectContaining({ method: 'POST', body: JSON.stringify({ titleId: 't1', rating: 'NOT_INTERESTED', mode: 'FAMILY' }) })
       )
     )
-    expect(await screen.findByText(/Rated: NOT_INTERESTED/)).toBeInTheDocument()
+    await waitFor(() => expect(screen.queryByText(/Jurassic Park/)).not.toBeInTheDocument())
+    expect(screen.queryByText(/Loved — Worth a Rewatch/)).not.toBeInTheDocument()
   })
 
   it('shows a "Rate this" button for an unscored title in Adult Mode, and renders the report once scored', async () => {
@@ -183,12 +149,9 @@ describe('HomePage', () => {
       }
       if (init?.method === 'POST') return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
       return Promise.resolve({
-        json: async () => ({
-          mode: 'ADULT',
-          titles: [{ id: 't5', name: 'An R Movie', year: 2024, providers: ['netflix'], posterPath: null, mpaaRating: 'R', contentScore: null }],
-        }),
+        json: async () => ({ mode: 'ADULT', notSeen: [title({ id: 't5', name: 'An R Movie', posterPath: null, mpaaRating: 'R' })], loved: [] }),
       })
-    }) as unknown as typeof fetch
+    })
 
     render(<HomePage />)
     fireEvent.click(screen.getByRole('button', { name: 'Adult Mode' }))
@@ -206,15 +169,7 @@ describe('HomePage', () => {
   })
 
   it('does not show a "Rate this" button in Adult Mode for a title with no MPAA rating (e.g. admitted via manual override)', async () => {
-    ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
-      if (init?.method === 'POST') return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
-      return Promise.resolve({
-        json: async () => ({
-          mode: 'ADULT',
-          titles: [{ id: 't7', name: 'Manually Approved Title', year: 2024, providers: ['netflix'], posterPath: null, mpaaRating: null, contentScore: null }],
-        }),
-      })
-    }) as unknown as typeof fetch
+    mockRecommendations([title({ id: 't7', name: 'Manually Approved Title', posterPath: null, mpaaRating: null })], [], 'ADULT')
 
     render(<HomePage />)
     fireEvent.click(screen.getByRole('button', { name: 'Adult Mode' }))
@@ -229,12 +184,9 @@ describe('HomePage', () => {
       }
       if (init?.method === 'POST') return Promise.resolve({ json: async () => ({ result: { id: 'r1' } }) })
       return Promise.resolve({
-        json: async () => ({
-          mode: 'ADULT',
-          titles: [{ id: 't6', name: 'A Slow Movie', year: 2024, providers: [], posterPath: null, mpaaRating: 'PG-13', contentScore: null }],
-        }),
+        json: async () => ({ mode: 'ADULT', notSeen: [title({ id: 't6', name: 'A Slow Movie', providers: [], posterPath: null, mpaaRating: 'PG-13' })], loved: [] }),
       })
-    }) as unknown as typeof fetch
+    })
 
     render(<HomePage />)
     fireEvent.click(screen.getByRole('button', { name: 'Adult Mode' }))
