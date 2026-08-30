@@ -31,7 +31,9 @@ model Title {
   overview     String?
   mpaaRating   String?
   director     String?
+  writer       String?
   topCast      String[]
+  studio       String?
   providers    String[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt

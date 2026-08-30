@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { searchTitle, getWatchProviders, discoverByProvider, getCertification, getCredits, PROVIDER_IDS } from '../tmdb'
+import { searchTitle, getWatchProviders, discoverByProvider, getMovieDetails, PROVIDER_IDS } from '../tmdb'
 
 const originalFetch = global.fetch
 const originalEnv = process.env.TMDB_API_KEY
@@ -71,93 +71,101 @@ describe('discoverByProvider', () => {
   })
 })
 
-describe('getCertification', () => {
+describe('getMovieDetails', () => {
+  it('requests append_to_response=credits,release_dates from the movie details endpoint', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) })
+    global.fetch = fetchMock as unknown as typeof fetch
+
+    await getMovieDetails(1)
+    const calledUrl = fetchMock.mock.calls[0][0] as string
+    expect(calledUrl).toContain('/movie/1')
+    expect(calledUrl).toContain('append_to_response=credits%2Crelease_dates')
+  })
+
   it('returns the US certification for a movie', async () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({
-        results: [
-          { iso_3166_1: 'FR', release_dates: [{ certification: '', type: 3 }] },
-          { iso_3166_1: 'US', release_dates: [{ certification: 'PG-13', type: 3 }] },
-        ],
+        release_dates: {
+          results: [
+            { iso_3166_1: 'FR', release_dates: [{ certification: '', type: 3 }] },
+            { iso_3166_1: 'US', release_dates: [{ certification: 'PG-13', type: 3 }] },
+          ],
+        },
       }),
     }) as unknown as typeof fetch
 
-    expect(await getCertification(1)).toBe('PG-13')
+    expect((await getMovieDetails(1)).certification).toBe('PG-13')
   })
 
   it('prefers the wide theatrical release (type 3) when the US block has conflicting certifications', async () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({
-        results: [
-          {
-            iso_3166_1: 'US',
-            release_dates: [
-              { certification: 'PG', type: 6 }, // an edited-for-TV re-release, listed first
-              { certification: 'R', type: 3 }, // the actual wide theatrical release
-              { certification: 'PG-13', type: 4 }, // a digital release
-            ],
-          },
-        ],
+        release_dates: {
+          results: [
+            {
+              iso_3166_1: 'US',
+              release_dates: [
+                { certification: 'PG', type: 6 }, // an edited-for-TV re-release, listed first
+                { certification: 'R', type: 3 }, // the actual wide theatrical release
+                { certification: 'PG-13', type: 4 }, // a digital release
+              ],
+            },
+          ],
+        },
       }),
     }) as unknown as typeof fetch
 
-    expect(await getCertification(1)).toBe('R')
+    expect((await getMovieDetails(1)).certification).toBe('R')
   })
 
   it('falls back to the first available certification when no theatrical (type 3) entry exists', async () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({
-        results: [
-          {
-            iso_3166_1: 'US',
-            release_dates: [
-              { certification: 'PG-13', type: 4 },
-              { certification: 'R', type: 5 },
-            ],
-          },
-        ],
+        release_dates: {
+          results: [
+            {
+              iso_3166_1: 'US',
+              release_dates: [
+                { certification: 'PG-13', type: 4 },
+                { certification: 'R', type: 5 },
+              ],
+            },
+          ],
+        },
       }),
     }) as unknown as typeof fetch
 
-    expect(await getCertification(1)).toBe('PG-13')
+    expect((await getMovieDetails(1)).certification).toBe('PG-13')
   })
 
-  it('returns null when there is no US entry', async () => {
-    global.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ results: [] }) }) as unknown as typeof fetch
-    expect(await getCertification(1)).toBeNull()
+  it('returns a null certification when there is no US entry or no release_dates block at all', async () => {
+    global.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) }) as unknown as typeof fetch
+    expect((await getMovieDetails(1)).certification).toBeNull()
   })
 
-  it('returns null when the US entry has no certification value set', async () => {
-    global.fetch = vi.fn().mockResolvedValue({
-      ok: true,
-      json: async () => ({ results: [{ iso_3166_1: 'US', release_dates: [{ certification: '' }] }] }),
-    }) as unknown as typeof fetch
-    expect(await getCertification(1)).toBeNull()
-  })
-})
-
-describe('getCredits', () => {
-  it('returns the director and top 3 billed cast for a movie, sorted by billing order', async () => {
+  it('returns the director and top 3 billed cast, sorted by billing order', async () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({
-        cast: [
-          { name: 'Jeff Goldblum', order: 2 },
-          { name: 'Sam Neill', order: 0 },
-          { name: 'Laura Dern', order: 1 },
-          { name: 'Richard Attenborough', order: 3 },
-        ],
-        crew: [
-          { name: 'Kathleen Kennedy', job: 'Producer' },
-          { name: 'Steven Spielberg', job: 'Director' },
-        ],
+        credits: {
+          cast: [
+            { name: 'Jeff Goldblum', order: 2 },
+            { name: 'Sam Neill', order: 0 },
+            { name: 'Laura Dern', order: 1 },
+            { name: 'Richard Attenborough', order: 3 },
+          ],
+          crew: [
+            { name: 'Kathleen Kennedy', job: 'Producer' },
+            { name: 'Steven Spielberg', job: 'Director' },
+          ],
+        },
       }),
     }) as unknown as typeof fetch
 
-    const result = await getCredits(1)
+    const result = await getMovieDetails(1)
     expect(result.director).toBe('Steven Spielberg')
     expect(result.topCast).toEqual(['Sam Neill', 'Laura Dern', 'Jeff Goldblum'])
   })
@@ -166,23 +174,68 @@ describe('getCredits', () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({
-        cast: [
-          { name: 'Winona Ryder', order: 0 },
-          { name: 'David Harbour', order: 1 },
-        ],
-        crew: [{ name: 'A. Producer', job: 'Executive Producer' }],
+        credits: {
+          cast: [
+            { name: 'Winona Ryder', order: 0 },
+            { name: 'David Harbour', order: 1 },
+          ],
+          crew: [{ name: 'A. Producer', job: 'Executive Producer' }],
+        },
       }),
     }) as unknown as typeof fetch
 
-    const result = await getCredits(1)
+    const result = await getMovieDetails(1)
     expect(result.director).toBeNull()
     expect(result.topCast).toEqual(['Winona Ryder', 'David Harbour'])
   })
 
-  it('returns null director and empty cast when the response has neither', async () => {
-    global.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ cast: [], crew: [] }) }) as unknown as typeof fetch
-    const result = await getCredits(1)
+  it('returns null director, null writer, and empty cast when credits are missing entirely', async () => {
+    global.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) }) as unknown as typeof fetch
+    const result = await getMovieDetails(1)
     expect(result.director).toBeNull()
+    expect(result.writer).toBeNull()
     expect(result.topCast).toEqual([])
+  })
+
+  it('prefers a Screenplay writer over a Story-only credit', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        credits: {
+          cast: [],
+          crew: [
+            { name: 'Story Person', job: 'Story' },
+            { name: 'Screenplay Person', job: 'Screenplay' },
+          ],
+        },
+      }),
+    }) as unknown as typeof fetch
+
+    expect((await getMovieDetails(1)).writer).toBe('Screenplay Person')
+  })
+
+  it('falls back to a Writer-job or Story-job credit when no Screenplay credit exists', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        credits: { cast: [], crew: [{ name: 'Story Person', job: 'Story' }] },
+      }),
+    }) as unknown as typeof fetch
+
+    expect((await getMovieDetails(1)).writer).toBe('Story Person')
+  })
+
+  it('returns the primary studio from production_companies', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ production_companies: [{ name: 'A24' }, { name: 'Some Co-Financier' }] }),
+    }) as unknown as typeof fetch
+
+    expect((await getMovieDetails(1)).studio).toBe('A24')
+  })
+
+  it('returns a null studio when there are no production companies listed', async () => {
+    global.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ production_companies: [] }) }) as unknown as typeof fetch
+    expect((await getMovieDetails(1)).studio).toBeNull()
   })
 })
