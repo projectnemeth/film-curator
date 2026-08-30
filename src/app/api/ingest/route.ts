@@ -17,52 +17,52 @@ export async function GET(req: NextRequest) {
   const familyId = 'default'
   const results = { ingested: 0, failed: 0 }
 
+  const mediaType = 'movie' as const
+
   for (const providerId of Object.values(PROVIDER_IDS)) {
-    for (const mediaType of ['movie', 'tv'] as const) {
-      let items
+    let items
+    try {
+      items = await discoverByProvider(providerId, mediaType)
+    } catch (error) {
+      console.error(`Failed to discover titles for provider ${providerId} (${mediaType}):`, error)
+      results.failed++
+      continue
+    }
+
+    for (const item of items) {
       try {
-        items = await discoverByProvider(providerId, mediaType)
+        const [providers, mpaaRating, credits] = await Promise.all([
+          getWatchProviders(item.id, mediaType),
+          getCertification(item.id, mediaType),
+          getCredits(item.id, mediaType),
+        ])
+        const { director, topCast } = credits
+        const dateStr = item.release_date ?? item.first_air_date
+        const year = dateStr ? Number(dateStr.slice(0, 4)) : null
+        const mpaaRatingUpdate = mpaaRating ? { mpaaRating } : {}
+        const directorUpdate = director ? { director } : {}
+        const topCastUpdate = topCast.length > 0 ? { topCast } : {}
+
+        await prisma.title.upsert({
+          where: { familyId_tmdbId: { familyId, tmdbId: item.id } },
+          update: { providers, ...mpaaRatingUpdate, ...directorUpdate, ...topCastUpdate },
+          create: {
+            familyId,
+            tmdbId: item.id,
+            name: item.title ?? item.name ?? 'Unknown',
+            year,
+            posterPath: item.poster_path,
+            overview: item.overview,
+            providers,
+            mpaaRating,
+            director,
+            topCast,
+          },
+        })
+        results.ingested++
       } catch (error) {
-        console.error(`Failed to discover titles for provider ${providerId} (${mediaType}):`, error)
+        console.error(`Failed to ingest title tmdbId=${item.id} name=${item.title ?? item.name ?? 'Unknown'}:`, error)
         results.failed++
-        continue
-      }
-
-      for (const item of items) {
-        try {
-          const [providers, mpaaRating, credits] = await Promise.all([
-            getWatchProviders(item.id, mediaType),
-            getCertification(item.id, mediaType),
-            getCredits(item.id, mediaType),
-          ])
-          const { director, topCast } = credits
-          const dateStr = item.release_date ?? item.first_air_date
-          const year = dateStr ? Number(dateStr.slice(0, 4)) : null
-          const mpaaRatingUpdate = mpaaRating ? { mpaaRating } : {}
-          const directorUpdate = director ? { director } : {}
-          const topCastUpdate = topCast.length > 0 ? { topCast } : {}
-
-          await prisma.title.upsert({
-            where: { familyId_tmdbId: { familyId, tmdbId: item.id } },
-            update: { providers, ...mpaaRatingUpdate, ...directorUpdate, ...topCastUpdate },
-            create: {
-              familyId,
-              tmdbId: item.id,
-              name: item.title ?? item.name ?? 'Unknown',
-              year,
-              posterPath: item.poster_path,
-              overview: item.overview,
-              providers,
-              mpaaRating,
-              director,
-              topCast,
-            },
-          })
-          results.ingested++
-        } catch (error) {
-          console.error(`Failed to ingest title tmdbId=${item.id} name=${item.title ?? item.name ?? 'Unknown'}:`, error)
-          results.failed++
-        }
       }
     }
   }

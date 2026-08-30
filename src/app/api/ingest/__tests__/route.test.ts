@@ -133,6 +133,16 @@ describe('GET /api/ingest', () => {
     expect(call.update).not.toHaveProperty('director')
     expect(call.update).not.toHaveProperty('topCast')
   })
+
+  it('only discovers movies, never TV shows', async () => {
+    const req = new NextRequest('http://localhost/api/ingest', { headers: { authorization: 'Bearer test-secret' } })
+    await GET(req)
+
+    expect(discoverByProvider).toHaveBeenCalledTimes(4)
+    for (const call of (discoverByProvider as ReturnType<typeof vi.fn>).mock.calls) {
+      expect(call[1]).toBe('movie')
+    }
+  })
 })
 
 describe('maxDuration', () => {

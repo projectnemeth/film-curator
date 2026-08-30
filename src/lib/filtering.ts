@@ -1,7 +1,10 @@
 export type OverrideInput = { decision: 'APPROVED' | 'REJECTED' } | null
 
-const FAMILY_SHOWN_RATINGS = new Set(['G', 'PG', 'TV-Y', 'TV-Y7', 'TV-G', 'TV-PG'])
-const ADULT_SHOWN_RATINGS = new Set(['PG-13', 'R', 'TV-14', 'TV-MA'])
+// Movies only — TV shows are never ingested or searched for, but existing
+// TV-rated titles (TV-Y, TV-14, TV-MA, etc.) are excluded here too, so
+// nothing already in the catalog before this restriction slips through.
+const FAMILY_SHOWN_RATINGS = new Set(['G', 'PG'])
+const ADULT_SHOWN_RATINGS = new Set(['PG-13', 'R'])
 
 export function isRatingVisibleInMode(mpaaRating: string | null, mode: 'FAMILY' | 'ADULT'): boolean {
   if (!mpaaRating) return false

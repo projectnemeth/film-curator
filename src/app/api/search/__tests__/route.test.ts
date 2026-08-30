@@ -115,4 +115,23 @@ describe('GET /api/search', () => {
     expect(call.update).not.toHaveProperty('director')
     expect(call.update).not.toHaveProperty('topCast')
   })
+
+  it('skips TV results, only adding movies', async () => {
+    ;(searchTitle as ReturnType<typeof vi.fn>).mockResolvedValue([
+      { id: 66732, name: 'Stranger Things', overview: '...', poster_path: '/x.jpg', first_air_date: '2016-07-15' },
+      { id: 42, title: 'Jurassic Park', overview: '...', poster_path: '/x.jpg', release_date: '1993-06-11' },
+    ])
+    ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
+    ;(getCertification as ReturnType<typeof vi.fn>).mockResolvedValue('PG-13')
+    ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({ id: 't1', name: 'Jurassic Park' })
+
+    const req = new NextRequest('http://localhost/api/search?q=x')
+    const body = await (await GET(req)).json()
+
+    expect(prisma.title.upsert).toHaveBeenCalledTimes(1)
+    expect(prisma.title.upsert).toHaveBeenCalledWith(
+      expect.objectContaining({ where: { familyId_tmdbId: { familyId: 'default', tmdbId: 42 } } })
+    )
+    expect(body.titles).toEqual([{ id: 't1', name: 'Jurassic Park' }])
+  })
 })

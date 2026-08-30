@@ -10,7 +10,9 @@ export async function GET(req: NextRequest) {
   const titles = []
 
   for (const result of results.slice(0, 10)) {
-    const mediaType = result.title ? 'movie' : 'tv'
+    if (!result.title) continue // movies only — skip TV and other result types
+
+    const mediaType = 'movie' as const
     const [providers, mpaaRating, credits] = await Promise.all([
       getWatchProviders(result.id, mediaType),
       getCertification(result.id, mediaType),

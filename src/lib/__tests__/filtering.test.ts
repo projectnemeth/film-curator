@@ -16,12 +16,9 @@ describe('isRatingVisibleInMode', () => {
     expect(isRatingVisibleInMode('NC-17', 'FAMILY')).toBe(false)
   })
 
-  it('shows the kids TV-rating equivalents in Family Mode', () => {
-    expect(isRatingVisibleInMode('TV-Y', 'FAMILY')).toBe(true)
-    expect(isRatingVisibleInMode('TV-PG', 'FAMILY')).toBe(true)
-  })
-
-  it('hides TV-14 and TV-MA in Family Mode', () => {
+  it('hides TV ratings in Family Mode — movies only', () => {
+    expect(isRatingVisibleInMode('TV-Y', 'FAMILY')).toBe(false)
+    expect(isRatingVisibleInMode('TV-PG', 'FAMILY')).toBe(false)
     expect(isRatingVisibleInMode('TV-14', 'FAMILY')).toBe(false)
     expect(isRatingVisibleInMode('TV-MA', 'FAMILY')).toBe(false)
   })
@@ -40,8 +37,9 @@ describe('isRatingVisibleInMode', () => {
     expect(isRatingVisibleInMode('NC-17', 'ADULT')).toBe(false)
   })
 
-  it('shows TV-MA in Adult Mode', () => {
-    expect(isRatingVisibleInMode('TV-MA', 'ADULT')).toBe(true)
+  it('hides TV ratings in Adult Mode — movies only', () => {
+    expect(isRatingVisibleInMode('TV-14', 'ADULT')).toBe(false)
+    expect(isRatingVisibleInMode('TV-MA', 'ADULT')).toBe(false)
   })
 
   it('hides a null/missing rating (unrated) in both modes', () => {
