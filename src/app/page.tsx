@@ -33,6 +33,7 @@ export default function HomePage() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
   const [scores, setScores] = useState<Record<string, ContentScore>>({})
   const [ratingStatus, setRatingStatus] = useState<Record<string, 'loading' | 'error' | undefined>>({})
+  const [rateError, setRateError] = useState<Record<string, boolean>>({})
 
   async function load(currentMode: 'FAMILY' | 'ADULT') {
     setLoading(true)
@@ -59,17 +60,23 @@ export default function HomePage() {
   }, [mode])
 
   async function submitRating(titleId: string, rating: string) {
-    await fetch('/api/taste', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ titleId, rating, mode }),
-    })
-    const ratedTitle = notSeen.find((t) => t.id === titleId)
-    setNotSeen((prev) => prev.filter((t) => t.id !== titleId))
-    if (rating === 'LOVED' && ratedTitle) {
-      setLoved((prev) => [{ ...ratedTitle, tasteRating: 'LOVED' }, ...prev])
+    setRateError((prev) => ({ ...prev, [titleId]: false }))
+    try {
+      const res = await fetch('/api/taste', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ titleId, rating, mode }),
+      })
+      if (!res.ok) throw new Error('failed to save rating')
+      const ratedTitle = notSeen.find((t) => t.id === titleId)
+      setNotSeen((prev) => prev.filter((t) => t.id !== titleId))
+      if (rating === 'LOVED' && ratedTitle) {
+        setLoved((prev) => [{ ...ratedTitle, tasteRating: 'LOVED' }, ...prev])
+      }
+      setExpanded((prev) => ({ ...prev, [titleId]: false }))
+    } catch {
+      setRateError((prev) => ({ ...prev, [titleId]: true }))
     }
-    setExpanded((prev) => ({ ...prev, [titleId]: false }))
   }
 
   async function rateContent(titleId: string) {
@@ -149,6 +156,9 @@ export default function HomePage() {
 
           {showQuickRate && (
             <div className="mt-auto pt-2">
+              {rateError[title.id] && (
+                <p className="text-xs text-danger pb-1.5">Couldn&apos;t save that rating — try again.</p>
+              )}
               {expanded[title.id] ? (
                 <div className="flex flex-wrap gap-1.5">
                   {QUICK_RATINGS.map((r) => (

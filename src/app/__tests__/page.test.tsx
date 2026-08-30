@@ -159,6 +159,22 @@ describe('HomePage', () => {
     expect(screen.queryByText(/Loved — Worth a Rewatch/)).not.toBeInTheDocument()
   })
 
+  it('keeps the title in Not Seen and shows an error when saving a quick rating fails', async () => {
+    ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
+      if (init?.method === 'POST' && url === '/api/taste') return Promise.resolve({ ok: false, status: 500, json: async () => ({}) })
+      if (init?.method === 'POST') return Promise.resolve({ ok: true, json: async () => ({ result: { id: 'r1' } }) })
+      return Promise.resolve({ ok: true, status: 200, json: async () => ({ mode: 'FAMILY', notSeen: [title()], loved: [] }) })
+    })
+
+    render(<HomePage />)
+    await screen.findByText(/Jurassic Park/)
+    fireEvent.click(screen.getByRole('button', { name: "I've seen this" }))
+    fireEvent.click(screen.getByRole('button', { name: 'Liked' }))
+
+    expect(await screen.findByText(/Couldn't save that rating/)).toBeInTheDocument()
+    expect(screen.getByText(/Jurassic Park/)).toBeInTheDocument()
+  })
+
   it('shows a "Rate this" button for an unscored title in Adult Mode, and renders the report once scored', async () => {
     ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
       if (init?.method === 'POST' && url.includes('/rate-content')) {
