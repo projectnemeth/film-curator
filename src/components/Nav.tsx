@@ -14,9 +14,6 @@ export function Nav() {
       <Link href="/rate" className="text-sm font-medium text-textPrimary hover:text-accent transition-colors">
         Rate More Movies
       </Link>
-      <Link href="/settings" className="text-sm font-medium text-textPrimary hover:text-accent transition-colors">
-        Settings
-      </Link>
     </nav>
   )
 }

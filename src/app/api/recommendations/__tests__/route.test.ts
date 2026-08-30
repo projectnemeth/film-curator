@@ -4,7 +4,6 @@ import { NextRequest } from 'next/server'
 vi.mock('@/lib/prisma', () => ({
   prisma: {
     title: { findMany: vi.fn() },
-    override: { findMany: vi.fn() },
     tasteRating: { findMany: vi.fn() },
   },
 }))
@@ -35,7 +34,6 @@ describe('GET /api/recommendations', () => {
 
   it('defaults to FAMILY when mode is missing or invalid', async () => {
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
-    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockResolvedValue([])
 
@@ -50,7 +48,6 @@ describe('GET /api/recommendations', () => {
       title({ id: 't1', name: 'A PG Movie', mpaaRating: 'PG' }),
       title({ id: 't2', name: 'An R Movie', mpaaRating: 'R' }),
     ])
-    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockImplementation(async (_f: string, _m: string, candidates: { id: string }[]) => candidates.map((c) => c.id))
 
@@ -63,27 +60,11 @@ describe('GET /api/recommendations', () => {
     expect(adult.notSeen.map((t: { id: string }) => t.id)).toEqual(['t2'])
   })
 
-  it('excludes titles with REJECTED overrides even when the rating would otherwise show', async () => {
-    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
-      title({ id: 't1', name: 'Clean Title', mpaaRating: 'G' }),
-      title({ id: 't3', name: 'Rejected Title', mpaaRating: 'G' }),
-    ])
-    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([{ titleId: 't3', decision: 'REJECTED' }])
-    ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
-    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockImplementation(async (_f: string, _m: string, candidates: { id: string }[]) => candidates.map((c) => c.id))
-
-    const req = new NextRequest('http://localhost/api/recommendations?mode=FAMILY')
-    const body = await (await GET(req)).json()
-
-    expect(body.notSeen.map((t: { id: string }) => t.id)).toEqual(['t1'])
-  })
-
   it('falls back to visible titles in original order when ranking fails', async () => {
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
       title({ id: 't1', name: 'A', mpaaRating: 'G' }),
       title({ id: 't2', name: 'B', mpaaRating: 'G' }),
     ])
-    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('anthropic rate limited'))
 
@@ -97,7 +78,6 @@ describe('GET /api/recommendations', () => {
 
   it('only reads taste ratings recorded in the active mode — family and adult ratings never cross-influence each other', async () => {
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([title({ id: 't1', mpaaRating: 'R' })])
-    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockResolvedValue(['t1'])
 
@@ -122,7 +102,6 @@ describe('GET /api/recommendations', () => {
         topCast: ['Sam Neill', 'Laura Dern'],
       }),
     ])
-    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockResolvedValue(['t1'])
 
@@ -141,7 +120,6 @@ describe('GET /api/recommendations', () => {
       title({ id: 't1', name: 'Never Rated' }),
       title({ id: 't2', name: 'Marked Not Seen' }),
     ])
-    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
       { titleId: 't2', rating: 'NOT_SEEN', ratedAt: new Date('2026-01-01'), title: { name: 'Marked Not Seen' } },
     ])
@@ -159,7 +137,6 @@ describe('GET /api/recommendations', () => {
       title({ id: 't1', name: 'Loved Earlier' }),
       title({ id: 't2', name: 'Loved Later' }),
     ])
-    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
       { titleId: 't1', rating: 'LOVED', ratedAt: new Date('2026-01-01'), title: { name: 'Loved Earlier' } },
       { titleId: 't2', rating: 'LOVED', ratedAt: new Date('2026-06-01'), title: { name: 'Loved Later' } },
@@ -181,7 +158,6 @@ describe('GET /api/recommendations', () => {
       title({ id: 't3', name: 'Too Inappropriate' }),
       title({ id: 't4', name: 'Not Interested' }),
     ])
-    ;(prisma.override.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
       { titleId: 't1', rating: 'DISLIKED', ratedAt: new Date(), title: { name: 'Disliked' } },
       { titleId: 't2', rating: 'LIKED', ratedAt: new Date(), title: { name: 'Liked' } },

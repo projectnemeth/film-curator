@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { isTitleVisible } from '@/lib/filtering'
+import { isRatingVisibleInMode } from '@/lib/filtering'
 import { rankByTasteCached } from '@/lib/ranking'
 
 export const maxDuration = 60
@@ -31,20 +31,15 @@ export async function GET(req: NextRequest) {
   const mode: 'FAMILY' | 'ADULT' = modeParam === 'ADULT' ? 'ADULT' : 'FAMILY'
   const familyId = 'default'
 
-  const [titles, overrides, tasteHistory] = await Promise.all([
+  const [titles, tasteHistory] = await Promise.all([
     prisma.title.findMany({ where: { familyId }, include: { contentScore: true } }),
-    prisma.override.findMany({ where: { familyId } }),
     prisma.tasteRating.findMany({ where: { familyId, mode }, include: { title: true } }),
   ])
 
-  const overrideByTitleId = new Map(overrides.map((o) => [o.titleId, o]))
   const tasteRatingByTitleId = new Map(tasteHistory.map((t) => [t.titleId, t.rating]))
   const ratedAtByTitleId = new Map(tasteHistory.map((t) => [t.titleId, t.ratedAt]))
 
-  const visible = titles.filter((title) => {
-    const override = overrideByTitleId.get(title.id) ?? null
-    return isTitleVisible(title.mpaaRating, override, mode)
-  })
+  const visible = titles.filter((title) => isRatingVisibleInMode(title.mpaaRating, mode))
 
   const notSeenCandidates = visible.filter((t) => !HIDDEN_AFTER_RATING.has(tasteRatingByTitleId.get(t.id) ?? '') && tasteRatingByTitleId.get(t.id) !== 'LOVED')
   const loved = visible.filter((t) => tasteRatingByTitleId.get(t.id) === 'LOVED')

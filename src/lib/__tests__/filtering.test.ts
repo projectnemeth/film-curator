@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { isRatingVisibleInMode, isTitleVisible } from '../filtering'
+import { isRatingVisibleInMode } from '../filtering'
 
 describe('isRatingVisibleInMode', () => {
   it('shows G and PG in Family Mode', () => {
@@ -45,20 +45,5 @@ describe('isRatingVisibleInMode', () => {
   it('hides a null/missing rating (unrated) in both modes', () => {
     expect(isRatingVisibleInMode(null, 'FAMILY')).toBe(false)
     expect(isRatingVisibleInMode(null, 'ADULT')).toBe(false)
-  })
-})
-
-describe('isTitleVisible', () => {
-  it('an approved override wins even over NC-17', () => {
-    expect(isTitleVisible('NC-17', { decision: 'APPROVED' }, 'ADULT')).toBe(true)
-  })
-
-  it('a rejected override wins even over G', () => {
-    expect(isTitleVisible('G', { decision: 'REJECTED' }, 'FAMILY')).toBe(false)
-  })
-
-  it('falls back to the rating-based rule with no override', () => {
-    expect(isTitleVisible('PG-13', null, 'FAMILY')).toBe(false)
-    expect(isTitleVisible('PG-13', null, 'ADULT')).toBe(true)
   })
 })

@@ -12,11 +12,6 @@ enum Mode {
   ADULT
 }
 
-enum OverrideDecision {
-  APPROVED
-  REJECTED
-}
-
 enum TasteRatingValue {
   DISLIKED
   LIKED
@@ -42,7 +37,6 @@ model Title {
   updatedAt    DateTime @updatedAt
 
   contentScore ContentScore?
-  overrides    Override[]
   tasteRatings TasteRating[]
 
   @@unique([familyId, tmdbId])
@@ -71,18 +65,6 @@ model RankingCache {
   updatedAt        DateTime @updatedAt
 
   @@unique([familyId, mode])
-}
-
-model Override {
-  id        String           @id @default(cuid())
-  familyId  String           @default("default")
-  titleId   String
-  title     Title            @relation(fields: [titleId], references: [id])
-  decision  OverrideDecision
-  note      String?
-  createdAt DateTime         @default(now())
-
-  @@unique([familyId, titleId])
 }
 
 model TasteRating {

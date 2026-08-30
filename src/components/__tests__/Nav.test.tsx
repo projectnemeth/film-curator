@@ -21,6 +21,5 @@ describe('Nav', () => {
     expect(container.querySelector('nav')).not.toBeNull()
     expect(getByText('Dashboard')).toBeTruthy()
     expect(getByText('Rate More Movies')).toBeTruthy()
-    expect(getByText('Settings')).toBeTruthy()
   })
 })

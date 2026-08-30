@@ -1,14 +1,10 @@
 import { prisma } from './prisma'
 import type { TasteRatingValue } from '@prisma/client'
-import { isTitleVisible } from './filtering'
+import { isRatingVisibleInMode } from './filtering'
 
 export async function getNextTitleToRate(familyId: string, mode: 'FAMILY' | 'ADULT') {
-  const [rated, overrides] = await Promise.all([
-    prisma.tasteRating.findMany({ where: { familyId, mode }, select: { titleId: true } }),
-    prisma.override.findMany({ where: { familyId } }),
-  ])
+  const rated = await prisma.tasteRating.findMany({ where: { familyId, mode }, select: { titleId: true } })
   const ratedIds = rated.map((r) => r.titleId)
-  const overrideByTitleId = new Map(overrides.map((o) => [o.titleId, o]))
 
   const candidates = await prisma.title.findMany({
     where: { familyId, id: { notIn: ratedIds } },
@@ -16,8 +12,7 @@ export async function getNextTitleToRate(familyId: string, mode: 'FAMILY' | 'ADU
   })
 
   for (const candidate of candidates) {
-    const override = overrideByTitleId.get(candidate.id) ?? null
-    if (isTitleVisible(candidate.mpaaRating, override, mode)) {
+    if (isRatingVisibleInMode(candidate.mpaaRating, mode)) {
       return candidate
     }
   }

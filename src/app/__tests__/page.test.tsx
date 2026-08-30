@@ -168,7 +168,7 @@ describe('HomePage', () => {
     expect(screen.queryByRole('button', { name: /Why is this rated/ })).not.toBeInTheDocument()
   })
 
-  it('does not show a "Rate this" button in Adult Mode for a title with no MPAA rating (e.g. admitted via manual override)', async () => {
+  it('does not show a "Rate this" button in Adult Mode for a title with no MPAA rating', async () => {
     mockRecommendations([title({ id: 't7', name: 'Manually Approved Title', posterPath: null, mpaaRating: null })], [], 'ADULT')
 
     render(<HomePage />)
