@@ -12,17 +12,14 @@ enum Mode {
   ADULT
 }
 
-enum OverrideDecision {
-  APPROVED
-  REJECTED
-}
-
 enum TasteRatingValue {
   DISLIKED
   LIKED
   LOVED
   NOT_SEEN
   TOO_INAPPROPRIATE
+  NOT_INTERESTED
+  WATCHLISTED
 }
 
 model Title {
@@ -34,12 +31,15 @@ model Title {
   posterPath   String?
   overview     String?
   mpaaRating   String?
+  director     String?
+  writer       String?
+  topCast      String[]
+  studio       String?
   providers    String[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
   contentScore ContentScore?
-  overrides    Override[]
   tasteRatings TasteRating[]
 
   @@unique([familyId, tmdbId])
@@ -59,30 +59,15 @@ model ContentScore {
   computedAt  DateTime @default(now())
 }
 
-model ModeSettings {
-  id           String  @id @default(cuid())
-  familyId     String  @default("default")
-  mode         Mode
-  maxViolence  Int
-  maxLanguage  Int
-  maxSexNudity Int
-  maxScariness Int
-  allowUnrated Boolean @default(false)
-  allowNC17    Boolean @default(false)
+model RankingCache {
+  id               String   @id @default(cuid())
+  familyId         String   @default("default")
+  mode             Mode
+  inputFingerprint String
+  rankedIds        String[]
+  updatedAt        DateTime @updatedAt
 
   @@unique([familyId, mode])
-}
-
-model Override {
-  id        String           @id @default(cuid())
-  familyId  String           @default("default")
-  titleId   String
-  title     Title            @relation(fields: [titleId], references: [id])
-  decision  OverrideDecision
-  note      String?
-  createdAt DateTime         @default(now())
-
-  @@unique([familyId, titleId])
 }
 
 model TasteRating {
@@ -90,8 +75,9 @@ model TasteRating {
   familyId String           @default("default")
   titleId  String
   title    Title            @relation(fields: [titleId], references: [id])
+  mode     Mode             @default(FAMILY)
   rating   TasteRatingValue
   ratedAt  DateTime         @default(now())
 
-  @@unique([familyId, titleId])
+  @@unique([familyId, titleId, mode])
 }

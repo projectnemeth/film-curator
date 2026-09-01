@@ -45,17 +45,77 @@ export async function searchTitle(query: string): Promise<TmdbSearchResult[]> {
   return data.results
 }
 
-export async function getWatchProviders(tmdbId: number, mediaType: 'movie' | 'tv'): Promise<string[]> {
-  const data = await tmdbFetch(`/${mediaType}/${tmdbId}/watch/providers`)
+export async function getWatchProviders(tmdbId: number): Promise<string[]> {
+  const data = await tmdbFetch(`/movie/${tmdbId}/watch/providers`)
   const flatrate: TmdbWatchProvider[] = data.results?.US?.flatrate ?? []
   return flatrate.map((p) => PROVIDER_NAME_MAP[p.provider_name]).filter((slug): slug is string => Boolean(slug))
 }
 
-export async function discoverByProvider(providerId: number, mediaType: 'movie' | 'tv'): Promise<TmdbSearchResult[]> {
-  const data = await tmdbFetch(`/discover/${mediaType}`, {
+export async function discoverByProvider(providerId: number, page: number = 1): Promise<TmdbSearchResult[]> {
+  const data = await tmdbFetch('/discover/movie', {
     with_watch_providers: String(providerId),
     watch_region: 'US',
     sort_by: 'popularity.desc',
+    page: String(page),
   })
   return data.results
+}
+
+// TMDB release_dates `type`: 1=Premiere, 2=Limited theatrical, 3=Theatrical,
+// 4=Digital, 5=Physical, 6=TV. A single US block can list several of these,
+// each with its own crowd-sourced certification, and they don't always
+// agree (a digital/TV re-release entry can carry a different value than the
+// original theatrical release). Wide theatrical (3) is treated as the
+// canonical MPAA source; other types are only a fallback when no theatrical
+// entry exists at all.
+type TmdbMovieReleaseDate = { certification: string; type: number }
+type TmdbMovieReleaseDatesResult = { iso_3166_1: string; release_dates: TmdbMovieReleaseDate[] }
+const THEATRICAL_RELEASE_TYPE = 3
+
+const TOP_CAST_COUNT = 3
+
+type TmdbCastMember = { name: string; order: number }
+type TmdbCrewMember = { name: string; job: string }
+type TmdbProductionCompany = { name: string }
+
+export type MovieDetails = {
+  certification: string | null
+  director: string | null
+  writer: string | null
+  topCast: string[]
+  studio: string | null
+}
+
+// The writer credit isn't a single standardized TMDB job — a screenplay-only
+// writer, an original-story writer, and a novelist-adapted-from are all
+// separate crew entries. Prefer the closest to "wrote this movie" first.
+const WRITER_JOB_PRIORITY = ['Screenplay', 'Writer', 'Story']
+
+// Consolidates what used to be two separate TMDB calls (release_dates,
+// credits) into one, and picks up studio (production_companies, native to
+// the base movie-details response) for free in the same request.
+export async function getMovieDetails(tmdbId: number): Promise<MovieDetails> {
+  const data = await tmdbFetch(`/movie/${tmdbId}`, { append_to_response: 'credits,release_dates' })
+
+  const releaseResults: TmdbMovieReleaseDatesResult[] = data.release_dates?.results ?? []
+  const us = releaseResults.find((r) => r.iso_3166_1 === 'US')
+  const withCerts = (us?.release_dates ?? []).filter((rd) => rd.certification)
+  const theatrical = withCerts.find((rd) => rd.type === THEATRICAL_RELEASE_TYPE)
+  const certification = withCerts.length === 0 ? null : (theatrical ?? withCerts[0]).certification
+
+  const cast: TmdbCastMember[] = data.credits?.cast ?? []
+  const crew: TmdbCrewMember[] = data.credits?.crew ?? []
+
+  const topCast = [...cast]
+    .sort((a, b) => a.order - b.order)
+    .slice(0, TOP_CAST_COUNT)
+    .map((c) => c.name)
+
+  const director = crew.find((c) => c.job === 'Director')?.name ?? null
+  const writer = WRITER_JOB_PRIORITY.map((job) => crew.find((c) => c.job === job)?.name).find(Boolean) ?? null
+
+  const companies: TmdbProductionCompany[] = data.production_companies ?? []
+  const studio = companies[0]?.name ?? null
+
+  return { certification, director, writer, topCast, studio }
 }

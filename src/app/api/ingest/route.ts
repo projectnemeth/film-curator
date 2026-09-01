@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { discoverByProvider, getWatchProviders, PROVIDER_IDS } from '@/lib/tmdb'
+import { discoverByProvider, getWatchProviders, getMovieDetails, PROVIDER_IDS } from '@/lib/tmdb'
 import { prisma } from '@/lib/prisma'
+import { hasTimeRemaining, rotateProviderOrder } from '@/lib/ingestSchedule'
+
+export const maxDuration = 300
+
+// Generous ceiling — hasTimeRemaining is the real safety net, this just
+// caps how deep we'd ever try to paginate a single provider's catalog.
+const MAX_PAGES_PER_PROVIDER = 10
 
 export async function GET(req: NextRequest) {
   if (!process.env.CRON_SECRET) {
@@ -12,29 +19,84 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
 
+  const functionStart = Date.now()
   const familyId = 'default'
   const results = { ingested: 0, failed: 0 }
+  const failedTmdbIds = new Set<number>()
+  // Only true once every provider's catalog was walked to a natural empty
+  // page, with no time-budget cutoff and no discovery-request failure —
+  // the guarantee needed before it's safe to treat "not touched this run"
+  // as "no longer available" (see the pruning step below).
+  let ranToCompletion = true
 
-  for (const providerId of Object.values(PROVIDER_IDS)) {
-    for (const mediaType of ['movie', 'tv'] as const) {
+  providerLoop: for (const providerId of rotateProviderOrder(Object.values(PROVIDER_IDS), functionStart)) {
+    let providerExhausted = false
+
+    for (let page = 1; page <= MAX_PAGES_PER_PROVIDER; page++) {
+      if (!hasTimeRemaining(functionStart, Date.now())) {
+        ranToCompletion = false
+        break providerLoop
+      }
+
       let items
       try {
-        items = await discoverByProvider(providerId, mediaType)
+        items = await discoverByProvider(providerId, page)
       } catch (error) {
-        console.error(`Failed to discover titles for provider ${providerId} (${mediaType}):`, error)
+        console.error(`Failed to discover titles for provider ${providerId} (page ${page}):`, error)
         results.failed++
-        continue
+        break
+      }
+      if (items.length === 0) {
+        providerExhausted = true
+        break // this provider's catalog is exhausted
       }
 
       for (const item of items) {
+        if (!hasTimeRemaining(functionStart, Date.now())) {
+          ranToCompletion = false
+          break providerLoop
+        }
+
         try {
-          const providers = await getWatchProviders(item.id, mediaType)
+          // Certification, credits, and studio are all immutable once a
+          // title is released — skip re-fetching them from TMDB on every
+          // weekly sync once we already have all of them. Availability
+          // always changes, so getWatchProviders always runs.
+          const existing = await prisma.title.findUnique({
+            where: { familyId_tmdbId: { familyId, tmdbId: item.id } },
+            select: { mpaaRating: true, director: true, writer: true, topCast: true, studio: true },
+          })
+          const needsDetails =
+            !existing?.mpaaRating ||
+            !existing?.director ||
+            !existing?.writer ||
+            !existing?.studio ||
+            existing.topCast.length === 0
+
+          const [providers, details] = await Promise.all([
+            getWatchProviders(item.id),
+            needsDetails
+              ? getMovieDetails(item.id)
+              : Promise.resolve({
+                  certification: existing.mpaaRating,
+                  director: existing.director,
+                  writer: existing.writer,
+                  topCast: existing.topCast,
+                  studio: existing.studio,
+                }),
+          ])
+          const { certification: mpaaRating, director, writer, topCast, studio } = details
           const dateStr = item.release_date ?? item.first_air_date
           const year = dateStr ? Number(dateStr.slice(0, 4)) : null
+          const mpaaRatingUpdate = mpaaRating ? { mpaaRating } : {}
+          const directorUpdate = director ? { director } : {}
+          const writerUpdate = writer ? { writer } : {}
+          const topCastUpdate = topCast.length > 0 ? { topCast } : {}
+          const studioUpdate = studio ? { studio } : {}
 
           await prisma.title.upsert({
             where: { familyId_tmdbId: { familyId, tmdbId: item.id } },
-            update: { providers },
+            update: { providers, ...mpaaRatingUpdate, ...directorUpdate, ...writerUpdate, ...topCastUpdate, ...studioUpdate },
             create: {
               familyId,
               tmdbId: item.id,
@@ -43,16 +105,38 @@ export async function GET(req: NextRequest) {
               posterPath: item.poster_path,
               overview: item.overview,
               providers,
+              mpaaRating,
+              director,
+              writer,
+              topCast,
+              studio,
             },
           })
           results.ingested++
         } catch (error) {
           console.error(`Failed to ingest title tmdbId=${item.id} name=${item.title ?? item.name ?? 'Unknown'}:`, error)
           results.failed++
+          failedTmdbIds.add(item.id)
         }
       }
     }
+
+    if (!providerExhausted) ranToCompletion = false
   }
 
-  return NextResponse.json(results)
+  let pruned = 0
+  if (ranToCompletion) {
+    const { count } = await prisma.title.updateMany({
+      where: {
+        familyId,
+        providers: { isEmpty: false },
+        updatedAt: { lt: new Date(functionStart) },
+        ...(failedTmdbIds.size > 0 ? { tmdbId: { notIn: [...failedTmdbIds] } } : {}),
+      },
+      data: { providers: [] },
+    })
+    pruned = count
+  }
+
+  return NextResponse.json({ ...results, pruned })
 }
