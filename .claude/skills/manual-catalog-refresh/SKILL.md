@@ -1,6 +1,6 @@
 ---
 name: manual-catalog-refresh
-description: Use when the user asks to manually content-rate and/or re-sort a batch of movies in film-curator "right now" without spending the app's own Anthropic API budget — e.g. "do that thing to update the site", "sort and rate some movies", "refresh the ratings/ranking". Claude does the judgment itself and writes straight to the database, instead of triggering the app's own Claude-API-backed routes.
+description: Use when the user asks to manually content-rate, re-sort, and/or review newly-flagged titles in film-curator "right now" without spending the app's own Anthropic API budget — e.g. "do that thing to update the site", "sort and rate some movies", "refresh the ratings/ranking", "anything to review?". Claude does the judgment itself and writes straight to the database, instead of triggering the app's own Claude-API-backed routes.
 ---
 
 # Manual catalog refresh (content rating + sorting, no app API spend)
@@ -42,12 +42,12 @@ set -a; source .env.production.local; set +a
 ```
 
 Write a throwaway inspection script (e.g. `scripts/tmp-dump-inputs.ts`)
-that imports `prisma` from `../src/lib/prisma` and `isRatingVisibleInMode`
+that imports `prisma` from `../src/lib/prisma` and `isTitleVisible`
 from `../src/lib/filtering`, then for each mode (`FAMILY`, `ADULT`) dumps:
 
 - **Taste history**: `prisma.tasteRating.findMany({ where: { familyId: 'default', mode }, include: { title: true } })`, filtered to `rating !== 'NOT_SEEN'`, printing `titleName`, `rating`, `director`, `writer`, `topCast`, `studio`. Group/print by rating bucket (LOVED / LIKED / DISLIKED / NOT_INTERESTED / TOO_INAPPROPRIATE) — this is the actual taste signal.
-- **Not-seen candidates**: same visibility + exclusion logic as `src/app/api/recommendations/route.ts` (`isRatingVisibleInMode`, exclude `HIDDEN_AFTER_RATING = new Set(['DISLIKED','LIKED','TOO_INAPPROPRIATE','NOT_INTERESTED'])` and `LOVED`), printing `id`, `name`, `year`, `director`, `writer`, `topCast`, `studio`.
-- **Content-rating candidates**: `prisma.title.findMany({ where: { mpaaRating: { in: ['PG-13','R'] }, contentScore: null, tasteRatings: { none: { mode: 'ADULT' } } }, orderBy: { createdAt: 'desc' }, take: N })` — `id`, `name`, `year`, `mpaaRating`.
+- **Not-seen candidates**: same visibility + exclusion logic as `src/app/api/recommendations/route.ts` (`isTitleVisible`, exclude `HIDDEN_AFTER_RATING = new Set(['DISLIKED','LIKED','TOO_INAPPROPRIATE','NOT_INTERESTED'])` and `LOVED`), printing `id`, `name`, `year`, `director`, `writer`, `topCast`, `studio`.
+- **Content-rating candidates**: `prisma.title.findMany({ where: { mpaaRating: { in: ['PG-13','R'] }, contentScore: null, contentFlag: { not: 'EXCLUDED' }, tasteRatings: { none: { mode: 'ADULT' } } }, orderBy: { createdAt: 'desc' }, take: N })` — `id`, `name`, `year`, `mpaaRating`. (Skip EXCLUDED titles — content-rating a film that will never be shown is wasted judgment.)
 
 Run it (`npx tsx scripts/tmp-dump-inputs.ts`), and read the output. If it's
 large, redirect to a file and read sections with `sed`/`grep` rather than
@@ -55,7 +55,57 @@ dumping it all into context at once — a household with real usage history
 can easily have 100+ history entries and hundreds of not-seen candidates
 per mode.
 
-## Step 2 — do the actual judgment yourself (this is the point of the skill)
+## Step 2 — clear the exclusion review queue
+
+The family has a standing rule against sadistic-predation and occult
+material (`src/lib/exclusion.ts`). TMDB keywords *nominate* titles for
+review; they never decide. A newly-ingested title that trips a watchlist
+is hidden from the dashboard with `contentFlag = null` and stays hidden,
+undecided, until someone rules on it. **Nothing else in the system ever
+does this** — there's no UI, no notification, no cron. If this step is
+skipped, flagged titles pile up invisibly and good films stay buried.
+
+```bash
+npx tsx scripts/review-exclusions.ts
+```
+
+For each pending title, decide against the rule as the family stated it:
+
+- **OUT** — sadistic predation (torture as spectacle, serial killers
+  preying on the helpless) and occult/spiritually dark material (demonic,
+  satanic, exorcism). Fantasy magic and horror-adjacent comedy are also
+  out, by explicit choice — *Harry Potter*, *Ghostbusters* and *Zombieland*
+  were all reviewed and excluded on 2026-09-05.
+- **IN** — war and combat violence however graphic, including torture in a
+  wartime setting; crime and cartel violence between armed professionals;
+  monster/creature and dystopian-contest threat. *Nope*, *The Northman*,
+  both *A Quiet Place* films and *Ip Man* were reviewed and kept.
+
+The keyword is evidence, not a verdict: judge the film, not the tag. The
+canonical case is *The Dark Knight*, tagged `sadism` for the Joker but not
+remotely a sadism film. When you genuinely don't know a title, say so and
+leave it pending rather than guessing — pending is safe, since it stays
+hidden either way.
+
+Add each decision to `VERDICTS` in `scripts/review-exclusions.ts` with a
+one-line reason, then:
+
+```bash
+npx tsx scripts/review-exclusions.ts --apply
+```
+
+**If any verdict was written, the ranking cache is now stale** — the
+fingerprint covers the candidate id set, and changing what's visible
+changes that set. Left alone, the dashboard silently re-ranks through the
+app's paid Anthropic key on the next load, which is the exact cost this
+skill exists to avoid. Steps 4–5 rewrite the cache anyway, so just make
+sure you complete them; `scripts/repair-ranking-cache-2026-09-05.ts` is
+the standalone fix if you ever need to repair the cache on its own.
+
+Report pending titles and your verdicts to the user — this is a rule about
+their family's viewing, so surface the calls rather than burying them.
+
+## Step 3 — do the actual judgment yourself (this is the point of the skill)
 
 **Content rating** (for each of the N candidates): assess `violence`,
 `language`, `sexNudity`, `scariness` (0–10 each), `isUnrated: false`,
@@ -79,13 +129,13 @@ director, shared actor, sequel-to-a-loved-title, matches a clear genre
 pattern, etc.) in a code comment next to each id so the reasoning is
 auditable later.
 
-## Step 3 — write the batch script
+## Step 4 — write the batch script
 
 Create `scripts/manual-batch-<date>.ts` (dated, since the picks are
 specific to this run — don't try to make it generically reusable). It
 must:
 
-1. Define `CONTENT_RATINGS: {id, violence, language, sexNudity, scariness, sourceNotes}[]` — your Step 2 output.
+1. Define `CONTENT_RATINGS: {id, violence, language, sexNudity, scariness, sourceNotes}[]` — your Step 3 output.
 2. Define `FAMILY_TOP_ORDER: string[]` and `ADULT_TOP_ORDER: string[]` — your hand-ranked id lists, one comment per id explaining the pick.
 3. `writeContentScores()`: for each rating, `prisma.contentScore.create({ data: { titleId: id, ...rating } })`. (The candidate query in Step 1 already excludes titles with an existing score, so a plain `create` is fine — no need for upsert here.)
 4. `writeRankingCache(mode, topOrder)`: **re-fetch** titles/tasteHistory fresh (don't reuse the Step 1 dump — ratings may have changed), rebuild `notSeenCandidates` and `history` exactly like `src/app/api/recommendations/route.ts` does, then:
@@ -109,11 +159,11 @@ must:
 
 Reuse app code directly (`import { prisma } from '../src/lib/prisma'`,
 `import { computeRankingFingerprint, type TasteHistoryEntry } from '../src/lib/ranking'`,
-`import { isRatingVisibleInMode } from '../src/lib/filtering'`) — don't
+`import { isTitleVisible } from '../src/lib/filtering'`) — don't
 reimplement this logic; a drift between this script's copy and the real
 route's copy is exactly how titles quietly disappear.
 
-## Step 4 — run and verify
+## Step 5 — run and verify
 
 ```bash
 set -a; source .env.production.local; set +a
@@ -123,14 +173,14 @@ npx tsx scripts/manual-batch-<date>.ts
 Then verify with a small check script: `contentScore.count()` went up by
 the batch size, and each mode's `rankingCache.findUnique(...).rankedIds.length`
 equals the full not-seen candidate count for that mode (not just your
-hand-ranked subset — this is the same completeness check from Step 3,
+hand-ranked subset — this is the same completeness check from Step 4,
 confirmed against what's actually in the database now).
 
-## Step 5 — clean up and commit
+## Step 6 — clean up and commit
 
 ```bash
 rm -f .env.production.local scripts/tmp-*.ts
-git add scripts/manual-batch-<date>.ts
+git add scripts/manual-batch-<date>.ts scripts/review-exclusions.ts
 git commit -m "..."
 git push origin main
 ```
