@@ -74,6 +74,17 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   // the rule is aimed at.
   803796: { flag: 'CLEAR', why: 'KPop Demon Hunters — rated LOVED by the family; demons are the antagonists in an animated musical' },
 
+  // The other half of the wizarding series, 2026-09-06. Only four of the
+  // eight Harry Potter films carry a `black magic` tag on TMDB, so only
+  // those four were ever nominated. These four were held out of the
+  // dashboard by the family's own NOT_INTERESTED / TOO_INAPPROPRIATE
+  // ratings instead — the right outcome by the wrong mechanism, and one
+  // that would silently reverse if a rating were ever cleared.
+  671: { flag: 'EXCLUDED', why: "Harry Potter and the Philosopher's Stone — wizarding series; untagged on TMDB, so never nominated" },
+  767: { flag: 'EXCLUDED', why: 'Harry Potter and the Half-Blood Prince — same' },
+  12444: { flag: 'EXCLUDED', why: 'Harry Potter and the Deathly Hallows: Part 1 — same' },
+  12445: { flag: 'EXCLUDED', why: 'Harry Potter and the Deathly Hallows: Part 2 — same' },
+
   // Consistency fix, 2026-09-06. Not keyword-flagged and never
   // nominated for review: TMDB simply never tagged this one `black
   // magic`, unlike Crimes of Grindelwald. It survived on a gap in
