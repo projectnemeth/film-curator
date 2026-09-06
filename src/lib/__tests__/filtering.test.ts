@@ -76,3 +76,27 @@ describe('isTitleVisible', () => {
     expect(isTitleVisible({ ...clean, keywords: [] }, 'ADULT')).toBe(true)
   })
 })
+
+describe('isTitleVisible — sexual content', () => {
+  const base = { mpaaRating: 'R', contentFlag: null, keywords: [] as string[] }
+
+  it('hides a title whose score auto-excludes it', () => {
+    expect(isTitleVisible({ ...base, contentScore: { sexNudity: 8 } }, 'ADULT')).toBe(false)
+  })
+
+  it('hides a title scoring 6 until it has been reviewed', () => {
+    expect(isTitleVisible({ ...base, contentScore: { sexNudity: 6 } }, 'ADULT')).toBe(false)
+  })
+
+  it('shows it again once reviewed as CLEAR', () => {
+    expect(isTitleVisible({ ...base, contentFlag: 'CLEAR', contentScore: { sexNudity: 6 } }, 'ADULT')).toBe(true)
+  })
+
+  it('shows a title with no content score', () => {
+    expect(isTitleVisible({ ...base, contentScore: null }, 'ADULT')).toBe(true)
+  })
+
+  it('works when contentScore is omitted entirely', () => {
+    expect(isTitleVisible(base, 'ADULT')).toBe(true)
+  })
+})

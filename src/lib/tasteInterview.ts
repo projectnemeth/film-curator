@@ -6,8 +6,11 @@ export async function getNextTitleToRate(familyId: string, mode: 'FAMILY' | 'ADU
   const rated = await prisma.tasteRating.findMany({ where: { familyId, mode }, select: { titleId: true } })
   const ratedIds = rated.map((r) => r.titleId)
 
+  // contentScore is included because isTitleVisible consults it — without
+  // it every title would look unscored and slip past the sexual-content rule.
   const candidates = await prisma.title.findMany({
     where: { familyId, id: { notIn: ratedIds } },
+    include: { contentScore: true },
     orderBy: { createdAt: 'desc' },
   })
 

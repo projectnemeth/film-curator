@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { findExclusionTriggers, isHiddenByExclusion } from '../exclusion'
+import { findExclusionTriggers, isHiddenByExclusion, findScoreNomination } from '../exclusion'
 
 // Keyword sets below are the real TMDB `/movie/{id}/keywords` payloads
 // (trimmed to the relevant tags) for films the family has explicitly
@@ -110,5 +110,64 @@ describe('isHiddenByExclusion', () => {
 
   it('shows an unreviewed title that trips no watchlist', () => {
     expect(isHiddenByExclusion(null, GET_OUT)).toBe(false)
+  })
+})
+
+describe('findScoreNomination — sexual content thresholds', () => {
+  it('auto-excludes a score of 7 or above', () => {
+    expect(findScoreNomination({ sexNudity: 7 })?.kind).toBe('AUTO_EXCLUDE')
+    expect(findScoreNomination({ sexNudity: 9 })?.kind).toBe('AUTO_EXCLUDE')
+  })
+
+  it('nominates a score of exactly 6 for review, not auto-exclusion', () => {
+    // 6 is where non-sexual nudity lives — Schindler's List scores 6 for
+    // concentration-camp nudity, which is not what the rule is aimed at.
+    expect(findScoreNomination({ sexNudity: 6 })?.kind).toBe('REVIEW')
+  })
+
+  it('ignores a score of 5 or below', () => {
+    expect(findScoreNomination({ sexNudity: 5 })).toBeNull()
+    expect(findScoreNomination({ sexNudity: 0 })).toBeNull()
+  })
+
+  it('ignores an unscored title rather than assuming the worst', () => {
+    // Only a minority of visible titles are scored; treating absent as
+    // suspect would hide most of the catalog.
+    expect(findScoreNomination(null)).toBeNull()
+    expect(findScoreNomination(undefined)).toBeNull()
+  })
+})
+
+describe('isHiddenByExclusion — with content scores', () => {
+  const noKeywords: string[] = []
+
+  it('hides a title scoring 7 or above even with no keyword triggers', () => {
+    expect(isHiddenByExclusion(null, noKeywords, { sexNudity: 8 })).toBe(true)
+  })
+
+  it('hides a title scoring 6 pending review', () => {
+    expect(isHiddenByExclusion(null, noKeywords, { sexNudity: 6 })).toBe(true)
+  })
+
+  it('shows a title scoring 5', () => {
+    expect(isHiddenByExclusion(null, noKeywords, { sexNudity: 5 })).toBe(false)
+  })
+
+  it('shows an unscored title', () => {
+    expect(isHiddenByExclusion(null, noKeywords, null)).toBe(false)
+  })
+
+  it('lets an explicit CLEAR verdict override even an auto-exclude score', () => {
+    // Judgment outranks the number, exactly as it outranks a keyword.
+    expect(isHiddenByExclusion('CLEAR', noKeywords, { sexNudity: 9 })).toBe(false)
+  })
+
+  it('still hides an EXCLUDED title with a harmless score', () => {
+    expect(isHiddenByExclusion('EXCLUDED', noKeywords, { sexNudity: 0 })).toBe(true)
+  })
+
+  it('keeps working when no score argument is passed at all', () => {
+    expect(isHiddenByExclusion(null, ['serial killer'])).toBe(true)
+    expect(isHiddenByExclusion(null, ['heist'])).toBe(false)
   })
 })

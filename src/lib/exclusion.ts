@@ -176,8 +176,47 @@ export function findExclusionTriggers(keywords: string[]): ExclusionTrigger[] {
 // titles fail closed if flagged and open if not: suspects stay hidden until
 // someone looks at them, while the untouched majority of the catalog is
 // unaffected.
-export function isHiddenByExclusion(contentFlag: string | null, keywords: string[]): boolean {
+// Sexual content is nominated by the stored ContentScore rather than by
+// keywords, because the number is the only signal that tracks how much is
+// actually on screen.
+//
+// The two-tier split is deliberate. A score of 6 is where NON-SEXUAL
+// nudity lives: Schindler's List scores 6 for concentration-camp nudity
+// and The Northman for pagan ritual, neither of which is what the family
+// is filtering — they want sex scenes out, not nudity as such. The score
+// measures quantity, not intent, so 6 goes to a human instead of being
+// decided by arithmetic. 7 and above has, in this catalog, meant explicit
+// sexual content every time.
+export const SEX_NUDITY_AUTO_EXCLUDE = 7
+export const SEX_NUDITY_REVIEW = 6
+
+export type ScoreNomination = {
+  kind: 'AUTO_EXCLUDE' | 'REVIEW'
+  dimension: 'sexNudity'
+  value: number
+}
+
+// An absent score is NOT treated as suspect. Only a minority of visible
+// titles are scored at any time (84 of 289 in Adult as of 2026-09-06),
+// and failing closed on missing data would hide most of the catalog.
+export function findScoreNomination(contentScore: { sexNudity: number } | null | undefined): ScoreNomination | null {
+  if (!contentScore) return null
+  const value = contentScore.sexNudity
+  if (value >= SEX_NUDITY_AUTO_EXCLUDE) return { kind: 'AUTO_EXCLUDE', dimension: 'sexNudity', value }
+  if (value >= SEX_NUDITY_REVIEW) return { kind: 'REVIEW', dimension: 'sexNudity', value }
+  return null
+}
+
+// A reviewed verdict always wins over both heuristics. Unreviewed titles
+// fail closed if either the keywords or the score nominate them, and open
+// if neither does.
+export function isHiddenByExclusion(
+  contentFlag: string | null,
+  keywords: string[],
+  contentScore?: { sexNudity: number } | null
+): boolean {
   if (contentFlag === 'EXCLUDED') return true
   if (contentFlag === 'CLEAR') return false
+  if (findScoreNomination(contentScore) !== null) return true
   return findExclusionTriggers(keywords).length > 0
 }

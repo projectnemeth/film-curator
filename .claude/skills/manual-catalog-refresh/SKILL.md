@@ -112,6 +112,28 @@ For each pending title, decide against the rule as the family stated it:
   monster/creature and dystopian-contest threat. *Nope*, *The Northman*,
   both *A Quiet Place* films and *Ip Man* were reviewed and kept.
 
+There is a second nomination source alongside keywords: **the stored
+`ContentScore.sexNudity` value**. The family's line is that sex scenes
+come out while less-sexualised nudity can stay, and a number cannot tell
+those apart, so the rule is split:
+
+- **7 or above — auto-excluded.** Hidden with no decision needed. In this
+  catalog that threshold has meant explicit sexual content every time
+  (*The Reader*, *Fifty Shades*, *The Wolf of Wall Street*). The review
+  script lists these separately so a wrong one can be overridden with an
+  explicit CLEAR.
+- **Exactly 6 — pending review.** This is where non-sexual nudity lives.
+  *Schindler's List* scores 6 for concentration-camp nudity and *The
+  Northman* for pagan ritual; both were reviewed and CLEARED. *Hit Man*
+  and *The Boy Next Door* scored the same 6 and were EXCLUDED, because
+  theirs are actual sex scenes. Judge what the nudity is doing in the
+  film, never the number alone.
+
+An unscored title is never nominated — only a minority of visible titles
+have a score, so failing closed on missing data would hide most of the
+catalog. This also means the rule only reaches films this skill has
+already content-rated, which is one more reason not to skip Step 3.
+
 The keyword is evidence, not a verdict: judge the film, not the tag. The
 canonical case is *The Dark Knight*, tagged `sadism` for the Joker but not
 remotely a sadism film. When you genuinely don't know a title, say so and

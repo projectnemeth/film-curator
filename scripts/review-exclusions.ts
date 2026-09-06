@@ -29,7 +29,7 @@
 //         professionals; monster/creature and dystopian-contest threat.
 
 import { PrismaClient } from '@prisma/client'
-import { findExclusionTriggers } from '../src/lib/exclusion'
+import { findExclusionTriggers, findScoreNomination, SEX_NUDITY_AUTO_EXCLUDE, SEX_NUDITY_REVIEW } from '../src/lib/exclusion'
 
 const prisma = new PrismaClient()
 
@@ -74,6 +74,16 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   // the rule is aimed at.
   803796: { flag: 'CLEAR', why: 'KPop Demon Hunters — rated LOVED by the family; demons are the antagonists in an animated musical' },
 
+  // Sexual-content review, 2026-09-06. The family's line: filter out sex
+  // scenes, not non-sexual nudity. A score of 6 cannot tell those apart,
+  // so each of these was judged on what the nudity is doing in the film.
+  424: { flag: 'CLEAR', why: "Schindler's List — the nudity is the camps, not a love scene; exactly the case the rule must not catch" },
+  974635: { flag: 'EXCLUDED', why: 'Hit Man — substantial actual sex scenes; this is what the rule is for (was my own #17 Adult pick)' },
+  241251: { flag: 'EXCLUDED', why: 'The Boy Next Door — erotic thriller built on an affair with a teenager' },
+  73586: { flag: 'EXCLUDED', why: 'Yellowstone — recurring sex scenes (TV, so hidden by the movies-only rule regardless)' },
+  4239: { flag: 'CLEAR', why: 'Married... with Children — sitcom innuendo, no explicit scenes (TV, hidden regardless)' },
+  2691: { flag: 'CLEAR', why: 'Two and a Half Men — same: innuendo rather than depiction (TV, hidden regardless)' },
+
   // Not keyword-flagged — excluded on the family's direct instruction
   // after seeing its content score. An explicit EXCLUDED verdict hides a
   // title regardless of whether any watchlist nominated it.
@@ -97,25 +107,54 @@ async function main() {
   const apply = process.argv.includes('--apply')
 
   const titles = await prisma.title.findMany({
-    select: { id: true, tmdbId: true, name: true, year: true, mpaaRating: true, keywords: true, contentFlag: true, providers: true },
+    select: { id: true, tmdbId: true, name: true, year: true, mpaaRating: true, keywords: true, contentFlag: true, providers: true, contentScore: { select: { sexNudity: true } } },
     orderBy: { name: 'asc' },
   })
 
-  const flagged = titles
-    .map((t) => ({ ...t, triggers: findExclusionTriggers(t.keywords) }))
-    .filter((t) => t.triggers.length > 0)
+  const annotated = titles.map((t) => ({
+    ...t,
+    triggers: findExclusionTriggers(t.keywords),
+    nomination: findScoreNomination(t.contentScore),
+  }))
 
-  const pending = flagged.filter((t) => t.contentFlag === null && !VERDICTS[t.tmdbId])
+  const undecided = annotated.filter((t) => t.contentFlag === null && !VERDICTS[t.tmdbId])
 
-  console.log(`catalog=${titles.length}  keyword-flagged=${flagged.length}  decided=${flagged.length - pending.length}`)
+  // Nominated for a human decision: keyword hits, plus scores at the
+  // review threshold, where the number cannot tell sexual content apart
+  // from non-sexual nudity.
+  const pending = undecided.filter((t) => t.triggers.length > 0 || t.nomination?.kind === 'REVIEW')
+
+  // Hidden by the score rule alone. These need no decision to take
+  // effect — they are listed so a wrong one can be overridden with an
+  // explicit CLEAR rather than staying invisible.
+  const autoExcluded = undecided.filter((t) => t.nomination?.kind === 'AUTO_EXCLUDE' && t.triggers.length === 0)
+
+  const flaggedCount = annotated.filter((t) => t.triggers.length > 0 || t.nomination !== null).length
+  console.log(`catalog=${titles.length}  flagged=${flaggedCount}  pending=${pending.length}  auto-excluded=${autoExcluded.length}`)
+
+  const describe = (t: (typeof annotated)[number]) => {
+    const parts = t.triggers.map((x) => x.keyword)
+    if (t.nomination) parts.push(`sexNudity ${t.nomination.value}`)
+    return parts.join(', ')
+  }
+
+  if (autoExcluded.length > 0) {
+    console.log(`\nAUTO-EXCLUDED by score (>= ${SEX_NUDITY_AUTO_EXCLUDE}) — hidden already, no decision needed:`)
+    for (const t of autoExcluded) {
+      console.log(`  [${t.providers.length > 0 ? 'streaming' : 'dormant  '}] ${t.name} (${t.year ?? '?'}) — sexNudity ${t.nomination!.value}  tmdbId ${t.tmdbId}`)
+    }
+    console.log('  Override any of these with an explicit CLEAR verdict if the score is wrong.')
+  }
 
   if (pending.length === 0) {
     console.log('\nNothing pending review.')
   } else {
     console.log(`\nPENDING REVIEW (${pending.length}) — hidden from the dashboard, awaiting a decision:`)
+    console.log(`  (a sexNudity score of ${SEX_NUDITY_REVIEW} lands here because the number cannot`)
+    console.log(`   distinguish a sex scene from non-sexual nudity — judge the film, not the score)`)
     for (const t of pending) {
       const shown = t.providers.length > 0 ? 'streaming' : 'dormant  '
-      console.log(`  [${shown}] ${t.name} (${t.year ?? '?'}) [${t.mpaaRating ?? 'unrated'}] — ${t.triggers.map((x) => x.keyword).join(', ')}`)
+      console.log(`  [${shown}] ${t.name} (${t.year ?? '?'}) [${t.mpaaRating ?? 'unrated'}] — ${describe(t)}`)
       console.log(`             tmdbId ${t.tmdbId}`)
     }
     console.log('\nAdd each to VERDICTS with a reason, then re-run with --apply.')

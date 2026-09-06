@@ -16,9 +16,14 @@ export function isRatingVisibleInMode(mpaaRating: string | null, mode: 'FAMILY' 
 // (the dashboard and the taste interview) go through here, so an excluded
 // film is never shown and never asked about.
 export function isTitleVisible(
-  title: { mpaaRating: string | null; contentFlag: string | null; keywords: string[] },
+  title: {
+    mpaaRating: string | null
+    contentFlag: string | null
+    keywords: string[]
+    contentScore?: { sexNudity: number } | null
+  },
   mode: 'FAMILY' | 'ADULT'
 ): boolean {
   if (!isRatingVisibleInMode(title.mpaaRating, mode)) return false
-  return !isHiddenByExclusion(title.contentFlag, title.keywords)
+  return !isHiddenByExclusion(title.contentFlag, title.keywords, title.contentScore)
 }
