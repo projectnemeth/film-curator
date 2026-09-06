@@ -61,7 +61,24 @@ from `../src/lib/filtering`, then for each mode (`FAMILY`, `ADULT`) dumps:
 
 - **Taste history**: `prisma.tasteRating.findMany({ where: { familyId: 'default', mode }, include: { title: true } })`, filtered to `rating !== 'NOT_SEEN'`, printing `titleName`, `rating`, `director`, `writer`, `topCast`, `studio`. Group/print by rating bucket (LOVED / LIKED / DISLIKED / NOT_INTERESTED / TOO_INAPPROPRIATE) — this is the actual taste signal.
 - **Not-seen candidates**: same visibility + exclusion logic as `src/app/api/recommendations/route.ts` (`isTitleVisible`, exclude `HIDDEN_AFTER_RATING = new Set(['DISLIKED','LIKED','TOO_INAPPROPRIATE','NOT_INTERESTED'])` and `LOVED`), printing `id`, `name`, `year`, `director`, `writer`, `topCast`, `studio`.
-- **Content-rating candidates**: `prisma.title.findMany({ where: { mpaaRating: { in: ['PG-13','R'] }, contentScore: null, contentFlag: { not: 'EXCLUDED' }, tasteRatings: { none: { mode: 'ADULT' } } }, orderBy: { createdAt: 'desc' }, take: N })` — `id`, `name`, `year`, `mpaaRating`. (Skip EXCLUDED titles — content-rating a film that will never be shown is wasted judgment.)
+- **Content-rating candidates**: `prisma.title.findMany({ where: { mpaaRating: { in: ['PG-13','R'] }, contentScore: null, providers: { isEmpty: false }, OR: [{ contentFlag: null }, { contentFlag: { not: 'EXCLUDED' } }] }, orderBy: { createdAt: 'desc' }, take: N })` — `id`, `name`, `year`, `mpaaRating`.
+
+  Two traps here, both of which produced a silently wrong answer once:
+
+  - **`contentFlag: { not: 'EXCLUDED' }` on its own drops every unreviewed
+    title.** `contentFlag` is null for the vast majority of the catalog
+    (778 of 891 as of 2026-09-05), and SQL `!= 'EXCLUDED'` is null — not
+    true — for a null column, so Prisma filters those rows out. The query
+    then matches only explicitly-CLEAR titles and can return zero while
+    hundreds genuinely need scoring. `NOT: { contentFlag: 'EXCLUDED' }`
+    has the same flaw; the `OR` above is the fix.
+  - **Do not filter on `tasteRatings: { none: { mode: 'ADULT' } }`.**
+    Content scores are shown on Loved and Watchlist cards too, not just
+    unrated ones, so that filter hides titles the dashboard is actively
+    displaying. Score whatever appears in a mode and lacks a score.
+
+  Skipping EXCLUDED titles is still right — content-rating a film that
+  will never be shown is wasted judgment.
 
 Run it (`npx tsx scripts/tmp-dump-inputs.ts`), and read the output. If it's
 large, redirect to a file and read sections with `sed`/`grep` rather than
