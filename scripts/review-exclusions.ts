@@ -74,6 +74,15 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   // the rule is aimed at.
   803796: { flag: 'CLEAR', why: 'KPop Demon Hunters — rated LOVED by the family; demons are the antagonists in an animated musical' },
 
+  // Consistency fix, 2026-09-06. Not keyword-flagged and never
+  // nominated for review: TMDB simply never tagged this one `black
+  // magic`, unlike Crimes of Grindelwald. It survived on a gap in
+  // crowd-sourced data rather than on any decision, while the rest of
+  // the wizarding series — four Harry Potter films and both Fantastic
+  // Beasts sequels — is excluded. Excluded on the family's instruction
+  // so the fantasy-magic rule is coherent across the series.
+  259316: { flag: 'EXCLUDED', why: 'Fantastic Beasts and Where to Find Them — same wizarding series as the excluded sequels; only survived an untagged keyword' },
+
   // Ranks 51-75 scoring batch, 2026-09-06.
   1595852: { flag: 'EXCLUDED', why: 'Boulevard (2026) — one depicted sex scene, and between teenage characters; the family filters sex scenes' },
 
