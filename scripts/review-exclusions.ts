@@ -66,6 +66,14 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   // Excluded on the earlier fantasy-magic decision, not on this watchlist.
   338953: { flag: 'EXCLUDED', why: 'Fantastic Beasts: Secrets of Dumbledore — fantasy magic cluster' },
 
+  // Reversal, 2026-09-05. Flagged on `demon` and excluded with the
+  // fantasy-magic cluster, but the family had already rated it LOVED in
+  // Family mode — so the rule was hiding a film they'd watched and liked.
+  // Their own rating outranks the keyword. It's an animated K-pop musical
+  // whose demons are the villains being fought, not the subject matter
+  // the rule is aimed at.
+  803796: { flag: 'CLEAR', why: 'KPop Demon Hunters — rated LOVED by the family; demons are the antagonists in an animated musical' },
+
   787723: { flag: 'CLEAR', why: '13 Minutes — tornado disaster drama; subplot only' },
   937278: { flag: 'CLEAR', why: 'A Man Called Otto — supporting character; film is about an elderly widower' },
   915935: { flag: 'CLEAR', why: 'Anatomy of a Fall — courtroom drama; one element of the case' },
