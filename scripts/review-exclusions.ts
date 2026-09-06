@@ -74,6 +74,13 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   // the rule is aimed at.
   803796: { flag: 'CLEAR', why: 'KPop Demon Hunters — rated LOVED by the family; demons are the antagonists in an animated musical' },
 
+  // Sexual-content review of the top-50 scoring batch, 2026-09-06.
+  // All three scored exactly 6, and they split on what the nudity is
+  // doing rather than how much of it there is.
+  455236: { flag: 'EXCLUDED', why: 'Accident Man — brief but real sex scenes, plus non-stop sadistic gore (violence 9, language 9)' },
+  8469: { flag: 'EXCLUDED', why: 'Animal House — the nudity is voyeuristic and leering, not incidental; also crude statutory-age and unconscious-woman gags' },
+  1084577: { flag: 'CLEAR', why: 'Balls Up — comedic rear nudity and prop gags with no sex scenes depicted; the carve-out case exactly' },
+
   // Sexual-content review, 2026-09-06. The family's line: filter out sex
   // scenes, not non-sexual nudity. A score of 6 cannot tell those apart,
   // so each of these was judged on what the nudity is doing in the film.
