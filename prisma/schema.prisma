@@ -35,6 +35,12 @@ model Title {
   writer       String?
   topCast      String[]
   studio       String?
+  genres       String[]
+  keywords     String[]
+  // Review verdict for the family's standing exclusion rule: null =
+  // not yet reviewed, CLEAR = judged fine, EXCLUDED = never show.
+  // See src/lib/exclusion.ts for how keywords nominate titles for review.
+  contentFlag  String?
   providers    String[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt

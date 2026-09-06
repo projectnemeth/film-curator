@@ -1,6 +1,6 @@
 import { prisma } from './prisma'
 import type { TasteRatingValue } from '@prisma/client'
-import { isRatingVisibleInMode } from './filtering'
+import { isTitleVisible } from './filtering'
 
 export async function getNextTitleToRate(familyId: string, mode: 'FAMILY' | 'ADULT') {
   const rated = await prisma.tasteRating.findMany({ where: { familyId, mode }, select: { titleId: true } })
@@ -12,7 +12,7 @@ export async function getNextTitleToRate(familyId: string, mode: 'FAMILY' | 'ADU
   })
 
   for (const candidate of candidates) {
-    if (isRatingVisibleInMode(candidate.mpaaRating, mode)) {
+    if (isTitleVisible(candidate, mode)) {
       return candidate
     }
   }

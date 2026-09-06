@@ -27,6 +27,9 @@ function title(overrides: Record<string, unknown> = {}) {
     writer: null,
     topCast: [],
     studio: null,
+    genres: [],
+    keywords: [],
+    contentFlag: null,
     ...overrides,
   }
 }

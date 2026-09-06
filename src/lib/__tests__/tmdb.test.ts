@@ -79,7 +79,7 @@ describe('getMovieDetails', () => {
     await getMovieDetails(1)
     const calledUrl = fetchMock.mock.calls[0][0] as string
     expect(calledUrl).toContain('/movie/1')
-    expect(calledUrl).toContain('append_to_response=credits%2Crelease_dates')
+    expect(calledUrl).toContain('append_to_response=credits%2Crelease_dates%2Ckeywords')
   })
 
   it('returns the US certification for a movie', async () => {
@@ -237,5 +237,30 @@ describe('getMovieDetails', () => {
   it('returns a null studio when there are no production companies listed', async () => {
     global.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ production_companies: [] }) }) as unknown as typeof fetch
     expect((await getMovieDetails(1)).studio).toBeNull()
+  })
+
+  it('extracts genre names', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ genres: [{ id: 27, name: 'Horror' }, { id: 53, name: 'Thriller' }] }),
+    }) as unknown as typeof fetch
+    expect((await getMovieDetails(1)).genres).toEqual(['Horror', 'Thriller'])
+  })
+
+  it('extracts keyword names from the nested movie keywords shape', async () => {
+    // /movie/{id}?append_to_response=keywords nests them as keywords.keywords
+    // (TV uses keywords.results — this app is movies-only).
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ keywords: { keywords: [{ id: 1, name: 'serial killer' }, { id: 2, name: 'fbi' }] } }),
+    }) as unknown as typeof fetch
+    expect((await getMovieDetails(1)).keywords).toEqual(['serial killer', 'fbi'])
+  })
+
+  it('returns empty arrays when genres and keywords are absent', async () => {
+    global.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) }) as unknown as typeof fetch
+    const result = await getMovieDetails(1)
+    expect(result.genres).toEqual([])
+    expect(result.keywords).toEqual([])
   })
 })

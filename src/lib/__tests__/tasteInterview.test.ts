@@ -16,7 +16,7 @@ describe('getNextTitleToRate', () => {
   it('excludes already-rated titles, scoped to the active mode', async () => {
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([{ titleId: 't1' }])
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
-      { id: 't2', name: 'A PG Movie', mpaaRating: 'PG' },
+      { id: 't2', name: 'A PG Movie', mpaaRating: 'PG', keywords: [], contentFlag: null },
     ])
 
     const next = await getNextTitleToRate('default', 'FAMILY')
@@ -33,8 +33,8 @@ describe('getNextTitleToRate', () => {
   it('never returns a title whose rating is hidden in the active mode, even if most recently created', async () => {
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
-      { id: 'pg13-newest', name: 'PG-13 Newest', createdAt: new Date('2026-08-28'), mpaaRating: 'PG-13' },
-      { id: 'pg-older', name: 'PG Older', createdAt: new Date('2020-01-01'), mpaaRating: 'PG' },
+      { id: 'pg13-newest', name: 'PG-13 Newest', createdAt: new Date('2026-08-28'), mpaaRating: 'PG-13', keywords: [], contentFlag: null },
+      { id: 'pg-older', name: 'PG Older', createdAt: new Date('2020-01-01'), mpaaRating: 'PG', keywords: [], contentFlag: null },
     ])
 
     const next = await getNextTitleToRate('default', 'FAMILY')
@@ -45,8 +45,8 @@ describe('getNextTitleToRate', () => {
   it('returns null when every candidate is hidden in the active mode', async () => {
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
-      { id: 'r-1', name: 'An R Movie', mpaaRating: 'R' },
-      { id: 'unrated-1', name: 'Unrated 1', mpaaRating: null },
+      { id: 'r-1', name: 'An R Movie', mpaaRating: 'R', keywords: [], contentFlag: null },
+      { id: 'unrated-1', name: 'Unrated 1', mpaaRating: null, keywords: [], contentFlag: null },
     ])
 
     const next = await getNextTitleToRate('default', 'FAMILY')

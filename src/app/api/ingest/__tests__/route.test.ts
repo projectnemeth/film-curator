@@ -28,6 +28,8 @@ beforeEach(() => {
     writer: null,
     topCast: [],
     studio: null,
+    genres: ['Action'],
+    keywords: [],
   })
   ;(prisma.title.updateMany as ReturnType<typeof vi.fn>).mockResolvedValue({ count: 0 })
 })
@@ -72,7 +74,7 @@ describe('GET /api/ingest', () => {
       .mockResolvedValueOnce([{ id: 1, title: 'A', overview: '', poster_path: null, release_date: '2020-01-01' }])
       .mockResolvedValue([])
     ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
-    ;(getMovieDetails as ReturnType<typeof vi.fn>).mockResolvedValue({ certification: 'PG-13', director: null, writer: null, topCast: [], studio: null })
+    ;(getMovieDetails as ReturnType<typeof vi.fn>).mockResolvedValue({ certification: 'PG-13', director: null, writer: null, topCast: [], studio: null, genres: ['Action'], keywords: [] })
     ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({})
 
     const req = new NextRequest('http://localhost/api/ingest', { headers: { authorization: 'Bearer test-secret' } })
@@ -114,6 +116,8 @@ describe('GET /api/ingest', () => {
       writer: 'David Koepp',
       topCast: ['Sam Neill', 'Laura Dern'],
       studio: 'Universal Pictures',
+    genres: ['Action'],
+    keywords: [],
     })
     ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({})
 
@@ -166,6 +170,8 @@ describe('GET /api/ingest', () => {
       writer: 'David Koepp',
       topCast: ['Sam Neill', 'Laura Dern'],
       studio: 'Universal Pictures',
+      genres: ['Adventure'],
+      keywords: ['dinosaur'],
     })
     ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({})
 
@@ -185,6 +191,55 @@ describe('GET /api/ingest', () => {
         }),
       })
     )
+  })
+
+  it('stores genres and keywords on a newly ingested title', async () => {
+    ;(discoverByProvider as ReturnType<typeof vi.fn>)
+      .mockResolvedValueOnce([{ id: 1, title: 'A', overview: '', poster_path: null, release_date: '2020-01-01' }])
+      .mockResolvedValue([])
+    ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
+    ;(prisma.title.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue(null)
+    ;(getMovieDetails as ReturnType<typeof vi.fn>).mockResolvedValue({
+      certification: 'R',
+      director: null,
+      writer: null,
+      topCast: [],
+      studio: null,
+      genres: ['Horror', 'Thriller'],
+      keywords: ['serial killer'],
+    })
+    ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({})
+
+    const req = new NextRequest('http://localhost/api/ingest', { headers: { authorization: 'Bearer test-secret' } })
+    await GET(req)
+
+    expect(prisma.title.upsert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        create: expect.objectContaining({ genres: ['Horror', 'Thriller'], keywords: ['serial killer'] }),
+      })
+    )
+  })
+
+  it('re-fetches details for a row ingested before genres and keywords were captured', async () => {
+    ;(discoverByProvider as ReturnType<typeof vi.fn>)
+      .mockResolvedValueOnce([{ id: 1, title: 'A', overview: '', poster_path: null, release_date: '2020-01-01' }])
+      .mockResolvedValue([])
+    ;(getWatchProviders as ReturnType<typeof vi.fn>).mockResolvedValue(['netflix'])
+    ;(prisma.title.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue({
+      mpaaRating: 'PG-13',
+      director: 'Steven Spielberg',
+      writer: 'David Koepp',
+      topCast: ['Sam Neill'],
+      studio: 'Universal Pictures',
+      genres: [],
+      keywords: [],
+    })
+    ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({})
+
+    const req = new NextRequest('http://localhost/api/ingest', { headers: { authorization: 'Bearer test-secret' } })
+    await GET(req)
+
+    expect(getMovieDetails).toHaveBeenCalledWith(1)
   })
 
   it('still fetches movie details for a new title with no existing row', async () => {
@@ -212,6 +267,8 @@ describe('GET /api/ingest', () => {
       writer: null,
       topCast: ['Sam Neill'],
       studio: null,
+      genres: ['Adventure'],
+      keywords: ['dinosaur'],
     })
     ;(prisma.title.upsert as ReturnType<typeof vi.fn>).mockResolvedValue({})
 

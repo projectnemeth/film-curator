@@ -77,6 +77,8 @@ const TOP_CAST_COUNT = 3
 type TmdbCastMember = { name: string; order: number }
 type TmdbCrewMember = { name: string; job: string }
 type TmdbProductionCompany = { name: string }
+type TmdbGenre = { name: string }
+type TmdbKeyword = { name: string }
 
 export type MovieDetails = {
   certification: string | null
@@ -84,6 +86,8 @@ export type MovieDetails = {
   writer: string | null
   topCast: string[]
   studio: string | null
+  genres: string[]
+  keywords: string[]
 }
 
 // The writer credit isn't a single standardized TMDB job — a screenplay-only
@@ -93,9 +97,11 @@ const WRITER_JOB_PRIORITY = ['Screenplay', 'Writer', 'Story']
 
 // Consolidates what used to be two separate TMDB calls (release_dates,
 // credits) into one, and picks up studio (production_companies, native to
-// the base movie-details response) for free in the same request.
+// the base movie-details response) for free in the same request. Keywords
+// ride along in the same call too — they drive the exclusion watchlists in
+// lib/exclusion.ts, and genres are stored alongside them for context.
 export async function getMovieDetails(tmdbId: number): Promise<MovieDetails> {
-  const data = await tmdbFetch(`/movie/${tmdbId}`, { append_to_response: 'credits,release_dates' })
+  const data = await tmdbFetch(`/movie/${tmdbId}`, { append_to_response: 'credits,release_dates,keywords' })
 
   const releaseResults: TmdbMovieReleaseDatesResult[] = data.release_dates?.results ?? []
   const us = releaseResults.find((r) => r.iso_3166_1 === 'US')
@@ -117,5 +123,13 @@ export async function getMovieDetails(tmdbId: number): Promise<MovieDetails> {
   const companies: TmdbProductionCompany[] = data.production_companies ?? []
   const studio = companies[0]?.name ?? null
 
-  return { certification, director, writer, topCast, studio }
+  const genreEntries: TmdbGenre[] = data.genres ?? []
+  const genres = genreEntries.map((g) => g.name)
+
+  // Movies nest keywords under `keywords.keywords`; TV uses
+  // `keywords.results`. This app ingests movies only.
+  const keywordEntries: TmdbKeyword[] = data.keywords?.keywords ?? []
+  const keywords = keywordEntries.map((k) => k.name)
+
+  return { certification, director, writer, topCast, studio, genres, keywords }
 }

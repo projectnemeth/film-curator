@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { isRatingVisibleInMode } from '@/lib/filtering'
+import { isTitleVisible } from '@/lib/filtering'
 import { rankByTasteCached } from '@/lib/ranking'
 
 export const maxDuration = 60
@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
   const tasteRatingByTitleId = new Map(tasteHistory.map((t) => [t.titleId, t.rating]))
   const ratedAtByTitleId = new Map(tasteHistory.map((t) => [t.titleId, t.ratedAt]))
 
-  const visible = titles.filter((title) => isRatingVisibleInMode(title.mpaaRating, mode))
+  const visible = titles.filter((title) => isTitleVisible(title, mode))
 
   const notSeenCandidates = visible.filter((t) => {
     const rating = tasteRatingByTitleId.get(t.id) ?? ''

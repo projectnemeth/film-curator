@@ -64,14 +64,19 @@ export async function GET(req: NextRequest) {
           // always changes, so getWatchProviders always runs.
           const existing = await prisma.title.findUnique({
             where: { familyId_tmdbId: { familyId, tmdbId: item.id } },
-            select: { mpaaRating: true, director: true, writer: true, topCast: true, studio: true },
+            select: { mpaaRating: true, director: true, writer: true, topCast: true, studio: true, genres: true, keywords: true },
           })
+          // Genres stand in for "has this title been through the current
+          // details fetch yet" — they're populated for essentially every
+          // real movie, whereas keywords are legitimately empty for some,
+          // which would re-trigger a fetch every single week.
           const needsDetails =
             !existing?.mpaaRating ||
             !existing?.director ||
             !existing?.writer ||
             !existing?.studio ||
-            existing.topCast.length === 0
+            existing.topCast.length === 0 ||
+            existing.genres.length === 0
 
           const [providers, details] = await Promise.all([
             getWatchProviders(item.id),
@@ -83,9 +88,11 @@ export async function GET(req: NextRequest) {
                   writer: existing.writer,
                   topCast: existing.topCast,
                   studio: existing.studio,
+                  genres: existing.genres,
+                  keywords: existing.keywords,
                 }),
           ])
-          const { certification: mpaaRating, director, writer, topCast, studio } = details
+          const { certification: mpaaRating, director, writer, topCast, studio, genres, keywords } = details
           const dateStr = item.release_date ?? item.first_air_date
           const year = dateStr ? Number(dateStr.slice(0, 4)) : null
           const mpaaRatingUpdate = mpaaRating ? { mpaaRating } : {}
@@ -93,10 +100,15 @@ export async function GET(req: NextRequest) {
           const writerUpdate = writer ? { writer } : {}
           const topCastUpdate = topCast.length > 0 ? { topCast } : {}
           const studioUpdate = studio ? { studio } : {}
+          const genresUpdate = genres.length > 0 ? { genres } : {}
+          // Keywords drive the exclusion rule, so they're written whenever
+          // details were actually fetched — including back to empty, which
+          // is a real answer for some titles.
+          const keywordsUpdate = needsDetails ? { keywords } : {}
 
           await prisma.title.upsert({
             where: { familyId_tmdbId: { familyId, tmdbId: item.id } },
-            update: { providers, ...mpaaRatingUpdate, ...directorUpdate, ...writerUpdate, ...topCastUpdate, ...studioUpdate },
+            update: { providers, ...mpaaRatingUpdate, ...directorUpdate, ...writerUpdate, ...topCastUpdate, ...studioUpdate, ...genresUpdate, ...keywordsUpdate },
             create: {
               familyId,
               tmdbId: item.id,
@@ -110,6 +122,8 @@ export async function GET(req: NextRequest) {
               writer,
               topCast,
               studio,
+              genres,
+              keywords,
             },
           })
           results.ingested++
