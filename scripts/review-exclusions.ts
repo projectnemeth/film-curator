@@ -74,6 +74,11 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   // the rule is aimed at.
   803796: { flag: 'CLEAR', why: 'KPop Demon Hunters — rated LOVED by the family; demons are the antagonists in an animated musical' },
 
+  // Not keyword-flagged — excluded on the family's direct instruction
+  // after seeing its content score. An explicit EXCLUDED verdict hides a
+  // title regardless of whether any watchlist nominated it.
+  8055: { flag: 'EXCLUDED', why: 'The Reader — sexNudity 8, the highest in the catalog; family asked for it gone' },
+
   787723: { flag: 'CLEAR', why: '13 Minutes — tornado disaster drama; subplot only' },
   937278: { flag: 'CLEAR', why: 'A Man Called Otto — supporting character; film is about an elderly widower' },
   915935: { flag: 'CLEAR', why: 'Anatomy of a Fall — courtroom drama; one element of the case' },
