@@ -74,6 +74,9 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   // the rule is aimed at.
   803796: { flag: 'CLEAR', why: 'KPop Demon Hunters — rated LOVED by the family; demons are the antagonists in an animated musical' },
 
+  // Ranks 51-75 scoring batch, 2026-09-06.
+  1595852: { flag: 'EXCLUDED', why: 'Boulevard (2026) — one depicted sex scene, and between teenage characters; the family filters sex scenes' },
+
   // Sexual-content review of the top-50 scoring batch, 2026-09-06.
   // All three scored exactly 6, and they split on what the nudity is
   // doing rather than how much of it there is.
