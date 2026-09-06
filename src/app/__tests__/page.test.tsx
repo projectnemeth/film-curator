@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react'
 import HomePage from '../page'
 
 function title(overrides: Record<string, unknown> = {}) {
@@ -299,5 +299,67 @@ describe('HomePage', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Adult Mode' }))
     await screen.findByText(/Manually Approved Title/)
     expect(screen.queryByText(/added during the catalog refresh/)).not.toBeInTheDocument()
+  })
+
+  it('gives each section the id its jump link points at', async () => {
+    mockRecommendations([title()], [title({ id: 't8', name: 'The Iron Giant' })], 'FAMILY', [
+      title({ id: 't9', name: 'Arrival' }),
+    ])
+
+    const { container } = render(<HomePage />)
+    await screen.findByText(/Jurassic Park/)
+
+    expect(container.querySelector('section#not-seen')).not.toBeNull()
+    expect(container.querySelector('section#watchlist')).not.toBeNull()
+    expect(container.querySelector('section#loved')).not.toBeNull()
+  })
+
+  it('renders the section jump nav with counts once the dashboard loads', async () => {
+    mockRecommendations([title()], [title({ id: 't8', name: 'The Iron Giant' })], 'FAMILY', [
+      title({ id: 't9', name: 'Arrival' }),
+    ])
+
+    render(<HomePage />)
+    await screen.findByText(/Jurassic Park/)
+
+    const jumpNav = screen.getByRole('navigation', { name: 'dashboard sections' })
+    expect(jumpNav).toBeInTheDocument()
+    expect(within(jumpNav).getByRole('link', { name: 'Watchlist (1)' })).toHaveAttribute('href', '#watchlist')
+    expect(within(jumpNav).getByRole('link', { name: 'Loved (1)' })).toHaveAttribute('href', '#loved')
+  })
+
+  it('does not render the section jump nav while recommendations are loading', async () => {
+    render(<HomePage />)
+    expect(screen.queryByRole('navigation', { name: 'dashboard sections' })).toBeNull()
+    // let the in-flight load settle so the pending state update lands inside the test
+    await screen.findByText(/Jurassic Park/)
+    expect(screen.getByRole('navigation', { name: 'dashboard sections' })).toBeInTheDocument()
+  })
+
+  it('lazy-loads poster images so a phone does not fetch every poster up front', async () => {
+    const { container } = render(<HomePage />)
+    await screen.findByText(/Jurassic Park/)
+    const posters = container.querySelectorAll('img')
+    expect(posters.length).toBeGreaterThan(0)
+    posters.forEach((img) => expect(img).toHaveAttribute('loading', 'lazy'))
+  })
+
+  it('gives the card action controls a 44px minimum touch target', async () => {
+    render(<HomePage />)
+    await screen.findByText(/Jurassic Park/)
+    // 44px is the Apple/Android minimum; these sit inches apart on a phone
+    // and one of them is destructive, so mis-taps matter.
+    for (const name of ["I've seen this", 'Save this!', "I don't want to see this"]) {
+      expect(screen.getByRole('button', { name }).className).toContain('min-h-[44px]')
+    }
+  })
+
+  it('gives the quick-rating buttons a 44px minimum touch target', async () => {
+    mockRecommendations([], [], 'FAMILY', [title({ id: 't10', name: 'Arrival' })])
+    render(<HomePage />)
+    await screen.findByText(/Arrival/)
+    for (const name of ['Disliked', 'Liked', 'Loved']) {
+      expect(screen.getByRole('button', { name }).className).toContain('min-h-[44px]')
+    }
   })
 })

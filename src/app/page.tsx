@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { ModeToggle } from '@/components/ModeToggle'
+import { SectionNav } from '@/components/SectionNav'
 
 type ContentScore = { violence: number; language: number; sexNudity: number; scariness: number; sourceNotes: string | null } | null
 
@@ -96,6 +97,7 @@ export default function HomePage() {
             alt={`${title.name} poster`}
             width={200}
             height={300}
+            loading="lazy"
             className="w-full aspect-[2/3] object-cover"
           />
         ) : (
@@ -143,7 +145,7 @@ export default function HomePage() {
                     <button
                       key={r.value}
                       onClick={() => submitRating(title.id, r.value)}
-                      className="text-xs border border-accent text-accent rounded px-2 py-1 hover:bg-accent hover:text-bg transition-colors"
+                      className="min-h-[44px] inline-flex items-center text-xs border border-accent text-accent rounded px-3 hover:bg-accent hover:text-bg transition-colors"
                     >
                       {r.label}
                     </button>
@@ -153,19 +155,19 @@ export default function HomePage() {
                 <div className="flex flex-wrap gap-2 items-center">
                   <button
                     onClick={() => setExpanded((prev) => ({ ...prev, [title.id]: true }))}
-                    className="text-xs text-textSecondary underline hover:text-accent transition-colors"
+                    className="min-h-[44px] inline-flex items-center text-xs text-textSecondary underline hover:text-accent transition-colors"
                   >
                     I&apos;ve seen this
                   </button>
                   <button
                     onClick={() => submitRating(title.id, 'WATCHLISTED')}
-                    className="text-xs text-textSecondary underline hover:text-accent transition-colors"
+                    className="min-h-[44px] inline-flex items-center text-xs text-textSecondary underline hover:text-accent transition-colors"
                   >
                     Save this!
                   </button>
                   <button
                     onClick={() => submitRating(title.id, 'NOT_INTERESTED')}
-                    className="text-xs text-textSecondary underline hover:text-danger transition-colors"
+                    className="min-h-[44px] inline-flex items-center text-xs text-textSecondary underline hover:text-danger transition-colors"
                   >
                     I don&apos;t want to see this
                   </button>
@@ -184,7 +186,7 @@ export default function HomePage() {
                   <button
                     key={r.value}
                     onClick={() => submitRating(title.id, r.value)}
-                    className="text-xs border border-accent text-accent rounded px-2 py-1 hover:bg-accent hover:text-bg transition-colors"
+                    className="min-h-[44px] inline-flex items-center text-xs border border-accent text-accent rounded px-3 hover:bg-accent hover:text-bg transition-colors"
                   >
                     {r.label}
                   </button>
@@ -192,7 +194,7 @@ export default function HomePage() {
               </div>
               <button
                 onClick={() => submitRating(title.id, 'NOT_SEEN')}
-                className="text-xs text-textSecondary underline hover:text-danger transition-colors text-left"
+                className="min-h-[44px] inline-flex items-center text-xs text-textSecondary underline hover:text-danger transition-colors text-left"
               >
                 Remove from Watchlist
               </button>
@@ -213,7 +215,9 @@ export default function HomePage() {
         <p className="text-danger">Couldn&apos;t load your movies — try refreshing.</p>
       ) : (
         <>
-          <section>
+          <SectionNav counts={{ watchlist: watchlist.length, loved: loved.length }} />
+
+          <section id="not-seen" className="scroll-mt-32">
             <h2 className="font-display text-xl tracking-wide text-textPrimary mt-6 mb-4">Not Seen</h2>
             {notSeen.length === 0 ? (
               <p className="text-textSecondary text-sm">Nothing left to watch right now.</p>
@@ -225,7 +229,7 @@ export default function HomePage() {
           </section>
 
           {watchlist.length > 0 && (
-            <section>
+            <section id="watchlist" className="scroll-mt-32">
               <h2 className="font-display text-xl tracking-wide text-textPrimary mt-10 mb-4">Watchlist</h2>
               <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 list-none p-0">
                 {watchlist.map((title) => renderCard(title, 'watchlist'))}
@@ -234,7 +238,7 @@ export default function HomePage() {
           )}
 
           {loved.length > 0 && (
-            <section>
+            <section id="loved" className="scroll-mt-32">
               <h2 className="font-display text-xl tracking-wide text-textPrimary mt-10 mb-4">Loved — Worth a Rewatch</h2>
               <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 list-none p-0">
                 {loved.map((title) => renderCard(title, 'loved'))}

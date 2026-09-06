@@ -8,7 +8,7 @@ const plexMono = IBM_Plex_Mono({ weight: ['400', '500'], subsets: ['latin'], var
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${bebasNeue.variable} ${inter.variable} ${plexMono.variable}`}>
+    <html lang="en" className={`scroll-smooth ${bebasNeue.variable} ${inter.variable} ${plexMono.variable}`}>
       <body className="font-body bg-bg text-textPrimary min-h-screen">
         <Nav />
         {children}
