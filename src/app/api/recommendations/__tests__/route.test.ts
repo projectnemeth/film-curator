@@ -54,7 +54,7 @@ describe('GET /api/recommendations', () => {
       title({ id: 't2', name: 'An R Movie', mpaaRating: 'R' }),
     ])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
-    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockImplementation(async (_f: string, _m: string, candidates: { id: string }[]) => candidates.map((c) => c.id))
+    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockImplementation(async (_f: string, _m: string, candidateIds: string[]) => candidateIds)
 
     const family = await (await GET(new NextRequest('http://localhost/api/recommendations?mode=FAMILY'))).json()
     expect(family.notSeen.map((t: { id: string }) => t.id)).toEqual(['t1'])
@@ -71,7 +71,7 @@ describe('GET /api/recommendations', () => {
       title({ id: 't2', name: 'B', mpaaRating: 'G' }),
     ])
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
-    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('anthropic rate limited'))
+    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('database unavailable'))
 
     const req = new NextRequest('http://localhost/api/recommendations?mode=FAMILY')
     const res = await GET(req)
@@ -124,7 +124,7 @@ describe('GET /api/recommendations', () => {
     expect(body.notSeen[0].studio).toBe('Universal Pictures')
   })
 
-  it('passes director, writer, topCast, and studio through to the ranking candidates', async () => {
+  it('passes only candidate ids to ranking — the stored order needs no title metadata', async () => {
     ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
       title({ id: 't1', director: 'Christopher Nolan', writer: 'Christopher Nolan', topCast: ['Cillian Murphy'], studio: 'Universal Pictures' }),
     ])
@@ -134,12 +134,7 @@ describe('GET /api/recommendations', () => {
     const req = new NextRequest('http://localhost/api/recommendations?mode=ADULT')
     await GET(req)
 
-    expect(rankByTasteCached).toHaveBeenCalledWith(
-      'default',
-      'ADULT',
-      [expect.objectContaining({ id: 't1', director: 'Christopher Nolan', writer: 'Christopher Nolan', topCast: ['Cillian Murphy'], studio: 'Universal Pictures' })],
-      []
-    )
+    expect(rankByTasteCached).toHaveBeenCalledWith('default', 'ADULT', ['t1'], [])
   })
 
   it('includes director, writer, topCast, and studio in the taste-history entries sent to ranking', async () => {
@@ -182,7 +177,7 @@ describe('GET /api/recommendations', () => {
     ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
       { titleId: 't2', rating: 'NOT_SEEN', ratedAt: new Date('2026-01-01'), title: { name: 'Marked Not Seen' } },
     ])
-    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockImplementation(async (_f: string, _m: string, candidates: { id: string }[]) => candidates.map((c) => c.id))
+    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockImplementation(async (_f: string, _m: string, candidateIds: string[]) => candidateIds)
 
     const req = new NextRequest('http://localhost/api/recommendations?mode=ADULT')
     const body = await (await GET(req)).json()
@@ -245,7 +240,7 @@ describe('GET /api/recommendations', () => {
     // Echo back whatever candidates actually reach ranking, so this test fails
     // if a WATCHLISTED title leaks into the notSeen candidate pool instead of
     // just trusting an empty mock return value that would pass either way.
-    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockImplementation(async (_f: string, _m: string, candidates: { id: string }[]) => candidates.map((c) => c.id))
+    ;(rankByTasteCached as ReturnType<typeof vi.fn>).mockImplementation(async (_f: string, _m: string, candidateIds: string[]) => candidateIds)
 
     const req = new NextRequest('http://localhost/api/recommendations?mode=ADULT')
     const body = await (await GET(req)).json()
@@ -270,7 +265,7 @@ describe('GET /api/recommendations', () => {
 })
 
 describe('maxDuration', () => {
-  it('exports a maxDuration of 60 seconds — this route still calls rankByTasteCached live', async () => {
+  it('exports a maxDuration of 60 seconds', async () => {
     const routeModule = await import('../route')
     expect(routeModule.maxDuration).toBe(60)
   })

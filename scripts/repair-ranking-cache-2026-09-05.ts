@@ -17,7 +17,7 @@
 
 import { prisma } from '../src/lib/prisma'
 import { isTitleVisible } from '../src/lib/filtering'
-import { computeRankingFingerprint, type TasteHistoryEntry } from '../src/lib/ranking'
+import { computeRankingFingerprint, reconcileRanking, type TasteHistoryEntry } from '../src/lib/ranking'
 
 const HIDDEN_AFTER_RATING = new Set(['DISLIKED', 'LIKED', 'TOO_INAPPROPRIATE', 'NOT_INTERESTED'])
 const MOVED_TO_OWN_SECTION = new Set(['LOVED', 'WATCHLISTED'])
@@ -56,9 +56,11 @@ async function repair(mode: 'FAMILY' | 'ADULT', apply: boolean) {
   const cached = await prisma.rankingCache.findUnique({ where: { familyId_mode: { familyId, mode } } })
   const candidateSet = new Set(candidateIds)
 
+  // Same reconcile the app itself uses — one implementation, so this
+  // script and the dashboard can never disagree about the order.
   const keptOrder = (cached?.rankedIds ?? []).filter((id) => candidateSet.has(id))
-  const appended = candidateIds.filter((id) => !keptOrder.includes(id))
-  const rankedIds = [...keptOrder, ...appended]
+  const rankedIds = reconcileRanking(cached?.rankedIds ?? [], candidateIds)
+  const appended = rankedIds.slice(keptOrder.length)
 
   // Same completeness guarantee the manual-refresh workflow insists on:
   // any candidate missing from rankedIds disappears from the dashboard.

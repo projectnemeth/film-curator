@@ -251,64 +251,53 @@ describe('HomePage', () => {
     expect(screen.getByText(/Jurassic Park/)).toBeInTheDocument()
   })
 
-  it('shows a "Rate this" button for an unscored title in Adult Mode, and renders the report once scored', async () => {
-    ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
-      if (init?.method === 'POST' && url.includes('/rate-content')) {
-        return Promise.resolve({
-          ok: true,
-          json: async () => ({ score: { violence: 6, language: 3, sexNudity: 1, scariness: 4, sourceNotes: 'Found on Common Sense Media.' } }),
-        })
-      }
-      if (init?.method === 'POST') return Promise.resolve({ ok: true, json: async () => ({ result: { id: 'r1' } }) })
-      return Promise.resolve({
-        ok: true,
-        status: 200,
-        json: async () => ({ mode: 'ADULT', notSeen: [title({ id: 't5', name: 'An R Movie', posterPath: null, mpaaRating: 'R' })], watchlist: [], loved: [] }),
-      })
-    })
+  it('shows a note instead of a button for an unscored title in Adult Mode, and never requests scoring', async () => {
+    mockRecommendations([title({ id: 't5', name: 'An R Movie', posterPath: null, mpaaRating: 'R' })], [], 'ADULT')
 
     render(<HomePage />)
     fireEvent.click(screen.getByRole('button', { name: 'Adult Mode' }))
-    const button = await screen.findByRole('button', { name: /Why is this rated R/ })
-    fireEvent.click(button)
+
+    expect(await screen.findByText(/Content details are added during the catalog refresh/)).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /Why is this rated/ })).not.toBeInTheDocument()
+    // The app must never ask anything to generate a score on demand.
+    expect(fetch).not.toHaveBeenCalledWith(expect.stringContaining('/rate-content'), expect.anything())
+  })
+
+  it('renders the stored content report for a title that already has one', async () => {
+    mockRecommendations(
+      [
+        title({
+          id: 't5',
+          name: 'An R Movie',
+          posterPath: null,
+          mpaaRating: 'R',
+          contentScore: { violence: 6, language: 3, sexNudity: 1, scariness: 4, sourceNotes: 'Found on Common Sense Media.' },
+        }),
+      ],
+      [],
+      'ADULT'
+    )
+
+    render(<HomePage />)
+    fireEvent.click(screen.getByRole('button', { name: 'Adult Mode' }))
 
     expect(await screen.findByText(/Found on Common Sense Media/)).toBeInTheDocument()
-    expect(fetch).toHaveBeenCalledWith('/api/titles/t5/rate-content', expect.objectContaining({ method: 'POST' }))
+    expect(screen.getByText(/Violence 6\/10/)).toBeInTheDocument()
+    expect(screen.queryByText(/added during the catalog refresh/)).not.toBeInTheDocument()
   })
 
-  it('does not show a "Rate this" button in Family Mode', async () => {
+  it('does not show the content-details note in Family Mode', async () => {
     render(<HomePage />)
     await screen.findByText(/Jurassic Park/)
-    expect(screen.queryByRole('button', { name: /Why is this rated/ })).not.toBeInTheDocument()
+    expect(screen.queryByText(/added during the catalog refresh/)).not.toBeInTheDocument()
   })
 
-  it('does not show a "Rate this" button in Adult Mode for a title with no MPAA rating', async () => {
+  it('does not show the content-details note for a title with no MPAA rating', async () => {
     mockRecommendations([title({ id: 't7', name: 'Manually Approved Title', posterPath: null, mpaaRating: null })], [], 'ADULT')
 
     render(<HomePage />)
     fireEvent.click(screen.getByRole('button', { name: 'Adult Mode' }))
     await screen.findByText(/Manually Approved Title/)
-    expect(screen.queryByRole('button', { name: /Why is this rated/ })).not.toBeInTheDocument()
-  })
-
-  it('shows a retry option when rating content fails', async () => {
-    ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
-      if (init?.method === 'POST' && url.includes('/rate-content')) {
-        return Promise.resolve({ ok: false, json: async () => ({ error: 'timed out' }) })
-      }
-      if (init?.method === 'POST') return Promise.resolve({ ok: true, json: async () => ({ result: { id: 'r1' } }) })
-      return Promise.resolve({
-        ok: true,
-        status: 200,
-        json: async () => ({ mode: 'ADULT', notSeen: [title({ id: 't6', name: 'A Slow Movie', providers: [], posterPath: null, mpaaRating: 'PG-13' })], watchlist: [], loved: [] }),
-      })
-    })
-
-    render(<HomePage />)
-    fireEvent.click(screen.getByRole('button', { name: 'Adult Mode' }))
-    const button = await screen.findByRole('button', { name: /Why is this rated PG-13/ })
-    fireEvent.click(button)
-
-    expect(await screen.findByRole('button', { name: /Try again/ })).toBeInTheDocument()
+    expect(screen.queryByText(/added during the catalog refresh/)).not.toBeInTheDocument()
   })
 })

@@ -1,21 +1,35 @@
 ---
 name: manual-catalog-refresh
-description: Use when the user asks to manually content-rate, re-sort, and/or review newly-flagged titles in film-curator "right now" without spending the app's own Anthropic API budget — e.g. "do that thing to update the site", "sort and rate some movies", "refresh the ratings/ranking", "anything to review?". Claude does the judgment itself and writes straight to the database, instead of triggering the app's own Claude-API-backed routes.
+description: Use when the user asks to content-rate, re-sort, and/or review newly-flagged titles in film-curator — e.g. "do that thing to update the site", "sort and rate some movies", "refresh the ratings/ranking", "anything to review?". This is the ONLY way content scores and rankings are ever produced: the app itself has no Anthropic API access. Claude does the judgment and writes straight to the database.
 ---
 
-# Manual catalog refresh (content rating + sorting, no app API spend)
+# Manual catalog refresh (the only source of scores and rankings)
 
-film-curator normally does two things via its own Anthropic API key:
-content-rating a movie (the "Why is this rated R?" button →
-`getOrCreateContentScore` in `src/lib/contentScoring.ts`) and sorting the
-"Not Seen" list by taste (`rankByTasteCached` in `src/lib/ranking.ts`).
-Both cost real money against the app's own API key every time they run.
+**This skill is load-bearing, not an optimization.** The app has no
+Anthropic API access at all — `ANTHROPIC_API_KEY` is gone from the
+codebase and from Vercel. `src/lib/contentScoring.ts` only reads stored
+scores, and `src/lib/ranking.ts` only serves the stored order, reconciling
+it against the current candidates. Neither can generate anything.
 
-This skill does the same two jobs a different way: **you** (Claude, running
-in this Claude Code session) read the actual data, reason about it
-yourself, and write the results straight into the production database.
-No app-side Anthropic API call happens at all — this is billed to the
-Claude Code session, not `ANTHROPIC_API_KEY`.
+So whatever this skill does not produce simply does not exist:
+
+- A title with no `ContentScore` shows "Content details are added during
+  the catalog refresh" on the dashboard, indefinitely.
+- Newly ingested titles sit at the bottom of the Not Seen list in
+  arrival order until they are hand-ranked here.
+- A keyword-flagged title stays hidden and undecided until reviewed here.
+
+There is no scheduler and no fallback. A scheduled cloud routine was
+tested on 2026-09-05 and cannot work — the sandbox's egress proxy blocks
+Neon, the Vercel app domain, and TMDB, and it has no secret injection
+(see `docs/superpowers/specs/2026-09-05-zero-api-cost-architecture-design.md`).
+Nothing warns you when this is overdue; a staleness banner was
+deliberately declined. If the user has not run this in a while, that is
+worth mentioning to them.
+
+**You** (Claude, in this Claude Code session) read the data, reason about
+it yourself, and write results straight into the production database.
+This is billed to the Claude Code session.
 
 Default batch size is ~30 for content rating, and ~30 hand-ranked titles
 per mode for sorting, unless the user asks for a different number.

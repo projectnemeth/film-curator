@@ -34,8 +34,6 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState(false)
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
-  const [scores, setScores] = useState<Record<string, ContentScore>>({})
-  const [ratingStatus, setRatingStatus] = useState<Record<string, 'loading' | 'error' | undefined>>({})
   const [rateError, setRateError] = useState<Record<string, boolean>>({})
 
   async function load(currentMode: 'FAMILY' | 'ADULT') {
@@ -88,22 +86,8 @@ export default function HomePage() {
     }
   }
 
-  async function rateContent(titleId: string) {
-    setRatingStatus((prev) => ({ ...prev, [titleId]: 'loading' }))
-    try {
-      const res = await fetch(`/api/titles/${titleId}/rate-content`, { method: 'POST' })
-      if (!res.ok) throw new Error('failed')
-      const data = await res.json()
-      setScores((prev) => ({ ...prev, [titleId]: data.score }))
-      setRatingStatus((prev) => ({ ...prev, [titleId]: undefined }))
-    } catch {
-      setRatingStatus((prev) => ({ ...prev, [titleId]: 'error' }))
-    }
-  }
-
   function renderCard(title: Title, variant: 'notSeen' | 'watchlist' | 'loved') {
-    const score = scores[title.id] ?? title.contentScore
-    const status = ratingStatus[title.id]
+    const score = title.contentScore
     return (
       <li key={title.id} className="bg-surface border border-border rounded-lg overflow-hidden flex flex-col">
         {title.posterPath ? (
@@ -133,27 +117,10 @@ export default function HomePage() {
           )}
           {title.studio && <p className="text-xs text-textSecondary">{title.studio}</p>}
 
-          {mode === 'ADULT' && title.mpaaRating && !score && status !== 'loading' && status !== 'error' && (
-            <button
-              onClick={() => rateContent(title.id)}
-              className="text-xs text-accent underline hover:text-accentGlow transition-colors text-left"
-            >
-              Why is this rated {title.mpaaRating}?
-            </button>
-          )}
-          {mode === 'ADULT' && status === 'loading' && (
-            <p className="text-xs text-textSecondary">Checking Common Sense Media and IMDb — this can take a minute or two.</p>
-          )}
-          {mode === 'ADULT' && status === 'error' && (
-            <div className="flex flex-col gap-1">
-              <p className="text-xs text-danger">That took too long.</p>
-              <button
-                onClick={() => rateContent(title.id)}
-                className="text-xs text-accent underline hover:text-accentGlow transition-colors text-left"
-              >
-                Try again?
-              </button>
-            </div>
+          {/* Scores are written during the catalog refresh, never generated
+              on demand — so a missing one is a note, not an action. */}
+          {mode === 'ADULT' && title.mpaaRating && !score && (
+            <p className="text-xs text-textSecondary italic">Content details are added during the catalog refresh.</p>
           )}
           {mode === 'ADULT' && score && (
             <div className="text-xs text-textSecondary flex flex-col gap-1">

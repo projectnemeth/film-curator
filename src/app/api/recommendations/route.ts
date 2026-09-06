@@ -80,24 +80,14 @@ export async function GET(req: NextRequest) {
       studio: t.title.studio,
     }))
 
+  // Ranking is served from the stored order and reconciled against the
+  // current candidates — no model call, so the only failure mode left is
+  // the database itself.
   let rankedIds: string[]
   try {
-    rankedIds = await rankByTasteCached(
-      familyId,
-      mode,
-      notSeenCandidates.map((v) => ({
-        id: v.id,
-        name: v.name,
-        overview: v.overview,
-        director: v.director,
-        writer: v.writer,
-        topCast: v.topCast,
-        studio: v.studio,
-      })),
-      history
-    )
+    rankedIds = await rankByTasteCached(familyId, mode, notSeenCandidates.map((v) => v.id), history)
   } catch (err) {
-    console.error('Failed to rank titles by taste, falling back to unranked order:', err)
+    console.error('Failed to read the stored ranking, falling back to unranked order:', err)
     rankedIds = notSeenCandidates.map((v) => v.id)
   }
   const notSeenById = new Map(notSeenCandidates.map((v) => [v.id, v]))
