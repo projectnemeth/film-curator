@@ -48,6 +48,22 @@ in their own terminal — that's a different problem from this skill and
 doesn't come up here, since this skill only writes application data, not
 schema. Don't confuse the two if a migration is ever also needed.
 
+**This skill cannot complete inside a Claude Code web/remote session.**
+Verified again on 2026-09-08: that container has no Vercel auth (`vercel`
+isn't installed and there's no token to install it with, so `vercel env pull`
+is out) and no `DATABASE_URL`, and its egress proxy refuses Neon at both
+layers — TCP 5432 refused, HTTPS to `console.neon.tech` a 403 from the proxy
+(`connect_rejected`, organization policy). Pasting a connection string into
+such a session does not help; the socket still won't open. This is the same
+wall the scheduled routine hit, so the limitation is the environment, not the
+trigger.
+
+Run the refresh from a terminal that can reach Neon. If the judgment is
+happening in a remote session anyway, split it: run
+`scripts/dump-refresh-inputs.ts` locally, paste its output into the session,
+let it produce and push `scripts/manual-batch-<date>.ts`, then pull and run
+that script locally. Steps 3 and 4 need no database; Steps 1, 2 and 5 do.
+
 ## Step 1 — pull prod env and inspect current state
 
 ```bash
