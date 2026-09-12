@@ -207,6 +207,17 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   // violence between armed professionals; this is the opposite of that,
   // notwithstanding the same writer.
   395834: { flag: 'EXCLUDED', why: 'Wind River — the central crime is a rape, depicted in an extended flashback' },
+
+  // Consistency fix, 2026-09-11, on the 2026-09-06 pattern: Ghostbusters
+  // (1984) was excluded as horror-adjacent comedy, but the 2016 reboot
+  // carries no `paranormal`-family keyword on TMDB, so it was never
+  // nominated and sat visible. Same film, same verdict.
+  43074: { flag: 'EXCLUDED', why: 'Ghostbusters (2016) — the 1984 original is excluded as horror-adjacent comedy; this was never keyword-flagged' },
+
+  // Score nominations from the fourth batch, 2026-09-11. The two land on
+  // opposite sides of the same 6.
+  563: { flag: 'CLEAR', why: 'Starship Troopers — the co-ed shower scene is matter-of-fact rather than sexual, the Schindler\u2019s List side of the 6. Its bug-war gore is extreme but creature violence is explicitly kept' },
+  319: { flag: 'EXCLUDED', why: 'True Romance — explicit sex, and a vicious extended beating of the heroine; the family already rated Pulp Fiction TOO_INAPPROPRIATE' },
 }
 
 async function main() {
