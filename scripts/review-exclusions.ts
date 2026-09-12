@@ -194,6 +194,19 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   // scene, so they go the way of Hit Man rather than Schindler's List.
   799766: { flag: 'EXCLUDED', why: 'Better Man — drug-fuelled sex including a group scene' },
   55721: { flag: 'EXCLUDED', why: 'Bridesmaids — opens on an explicit sex scene and keeps that register' },
+
+  // Nominated by their sexNudity scores, written 2026-09-11 in the third
+  // batch of the day. All three were hand-ranked into the Adult list
+  // earlier the same day, before they had scores — which is exactly the
+  // case this review tier exists to catch.
+  2118: { flag: 'EXCLUDED', why: 'L.A. Confidential — a call-girl ring is central to the plot, with actual sex scenes; the Hit Man precedent rather than the Schindler\u2019s List one' },
+  346685: { flag: 'EXCLUDED', why: 'The Girl on the Train — several explicit sex scenes, infidelity as the engine of the plot' },
+  // Not excluded for sex as such: the sexual content here is a depicted
+  // rape, shown at length. That is the PREDATION side of the rule — the
+  // helpless preyed upon — not the sex-scene line. Sicario stays in as
+  // violence between armed professionals; this is the opposite of that,
+  // notwithstanding the same writer.
+  395834: { flag: 'EXCLUDED', why: 'Wind River — the central crime is a rape, depicted in an extended flashback' },
 }
 
 async function main() {
