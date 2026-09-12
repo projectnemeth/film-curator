@@ -363,3 +363,61 @@ describe('HomePage', () => {
     }
   })
 })
+
+describe('HomePage — moving a title between modes', () => {
+  beforeEach(() => {
+    global.fetch = vi.fn() as unknown as typeof fetch
+    mockRecommendations([title({ mpaaRating: 'PG' })])
+  })
+
+  it('offers to move a Family Mode title to Adult Mode', async () => {
+    render(<HomePage />)
+    await screen.findByText(/Jurassic Park/)
+    expect(screen.getByRole('button', { name: /move to adult mode/i })).toBeInTheDocument()
+  })
+
+  it('posts the move to the API', async () => {
+    render(<HomePage />)
+    await screen.findByText(/Jurassic Park/)
+    fireEvent.click(screen.getByRole('button', { name: /move to adult mode/i }))
+    await waitFor(() =>
+      expect(fetch).toHaveBeenCalledWith(
+        '/api/title-mode',
+        expect.objectContaining({ method: 'POST', body: JSON.stringify({ titleId: 't1', mode: 'ADULT' }) })
+      )
+    )
+  })
+
+  it('removes the moved title from the list it was in', async () => {
+    render(<HomePage />)
+    await screen.findByText(/Jurassic Park/)
+    fireEvent.click(screen.getByRole('button', { name: /move to adult mode/i }))
+    await waitFor(() => expect(screen.queryByText(/Jurassic Park/)).not.toBeInTheDocument())
+  })
+
+  it('offers the move in the other direction from Adult Mode', async () => {
+    mockRecommendations([title()], [], 'ADULT')
+    render(<HomePage />)
+    await screen.findByText(/Jurassic Park/)
+    fireEvent.click(screen.getByRole('button', { name: 'Adult Mode' }))
+    expect(await screen.findByRole('button', { name: /move to family mode/i })).toBeInTheDocument()
+  })
+
+  it('keeps the title visible and warns when the move fails', async () => {
+    ;(global.fetch as ReturnType<typeof vi.fn>).mockImplementation((url: string, init?: RequestInit) => {
+      if (init?.method === 'POST' && url.includes('/api/title-mode')) {
+        return Promise.resolve({ ok: false, status: 500, json: async () => ({}) })
+      }
+      return Promise.resolve({
+        ok: true,
+        status: 200,
+        json: async () => ({ mode: 'FAMILY', notSeen: [title({ mpaaRating: 'PG' })], watchlist: [], loved: [] }),
+      })
+    })
+    render(<HomePage />)
+    await screen.findByText(/Jurassic Park/)
+    fireEvent.click(screen.getByRole('button', { name: /move to adult mode/i }))
+    expect(await screen.findByText(/couldn.t move that title/i)).toBeInTheDocument()
+    expect(screen.getByText(/Jurassic Park/)).toBeInTheDocument()
+  })
+})

@@ -41,6 +41,10 @@ model Title {
   // not yet reviewed, CLEAR = judged fine, EXCLUDED = never show.
   // See src/lib/exclusion.ts for how keywords nominate titles for review.
   contentFlag  String?
+  // Manual override for which mode this title appears in, beating the MPAA
+  // bucketing in src/lib/filtering.ts. Null means "derive from mpaaRating".
+  // It names exactly one mode, so Family and Adult stay non-overlapping.
+  modeOverride Mode?
   providers    String[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt

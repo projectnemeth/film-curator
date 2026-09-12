@@ -36,6 +36,7 @@ export default function HomePage() {
   const [loadError, setLoadError] = useState(false)
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
   const [rateError, setRateError] = useState<Record<string, boolean>>({})
+  const [moveError, setMoveError] = useState<Record<string, boolean>>({})
 
   async function load(currentMode: 'FAMILY' | 'ADULT') {
     setLoading(true)
@@ -84,6 +85,29 @@ export default function HomePage() {
       setExpanded((prev) => ({ ...prev, [titleId]: false }))
     } catch {
       setRateError((prev) => ({ ...prev, [titleId]: true }))
+    }
+  }
+
+  // Moves a title into the other mode. A PG film can be fine for the kids to
+  // watch and still be one they'd hate; this takes it out of their list
+  // without touching the exclusion rule. The server carries any taste rating
+  // across, so nothing is lost by moving a film you've already rated.
+  async function submitMove(titleId: string) {
+    const target = mode === 'FAMILY' ? 'ADULT' : 'FAMILY'
+    setMoveError((prev) => ({ ...prev, [titleId]: false }))
+    try {
+      const res = await fetch('/api/title-mode', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ titleId, mode: target }),
+      })
+      if (!res.ok) throw new Error('failed to move title')
+      // It belongs to the other mode now, so it leaves every list here.
+      setNotSeen((prev) => prev.filter((t) => t.id !== titleId))
+      setWatchlist((prev) => prev.filter((t) => t.id !== titleId))
+      setLoved((prev) => prev.filter((t) => t.id !== titleId))
+    } catch {
+      setMoveError((prev) => ({ ...prev, [titleId]: true }))
     }
   }
 
@@ -200,6 +224,18 @@ export default function HomePage() {
               </button>
             </div>
           )}
+
+          <div className="mt-auto pt-2">
+            {moveError[title.id] && (
+              <p className="text-xs text-danger mb-1">Couldn&apos;t move that title — try again.</p>
+            )}
+            <button
+              onClick={() => submitMove(title.id)}
+              className="min-h-[44px] inline-flex items-center text-xs text-textSecondary underline hover:text-accent transition-colors text-left"
+            >
+              Move to {mode === 'FAMILY' ? 'Adult' : 'Family'} Mode
+            </button>
+          </div>
         </div>
       </li>
     )

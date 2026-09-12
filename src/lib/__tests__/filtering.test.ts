@@ -100,3 +100,48 @@ describe('isTitleVisible — sexual content', () => {
     expect(isTitleVisible(base, 'ADULT')).toBe(true)
   })
 })
+
+describe('isTitleVisible — manual mode override', () => {
+  // A PG film can be age-appropriate for the kids and still be no fun for
+  // them. The override moves such a title wholesale into the other mode.
+  // It names exactly ONE mode, so Family and Adult still never overlap —
+  // the guarantee the old global Override table could not keep.
+  const pgFilm = { mpaaRating: 'PG', contentFlag: null, keywords: [] as string[] }
+  const r18Film = { mpaaRating: 'R', contentFlag: null, keywords: [] as string[] }
+
+  it('shows a PG title in Adult Mode when it is overridden there', () => {
+    expect(isTitleVisible({ ...pgFilm, modeOverride: 'ADULT' }, 'ADULT')).toBe(true)
+  })
+
+  it('hides that same PG title from Family Mode, so the move is exclusive', () => {
+    expect(isTitleVisible({ ...pgFilm, modeOverride: 'ADULT' }, 'FAMILY')).toBe(false)
+  })
+
+  it('moves a title the other way too, from Adult into Family', () => {
+    expect(isTitleVisible({ ...r18Film, modeOverride: 'FAMILY' }, 'FAMILY')).toBe(true)
+    expect(isTitleVisible({ ...r18Film, modeOverride: 'FAMILY' }, 'ADULT')).toBe(false)
+  })
+
+  it('falls back to the MPAA buckets when no override is set', () => {
+    expect(isTitleVisible({ ...pgFilm, modeOverride: null }, 'FAMILY')).toBe(true)
+    expect(isTitleVisible({ ...pgFilm, modeOverride: null }, 'ADULT')).toBe(false)
+  })
+
+  it('works when modeOverride is omitted entirely', () => {
+    expect(isTitleVisible(pgFilm, 'FAMILY')).toBe(true)
+  })
+
+  it('still hides an overridden title that the exclusion rule excludes', () => {
+    // The override decides WHICH mode a title belongs to, never whether the
+    // family's standing rule applies to it.
+    expect(
+      isTitleVisible({ ...pgFilm, modeOverride: 'ADULT', contentFlag: 'EXCLUDED' }, 'ADULT')
+    ).toBe(false)
+  })
+
+  it('still hides an overridden title nominated by its keywords', () => {
+    expect(
+      isTitleVisible({ ...pgFilm, modeOverride: 'ADULT', keywords: ['exorcism'] }, 'ADULT')
+    ).toBe(false)
+  })
+})

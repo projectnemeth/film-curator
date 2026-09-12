@@ -67,3 +67,27 @@ describe('recordTasteRating', () => {
     )
   })
 })
+
+describe('getNextTitleToRate — manual mode override', () => {
+  beforeEach(() => vi.clearAllMocks())
+
+  it('does not offer a title that has been moved to the other mode', async () => {
+    // The interview and the dashboard share isTitleVisible, so a PG film
+    // moved into Adult Mode must stop being asked about in Family Mode too.
+    ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      { id: 't1', name: 'Moved Film', mpaaRating: 'PG', keywords: [], contentFlag: null, modeOverride: 'ADULT' },
+    ])
+
+    expect(await getNextTitleToRate('default', 'FAMILY')).toBeNull()
+  })
+
+  it('offers that same title in the mode it was moved into', async () => {
+    ;(prisma.tasteRating.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(prisma.title.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([
+      { id: 't1', name: 'Moved Film', mpaaRating: 'PG', keywords: [], contentFlag: null, modeOverride: 'ADULT' },
+    ])
+
+    expect((await getNextTitleToRate('default', 'ADULT'))?.id).toBe('t1')
+  })
+})
