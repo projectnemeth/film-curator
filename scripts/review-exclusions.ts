@@ -140,7 +140,7 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   4638: { flag: 'CLEAR', why: 'Hot Fuzz — action-comedy about a village conspiracy; `serial killer` is a Dark Knight-style false positive' },
   643532: { flag: 'CLEAR', why: 'The Card Counter — sombre drama about a veteran interrogator; wartime torture, which the rule keeps' },
   80278: { flag: 'CLEAR', why: 'The Impossible — 2004 tsunami family-survival drama; `survival horror` is simply the wrong tag' },
-  745: { flag: 'CLEAR', why: 'The Sixth Sense — melancholy ghost drama with no demonic/satanic content; judgment call, easy to flip' },
+  745: { flag: 'CLEAR', why: 'The Sixth Sense — melancholy ghost drama with no demonic/satanic content. Confirmed by the family 2026-09-11: they have seen it and liked it, so this one is settled rather than borderline' },
   1091: { flag: 'CLEAR', why: 'The Thing (1982) — creature paranoia among armed adults; gore is graphic, not predatory' },
   60935: { flag: 'CLEAR', why: 'The Thing (2011) — same' },
   1022796: { flag: 'CLEAR', why: 'Wish — Disney fairy-tale magic, the same register as the liked Frozen/Encanto/Tangled, not wizardry' },
