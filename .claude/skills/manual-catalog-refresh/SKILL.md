@@ -61,9 +61,9 @@ from `../src/lib/filtering`, then for each mode (`FAMILY`, `ADULT`) dumps:
 
 - **Taste history**: `prisma.tasteRating.findMany({ where: { familyId: 'default', mode }, include: { title: true } })`, filtered to `rating !== 'NOT_SEEN'`, printing `titleName`, `rating`, `director`, `writer`, `topCast`, `studio`. Group/print by rating bucket (LOVED / LIKED / DISLIKED / NOT_INTERESTED / TOO_INAPPROPRIATE) — this is the actual taste signal.
 - **Not-seen candidates**: same visibility + exclusion logic as `src/app/api/recommendations/route.ts` (`isTitleVisible`, exclude `HIDDEN_AFTER_RATING = new Set(['DISLIKED','LIKED','TOO_INAPPROPRIATE','NOT_INTERESTED'])` and `LOVED`), printing `id`, `name`, `year`, `director`, `writer`, `topCast`, `studio`.
-- **Content-rating candidates**: `prisma.title.findMany({ where: { mpaaRating: { in: ['PG-13','R'] }, contentScore: null, providers: { isEmpty: false }, OR: [{ contentFlag: null }, { contentFlag: { not: 'EXCLUDED' } }] }, orderBy: { createdAt: 'desc' }, take: N })` — `id`, `name`, `year`, `mpaaRating`.
+- **Content-rating candidates**: `prisma.title.findMany({ where: { contentScore: null, providers: { isEmpty: false }, AND: [{ OR: [{ mpaaRating: { in: ['PG-13','R'] } }, { modeOverride: 'ADULT' }] }, { OR: [{ contentFlag: null }, { contentFlag: { not: 'EXCLUDED' } }] }] }, orderBy: { createdAt: 'desc' }, take: N })` — `id`, `name`, `year`, `mpaaRating`.
 
-  Two traps here, both of which produced a silently wrong answer once:
+  Three traps here, each of which produced a silently wrong answer once:
 
   - **`contentFlag: { not: 'EXCLUDED' }` on its own drops every unreviewed
     title.** `contentFlag` is null for the vast majority of the catalog
@@ -72,6 +72,15 @@ from `../src/lib/filtering`, then for each mode (`FAMILY`, `ADULT`) dumps:
     then matches only explicitly-CLEAR titles and can return zero while
     hundreds genuinely need scoring. `NOT: { contentFlag: 'EXCLUDED' }`
     has the same flaw; the `OR` above is the fix.
+  - **Match on the mode override as well as the rating, not the rating
+    alone.** A PG film moved into Adult Mode with `Title.modeOverride`
+    (Lawrence of Arabia, Monty Python, Rocky I-IV, Raiders) is shown on the
+    Adult dashboard but would never match `mpaaRating: { in: ['PG-13','R'] }`,
+    so it could never be scored and its card read "Content details are added
+    during the catalog refresh" permanently. Hence the `OR` on
+    `modeOverride: 'ADULT'`. Note the two `OR`s must be nested inside an
+    `AND` — two bare `OR` keys at the top level cannot both be expressed,
+    and Prisma would silently keep only one.
   - **Do not filter on `tasteRatings: { none: { mode: 'ADULT' } }`.**
     Content scores are shown on Loved and Watchlist cards too, not just
     unrated ones, so that filter hides titles the dashboard is actively
