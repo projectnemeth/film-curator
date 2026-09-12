@@ -21,6 +21,27 @@ type Title = {
   tasteRating?: string | null
 }
 
+// One button vocabulary for every card action. All weights share the 44px
+// target and the same radius; only how loudly they read changes. The point
+// of giving each one a visible surface is that the tap area then IS the
+// button — as bare text links, the 44px target rendered as dead space
+// around a few small words.
+const BTN_BASE =
+  'min-h-[44px] inline-flex items-center justify-center rounded-md px-3 text-xs font-medium transition-colors ' +
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface'
+const BTN_PRIMARY = `${BTN_BASE} w-full bg-accent text-bg hover:bg-accentGlow`
+const BTN_SECONDARY = `${BTN_BASE} w-full border border-accent text-accent hover:bg-accent hover:text-bg`
+const BTN_QUIET = `${BTN_BASE} w-full border border-border text-textSecondary hover:border-danger hover:text-danger`
+// The mode move is a different kind of action from rating a film — a
+// filing decision, used rarely — so it sits under a rule and stays quiet.
+const BTN_UTILITY = `${BTN_BASE} w-full border border-transparent text-textSecondary hover:text-accent`
+// Quick ratings share one row. min-w-0 is load-bearing: flex items default
+// to min-width:auto, which refuses to shrink below the label's own width and
+// pushed "Loved" outside the card on a ~164px-wide column. Tighter padding
+// and a slightly smaller label buy the rest of the room.
+const BTN_RATING =
+  `${BTN_BASE} flex-1 min-w-0 !px-1 text-[11px] border border-accent text-accent hover:bg-accent hover:text-bg`
+
 const QUICK_RATINGS = [
   { value: 'DISLIKED', label: 'Disliked' },
   { value: 'LIKED', label: 'Liked' },
@@ -158,83 +179,67 @@ export default function HomePage() {
             </div>
           )}
 
-          {variant === 'notSeen' && (
-            <div className="mt-auto pt-2">
-              {rateError[title.id] && (
-                <p className="text-xs text-danger pb-1.5">Couldn&apos;t save that rating — try again.</p>
-              )}
-              {expanded[title.id] ? (
-                <div className="flex flex-wrap gap-1.5">
+          <div className="mt-auto pt-2 flex flex-col gap-1.5">
+            {variant === 'notSeen' &&
+              (expanded[title.id] ? (
+                <>
+                  {rateError[title.id] && (
+                    <p className="text-xs text-danger">Couldn&apos;t save that rating — try again.</p>
+                  )}
+                  <div className="flex gap-1.5">
+                    {QUICK_RATINGS.map((r) => (
+                      <button key={r.value} onClick={() => submitRating(title.id, r.value)} className={BTN_RATING}>
+                        {r.label}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <>
+                  {rateError[title.id] && (
+                    <p className="text-xs text-danger">Couldn&apos;t save that rating — try again.</p>
+                  )}
+                  <button
+                    onClick={() => setExpanded((prev) => ({ ...prev, [title.id]: true }))}
+                    className={BTN_PRIMARY}
+                  >
+                    I&apos;ve seen this
+                  </button>
+                  <button onClick={() => submitRating(title.id, 'WATCHLISTED')} className={BTN_SECONDARY}>
+                    Save this!
+                  </button>
+                  <button onClick={() => submitRating(title.id, 'NOT_INTERESTED')} className={BTN_QUIET}>
+                    Not interested
+                  </button>
+                </>
+              ))}
+
+            {variant === 'watchlist' && (
+              <>
+                {rateError[title.id] && (
+                  <p className="text-xs text-danger">Couldn&apos;t save that rating — try again.</p>
+                )}
+                <div className="flex gap-1.5">
                   {QUICK_RATINGS.map((r) => (
-                    <button
-                      key={r.value}
-                      onClick={() => submitRating(title.id, r.value)}
-                      className="min-h-[44px] inline-flex items-center text-xs border border-accent text-accent rounded px-3 hover:bg-accent hover:text-bg transition-colors"
-                    >
+                    <button key={r.value} onClick={() => submitRating(title.id, r.value)} className={BTN_RATING}>
                       {r.label}
                     </button>
                   ))}
                 </div>
-              ) : (
-                <div className="flex flex-wrap gap-2 items-center">
-                  <button
-                    onClick={() => setExpanded((prev) => ({ ...prev, [title.id]: true }))}
-                    className="min-h-[44px] inline-flex items-center text-xs text-textSecondary underline hover:text-accent transition-colors"
-                  >
-                    I&apos;ve seen this
-                  </button>
-                  <button
-                    onClick={() => submitRating(title.id, 'WATCHLISTED')}
-                    className="min-h-[44px] inline-flex items-center text-xs text-textSecondary underline hover:text-accent transition-colors"
-                  >
-                    Save this!
-                  </button>
-                  <button
-                    onClick={() => submitRating(title.id, 'NOT_INTERESTED')}
-                    className="min-h-[44px] inline-flex items-center text-xs text-textSecondary underline hover:text-danger transition-colors"
-                  >
-                    I don&apos;t want to see this
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
+                <button onClick={() => submitRating(title.id, 'NOT_SEEN')} className={BTN_QUIET}>
+                  Remove from Watchlist
+                </button>
+              </>
+            )}
 
-          {variant === 'watchlist' && (
-            <div className="mt-auto pt-2 flex flex-col gap-1.5">
-              {rateError[title.id] && (
-                <p className="text-xs text-danger">Couldn&apos;t save that rating — try again.</p>
+            <div className="pt-1.5 border-t border-border flex flex-col gap-1.5">
+              {moveError[title.id] && (
+                <p className="text-xs text-danger">Couldn&apos;t move that title — try again.</p>
               )}
-              <div className="flex flex-wrap gap-1.5">
-                {QUICK_RATINGS.map((r) => (
-                  <button
-                    key={r.value}
-                    onClick={() => submitRating(title.id, r.value)}
-                    className="min-h-[44px] inline-flex items-center text-xs border border-accent text-accent rounded px-3 hover:bg-accent hover:text-bg transition-colors"
-                  >
-                    {r.label}
-                  </button>
-                ))}
-              </div>
-              <button
-                onClick={() => submitRating(title.id, 'NOT_SEEN')}
-                className="min-h-[44px] inline-flex items-center text-xs text-textSecondary underline hover:text-danger transition-colors text-left"
-              >
-                Remove from Watchlist
+              <button onClick={() => submitMove(title.id)} className={BTN_UTILITY}>
+                Move to {mode === 'FAMILY' ? 'Adult' : 'Family'} Mode
               </button>
             </div>
-          )}
-
-          <div className="mt-auto pt-2">
-            {moveError[title.id] && (
-              <p className="text-xs text-danger mb-1">Couldn&apos;t move that title — try again.</p>
-            )}
-            <button
-              onClick={() => submitMove(title.id)}
-              className="min-h-[44px] inline-flex items-center text-xs text-textSecondary underline hover:text-accent transition-colors text-left"
-            >
-              Move to {mode === 'FAMILY' ? 'Adult' : 'Family'} Mode
-            </button>
           </div>
         </div>
       </li>

@@ -218,13 +218,13 @@ describe('HomePage', () => {
     render(<HomePage />)
     expect(await screen.findByText(/Already Loved Movie/)).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: "I've seen this" })).not.toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: "I don't want to see this" })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Not interested' })).not.toBeInTheDocument()
   })
 
   it('removes a title from Not Seen after marking it not-interested, without adding it to Loved', async () => {
     render(<HomePage />)
     await screen.findByText(/Jurassic Park/)
-    fireEvent.click(screen.getByRole('button', { name: "I don't want to see this" }))
+    fireEvent.click(screen.getByRole('button', { name: 'Not interested' }))
     await waitFor(() =>
       expect(fetch).toHaveBeenCalledWith(
         '/api/taste',
@@ -349,7 +349,7 @@ describe('HomePage', () => {
     await screen.findByText(/Jurassic Park/)
     // 44px is the Apple/Android minimum; these sit inches apart on a phone
     // and one of them is destructive, so mis-taps matter.
-    for (const name of ["I've seen this", 'Save this!', "I don't want to see this"]) {
+    for (const name of ["I've seen this", 'Save this!', 'Not interested', 'Move to Adult Mode']) {
       expect(screen.getByRole('button', { name }).className).toContain('min-h-[44px]')
     }
   })
