@@ -131,6 +131,69 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   84958: { flag: 'CLEAR', why: 'Loki — incidental (TV; hidden by the movies-only rule regardless)' },
   582014: { flag: 'CLEAR', why: 'Promising Young Woman — the `transgender` tag looks simply wrong' },
   18165: { flag: 'CLEAR', why: 'The Vampire Diaries — incidental (TV; hidden regardless)' },
+
+  // ---- Reviewed 2026-09-11 (40 pending). ----
+
+  // Kept. Creature/disaster threat and false positives, per the rule's IN
+  // side: graphic is not the same as sadistic, and a keyword is evidence.
+  405774: { flag: 'CLEAR', why: 'Bird Box — unseen-entity survival, same register as the cleared A Quiet Place films' },
+  4638: { flag: 'CLEAR', why: 'Hot Fuzz — action-comedy about a village conspiracy; `serial killer` is a Dark Knight-style false positive' },
+  643532: { flag: 'CLEAR', why: 'The Card Counter — sombre drama about a veteran interrogator; wartime torture, which the rule keeps' },
+  80278: { flag: 'CLEAR', why: 'The Impossible — 2004 tsunami family-survival drama; `survival horror` is simply the wrong tag' },
+  745: { flag: 'CLEAR', why: 'The Sixth Sense — melancholy ghost drama with no demonic/satanic content; judgment call, easy to flip' },
+  1091: { flag: 'CLEAR', why: 'The Thing (1982) — creature paranoia among armed adults; gore is graphic, not predatory' },
+  60935: { flag: 'CLEAR', why: 'The Thing (2011) — same' },
+  1022796: { flag: 'CLEAR', why: 'Wish — Disney fairy-tale magic, the same register as the liked Frozen/Encanto/Tangled, not wizardry' },
+
+  // Out — sadistic predation: violence against people who cannot fight back.
+  1598: { flag: 'EXCLUDED', why: 'Cape Fear — a sexual predator terrorising a family, including their teenage daughter' },
+  796: { flag: 'EXCLUDED', why: 'Cruel Intentions — sexual manipulation as cruelty, and the sex is the engine of the plot' },
+  8271: { flag: 'EXCLUDED', why: 'Disturbia — the neighbour is a serial killer preying on women' },
+  13510: { flag: 'EXCLUDED', why: 'Eden Lake — teens torturing a trapped couple; sadism is the film' },
+  424139: { flag: 'EXCLUDED', why: 'Halloween (2018) — Michael Myers slasher' },
+  11281: { flag: 'EXCLUDED', why: 'Halloween II (1981) — same' },
+  610253: { flag: 'EXCLUDED', why: 'Halloween Kills (2021) — same' },
+  440021: { flag: 'EXCLUDED', why: 'Happy Death Day — slasher played for comedy; horror-adjacent comedy is out by the Zombieland precedent' },
+  747: { flag: 'EXCLUDED', why: 'Shaun of the Dead — zombie comedy; same precedent' },
+  381288: { flag: 'EXCLUDED', why: 'Split — abducts and holds three teenage girls captive' },
+  539: { flag: 'EXCLUDED', why: 'Psycho — serial killer preying on a lone woman' },
+  9481: { flag: 'EXCLUDED', why: 'The Bone Collector — serial killer whose elaborate torture is the spectacle' },
+  1032823: { flag: 'EXCLUDED', why: 'Trap — serial-killer protagonist who keeps a victim captive' },
+  9902: { flag: 'EXCLUDED', why: 'Wrong Turn — cannibals torturing hikers' },
+
+  // Out — the Purge series. Its premise is armed gangs hunting defenceless
+  // people for a night, which is predation rather than the contest-between-
+  // combatants framing that kept the Hunger Games films in.
+  158015: { flag: 'EXCLUDED', why: 'The Purge — home-invasion torment of the defenceless' },
+  238636: { flag: 'EXCLUDED', why: 'The Purge: Anarchy — same' },
+  316727: { flag: 'EXCLUDED', why: 'The Purge: Election Year — same' },
+  442249: { flag: 'EXCLUDED', why: 'The First Purge — same' },
+  602223: { flag: 'EXCLUDED', why: 'The Forever Purge — same' },
+
+  // Out — occult and spiritually dark material.
+  7340: { flag: 'EXCLUDED', why: 'Carrie — religious-fanatic horror ending in a supernatural massacre' },
+  16871: { flag: 'EXCLUDED', why: 'Drag Me to Hell — a demonic curse dragging a soul to hell' },
+  1250: { flag: 'EXCLUDED', why: 'Ghost Rider — an explicit pact with the devil' },
+  270303: { flag: 'EXCLUDED', why: 'It Follows — a sexually transmitted supernatural entity' },
+  567609: { flag: 'EXCLUDED', why: 'Ready or Not — a satanic-pact cult hunting a bride' },
+  82507: { flag: 'EXCLUDED', why: 'Sinister — an occult deity and filmed child murders' },
+  283445: { flag: 'EXCLUDED', why: 'Sinister 2 — same' },
+  437342: { flag: 'EXCLUDED', why: 'The First Omen — satanic conspiracy to birth the antichrist' },
+  9913: { flag: 'EXCLUDED', why: 'The Skeleton Key — hoodoo ritual and body-swapping' },
+  16307: { flag: 'EXCLUDED', why: 'The Wicker Man (1973) — pagan cult human sacrifice' },
+
+  // Out — LGBTQ watchlist, judged the same way as the 2026-09-05 batch:
+  // central to the film, not a single beat.
+  341013: { flag: 'EXCLUDED', why: 'Atomic Blonde — a substantial, explicitly depicted same-sex romance strand, not an incidental beat' },
+  974950: { flag: 'EXCLUDED', why: "Emilia Pérez — the protagonist's transition is the film's subject" },
+  1333141: { flag: 'EXCLUDED', why: 'Lesbian Space Princess — central, and named in the title' },
+
+  // Nominated by their own sexNudity score of 6, written in the same
+  // 2026-09-11 batch. The 6 tier exists because a number cannot tell
+  // non-sexual nudity from a sex scene — in both of these it is a sex
+  // scene, so they go the way of Hit Man rather than Schindler's List.
+  799766: { flag: 'EXCLUDED', why: 'Better Man — drug-fuelled sex including a group scene' },
+  55721: { flag: 'EXCLUDED', why: 'Bridesmaids — opens on an explicit sex scene and keeps that register' },
 }
 
 async function main() {
