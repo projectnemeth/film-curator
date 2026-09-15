@@ -218,6 +218,41 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   // opposite sides of the same 6.
   563: { flag: 'CLEAR', why: 'Starship Troopers — the co-ed shower scene is matter-of-fact rather than sexual, the Schindler\u2019s List side of the 6. Its bug-war gore is extreme but creature violence is explicitly kept' },
   319: { flag: 'EXCLUDED', why: 'True Romance — explicit sex, and a vicious extended beating of the heroine; the family already rated Pulp Fiction TOO_INAPPROPRIATE' },
+
+  // Keyword nominations from the 2026-09-15 refresh.
+  //
+  // The occult cluster — the least ambiguous half of this batch. All four
+  // are about the supernaturally dark thing the rule names, not merely
+  // adjacent to it.
+  622: { flag: 'EXCLUDED', why: 'The Ninth Gate — a literal hunt for a book that summons the devil; satanism is the plot' },
+  1977: { flag: 'EXCLUDED', why: 'The Grudge 3 — vengeful-spirit possession horror' },
+  9387: { flag: 'EXCLUDED', why: 'Conan the Barbarian (1982) — Thulsa Doom\u2019s snake cult, sorcery and ritual sacrifice; the fantasy-magic line that excluded the wizarding series' },
+  635910: { flag: 'EXCLUDED', why: 'The Last Voyage of the Demeter — Dracula picking off a trapped crew. Creature threat is normally kept (A Quiet Place), but a vampire is the spiritually-dark register the family ruled out, and they already rated the Insidious films TOO_INAPPROPRIATE' },
+
+  // Predation on the helpless, which is the other half of the rule. None
+  // of these is combat or crime violence between armed professionals.
+  10375: { flag: 'EXCLUDED', why: 'D-Tox — a serial killer picking off snowbound cops one by one; the stalking-the-trapped register the rule names' },
+  2252: { flag: 'EXCLUDED', why: 'Eastern Promises — mob-crime framing, but the case at its centre is the rape of a trafficked 14-year-old, on the Wind River precedent rather than the Sicario one' },
+  698508: { flag: 'EXCLUDED', why: 'Redeeming Love — faith-market adaptation, but its subject is the child sex-trafficking and prostitution of its heroine, with sex scenes; the predation line does not bend for the framing' },
+
+  // Kept. The keyword is evidence, not a verdict.
+  112205: { flag: 'CLEAR', why: 'The Family (2013) — Besson mob black comedy; `sadistic` overstates comic mobster brutality, the Dark Knight case. The family like the register (The Gentlemen, War Dogs)' },
+  547016: { flag: 'CLEAR', why: 'The Old Guard — Joe and Nicky are supporting characters in an immortal-mercenary action film; the family\u2019s own rule keeps a tag that is not what the film is about' },
+  846422: { flag: 'CLEAR', why: 'The Old Guard 2 — same pairing, same supporting status' },
+
+  // Score nomination raised by this same run's scoring batch, 2026-09-15.
+  // The 6 here is a full sex scene, intercut with the Olympic massacre.
+  // The war and assassination violence would all have been kept; it is the
+  // sex that decides it, on the Hit Man and L.A. Confidential precedent
+  // rather than the Schindler's List one.
+  612: { flag: 'EXCLUDED', why: 'Munich — an extended sex scene intercut with the massacre; the sexNudity 6 is sexual rather than incidental' },
+
+  // Blue Moon (2025, tmdbId 1299655) deliberately left PENDING. Linklater\u2019s
+  // Lorenz Hart film depicts his closeted homosexuality, but its emotional
+  // spine is his unrequited longing for a young woman and his artistic
+  // decline — so whether the theme is what the film is ABOUT is exactly the
+  // judgement call the family reserved for themselves. Pending keeps it
+  // hidden, which is the safe side to wait on.
 }
 
 async function main() {
