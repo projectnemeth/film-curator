@@ -7,3 +7,6 @@ node_modules
 .env*
 .superpowers/
 tsconfig.tsbuildinfo
+
+# Claude Code local settings (may contain machine-specific permissions)
+.claude/settings.local.json

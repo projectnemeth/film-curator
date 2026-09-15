@@ -247,12 +247,11 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   // rather than the Schindler's List one.
   612: { flag: 'EXCLUDED', why: 'Munich — an extended sex scene intercut with the massacre; the sexNudity 6 is sexual rather than incidental' },
 
-  // Blue Moon (2025, tmdbId 1299655) deliberately left PENDING. Linklater\u2019s
-  // Lorenz Hart film depicts his closeted homosexuality, but its emotional
-  // spine is his unrequited longing for a young woman and his artistic
-  // decline — so whether the theme is what the film is ABOUT is exactly the
-  // judgement call the family reserved for themselves. Pending keeps it
-  // hidden, which is the safe side to wait on.
+  // Blue Moon was held pending on 2026-09-15 because whether Hart\u2019s
+  // sexuality is what the film is ABOUT is the judgement the family
+  // reserved for themselves. They ruled the same day: exclude. Recorded
+  // here so the call is not re-litigated at the next refresh.
+  1299655: { flag: 'EXCLUDED', why: 'Blue Moon — family decision; Hart\u2019s closeted homosexuality reads as central enough to the portrait to fall under the LGBTQ watchlist rule' },
 }
 
 async function main() {
