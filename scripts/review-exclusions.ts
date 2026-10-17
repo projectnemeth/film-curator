@@ -342,6 +342,22 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   // The Hit Man precedent, not the Schindler's List one.
   8848: { flag: 'EXCLUDED', why: 'The Bank Job — real sex scenes and sustained sexual nudity alongside the heist plot' },
 
+  // ---- Second pass, 2026-10-17: the sexNudity-6 nominations thrown up by
+  // the 100-title scoring batch. Three decided here; three deliberately
+  // left pending, because they are the kind of call the family reserved
+  // for itself on Blue Moon. Pending is safe — they stay hidden either way.
+  //
+  //   Blade Runner 2049 — substantial nudity, but whether the synchronised
+  //     Joi/Mariette scene reads as a sex scene is a genuine judgement.
+  //     It was the #13 Adult pick, so it is worth an answer either way.
+  //   Love Actually — the body-double subplot is full nudity simulating
+  //     sex, played entirely for comedy; the Schindler's List carve-out
+  //     may or may not stretch to it.
+  //   The Love Hypothesis — a 2026 adaptation I could not verify at all.
+  187017: { flag: 'EXCLUDED', why: '22 Jump Street — a depicted sex scene on top of wall-to-wall crude sexual humour' },
+  820525: { flag: 'EXCLUDED', why: 'After Everything — built on depicted sex, like the rest of the After series (After We Fell already scored 7 and auto-excluded)' },
+  524: { flag: 'EXCLUDED', why: 'Casino — real sex and nudity, and the vise and bat killings are torture as spectacle; it fails both halves of the rule' },
+
 }
 
 async function main() {
