@@ -988,7 +988,13 @@ const ADULT_TOP_ORDER: string[] = [
   'cmuuw6se1008wf3296v89785u', // The Bourne Ultimatum
   'cmuuw84jc00jqf329t5hpo657', // Minority Report
   'cmuuw8cg600lif3291zesys7h', // Lone Survivor
-  'cmuaw24h300ku132gqap06vkb', // Extraction — added 2026-10-17 after the family upgraded The Gray Man to LOVED: same AGBO shop, and Extraction 2 is already LIKED
+  // Promoted 2026-10-17 on three ratings given in conversation: The Gray
+  // Man and Extraction both LOVED, and In the Grey (Guy Ritchie, 2026)
+  // LIKED. Mercenary-and-heist action is now the strongest single vein in
+  // the Adult history, and Ritchie is the name attached to it.
+  'cmuuw7v9d00hnf329etm0lgc4', // Wrath of Man — Ritchie heist-revenge; the closest match in the pool to In the Grey
+  'cmuaw1qgi00he132gv8288v0n', // The Ministry of Ungentlemanly Warfare — Ritchie, and the WWII commando register of the loved war films
+  'cmuuw82xs00jdf329ggo6q1xc', // Guy Ritchie's The Covenant — Ritchie in the American Sniper lane
   'cmuuw7rtp00gvf329hrucwhwn', // Blade Runner 2049 — may drop out pending its review
   'cmv4w8vgi0026m9fr1ae5jhdy', // Heat
   'cmtf5k7d300ihezj8ia4ker92', // Source Code
@@ -1001,8 +1007,6 @@ const ADULT_TOP_ORDER: string[] = [
   'cmuuw8aqf00l4f329110blrei', // Quantum of Solace
   'cmtf5ieqn002bezj8ha9oxloc', // The Hunger Games: The Ballad of Songbirds & Snakes
   'cmtqvvz2h00l5cox7y3mybamm', // Crimson Tide
-  'cmuaw1qgi00he132gv8288v0n', // The Ministry of Ungentlemanly Warfare
-  'cmuuw82xs00jdf329ggo6q1xc', // Guy Ritchie's The Covenant
   'cmuuw5t4m0010f3290tpd5fr2', // War of the Worlds (2005)
   'cmtf5j9h700a7ezj8m329zqgc', // Indiana Jones and the Last Crusade
   'cmtqvvxwc00kxcox7woua3eck', // Patriots Day
