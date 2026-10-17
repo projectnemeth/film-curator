@@ -252,6 +252,96 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   // reserved for themselves. They ruled the same day: exclude. Recorded
   // here so the call is not re-litigated at the next refresh.
   1299655: { flag: 'EXCLUDED', why: 'Blue Moon — family decision; Hart\u2019s closeted homosexuality reads as central enough to the portrait to fall under the LGBTQ watchlist rule' },
+
+  // ---- Reviewed 2026-10-17 (68 pending). ----
+  //
+  // The bulk of this queue is the slasher/occult horror backlog, which
+  // the rule decides on sight. The calls worth reading are the thirteen
+  // CLEARs below: Bond torture beats, creature/zombie threat, and LGBTQ
+  // tags that attach to a supporting character rather than the subject.
+
+  // Kept — the keyword is evidence, not a verdict.
+  36557: { flag: 'CLEAR', why: 'Casino Royale — the torture scene is one beat in a spy thriller, not the film' },
+  36669: { flag: 'CLEAR', why: 'Die Another Day — same: a Bond title-sequence beat' },
+  7191: { flag: 'CLEAR', why: 'Cloverfield — monster/creature threat, explicitly in-bounds' },
+  396535: { flag: 'CLEAR', why: 'Train to Busan — zombie survival; the family LIKED World War Z' },
+  1083862: { flag: 'CLEAR', why: 'Resident Evil: Death Island — creature threat, same basis as Train to Busan' },
+  906126: { flag: 'CLEAR', why: 'Society of the Snow — Andes-crash survival; the cannibalism is endurance, not predation' },
+  156022: { flag: 'CLEAR', why: 'The Equalizer — vigilante vs. Russian mafia; crime violence between armed professionals' },
+  97630: { flag: 'CLEAR', why: 'Zero Dark Thirty — named in src/lib/exclusion.ts as a film that stays in the pool' },
+  466272: { flag: 'CLEAR', why: 'Once Upon a Time... in Hollywood — the `satanic cult` tag is the Manson family; the film is a Hollywood hangout picture, not occult material' },
+  84892: { flag: 'CLEAR', why: 'The Perks of Being a Wallflower — Patrick is a supporting character; the film is about Charlie' },
+  615667: { flag: 'CLEAR', why: "Ma Rainey's Black Bottom — supporting thread; the film is about the band and Levee" },
+  718032: { flag: 'CLEAR', why: 'Licorice Pizza — `closeted homosexual` covers a two-scene subplot' },
+  567690: { flag: 'CLEAR', why: 'Dear Evan Hansen — `gay youth` is incidental; the film is about teen suicide and grief' },
+
+  // Excluded — LGBTQ watchlist, subject rather than supporting character.
+  398818: { flag: 'EXCLUDED', why: 'Call Me by Your Name — central romance' },
+  376867: { flag: 'EXCLUDED', why: 'Moonlight — central to the portrait' },
+  541305: { flag: 'EXCLUDED', why: 'Kajillionaire — the romance carries the ending, more than a single beat' },
+  1541560: { flag: 'EXCLUDED', why: 'Stop! That! Train! — drag-queen comedy; the subject' },
+
+  // Excluded — occult, demonic and satanic material.
+  184345: { flag: 'EXCLUDED', why: 'A Haunted House 2 — demonic possession played for laughs; horror-adjacent comedy is out' },
+  1224993: { flag: 'EXCLUDED', why: 'Dark Nuns — exorcism' },
+  47327: { flag: 'EXCLUDED', why: 'Drive Angry — satanic cult, escape from hell' },
+  109428: { flag: 'EXCLUDED', why: 'Evil Dead (2013) — demonic possession' },
+  493922: { flag: 'EXCLUDED', why: 'Hereditary — demonic cult; the subject' },
+  530385: { flag: 'EXCLUDED', why: 'Midsommar — pagan cult and human sacrifice' },
+  38358: { flag: 'EXCLUDED', why: 'The Last Exorcism — exorcism' },
+  758323: { flag: 'EXCLUDED', why: "The Pope's Exorcist — exorcism" },
+  794: { flag: 'EXCLUDED', why: 'The Omen — the antichrist' },
+  23827: { flag: 'EXCLUDED', why: 'Paranormal Activity — demonic haunting' },
+  565: { flag: 'EXCLUDED', why: 'The Ring — supernatural curse horror' },
+  2655: { flag: 'EXCLUDED', why: 'What Lies Beneath — seance and vengeful-ghost thriller' },
+  1072342: { flag: 'EXCLUDED', why: 'Night Swim — supernatural horror' },
+  532408: { flag: 'EXCLUDED', why: 'The Boogeyman — a creature preying on a grieving family' },
+  8413: { flag: 'EXCLUDED', why: 'Event Horizon — hell-dimension horror with sustained gore' },
+  812225: { flag: 'EXCLUDED', why: 'Black Clover: Sword of the Wizard King — fantasy magic cluster' },
+  1311031: { flag: 'EXCLUDED', why: 'Demon Slayer: Infinity Castle — demons are the subject' },
+  1322562: { flag: 'EXCLUDED', why: 'Mononoke the Movie III — occult spirits are the subject' },
+  576845: { flag: 'EXCLUDED', why: 'Last Night in Soho — ghost-haunting psychological horror' },
+
+  // Excluded — sadistic predation: slashers, serial killers, torture.
+  176: { flag: 'EXCLUDED', why: 'Saw — torture as the premise' },
+  1690: { flag: 'EXCLUDED', why: 'Hostel — torture porn' },
+  2662: { flag: 'EXCLUDED', why: 'House of 1000 Corpses — sadistic horror' },
+  18405: { flag: 'EXCLUDED', why: 'The Last House on the Left — rape and revenge torture' },
+  9792: { flag: 'EXCLUDED', why: 'The Hills Have Eyes — predation on a stranded family' },
+  274: { flag: 'EXCLUDED', why: 'The Silence of the Lambs — named in src/lib/exclusion.ts as the canonical exclusion' },
+  10665: { flag: 'EXCLUDED', why: 'The Strangers — home-invasion terror of the helpless' },
+  509635: { flag: 'EXCLUDED', why: 'Alone — abduction and pursuit of a lone woman' },
+  502416: { flag: 'EXCLUDED', why: 'Ma — predation on teenagers' },
+  276488: { flag: 'EXCLUDED', why: 'Let Us Prey — serial killer' },
+  532671: { flag: 'EXCLUDED', why: 'The Prodigy — a murderous child' },
+  531309: { flag: 'EXCLUDED', why: 'Brightburn — a child killing the helpless' },
+  7980: { flag: 'EXCLUDED', why: 'The Lovely Bones — a serial killer preying on a child' },
+  9966: { flag: 'EXCLUDED', why: 'The Messengers — child murder' },
+  588: { flag: 'EXCLUDED', why: 'Silent Hill — occult plus sustained mutilation' },
+  311: { flag: 'EXCLUDED', why: 'Once Upon a Time in America — extended rape scenes' },
+  9495: { flag: 'EXCLUDED', why: 'The Crow — built on a sadistic rape-and-murder backstory' },
+  4488: { flag: 'EXCLUDED', why: 'Friday the 13th — slasher' },
+  9725: { flag: 'EXCLUDED', why: 'Friday the 13th Part 2 — slasher' },
+  9728: { flag: 'EXCLUDED', why: 'Friday the 13th Part III — slasher' },
+  2082: { flag: 'EXCLUDED', why: 'Halloween (2007) — slasher' },
+  24150: { flag: 'EXCLUDED', why: 'Halloween II (2009) — slasher' },
+  616820: { flag: 'EXCLUDED', why: 'Halloween Ends — slasher' },
+  4234: { flag: 'EXCLUDED', why: 'Scream 3 — slasher' },
+  4247: { flag: 'EXCLUDED', why: 'Scary Movie — slasher parody; horror-adjacent comedy is out on the Zombieland precedent' },
+  10585: { flag: 'EXCLUDED', why: "Child's Play (1988) — slasher" },
+  11187: { flag: 'EXCLUDED', why: "Child's Play 3 — slasher" },
+  533642: { flag: 'EXCLUDED', why: "Child's Play (2019) — slasher" },
+  11932: { flag: 'EXCLUDED', why: 'Bride of Chucky — slasher' },
+  11249: { flag: 'EXCLUDED', why: 'Seed of Chucky — slasher' },
+  760104: { flag: 'EXCLUDED', why: 'X — slasher' },
+  1023922: { flag: 'EXCLUDED', why: 'MaXXXine — slasher' },
+
+  // Decided in the same pass as its content score, so it never sits
+  // pending: scored sexNudity 6, and the nudity here is the Mayfair
+  // brothel/blackmail-photo material rather than anything incidental.
+  // The Hit Man precedent, not the Schindler's List one.
+  8848: { flag: 'EXCLUDED', why: 'The Bank Job — real sex scenes and sustained sexual nudity alongside the heist plot' },
+
 }
 
 async function main() {
