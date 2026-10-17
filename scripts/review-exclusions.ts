@@ -343,20 +343,19 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   8848: { flag: 'EXCLUDED', why: 'The Bank Job — real sex scenes and sustained sexual nudity alongside the heist plot' },
 
   // ---- Second pass, 2026-10-17: the sexNudity-6 nominations thrown up by
-  // the 100-title scoring batch. Three decided here; three deliberately
-  // left pending, because they are the kind of call the family reserved
-  // for itself on Blue Moon. Pending is safe — they stay hidden either way.
-  //
-  //   Blade Runner 2049 — substantial nudity, but whether the synchronised
-  //     Joi/Mariette scene reads as a sex scene is a genuine judgement.
-  //     It was the #13 Adult pick, so it is worth an answer either way.
-  //   Love Actually — the body-double subplot is full nudity simulating
-  //     sex, played entirely for comedy; the Schindler's List carve-out
-  //     may or may not stretch to it.
-  //   The Love Hypothesis — a 2026 adaptation I could not verify at all.
+  // the 100-title scoring batch. Three were decided straight away; the
+  // other three were put to the family, on the Blue Moon precedent that
+  // this particular judgement is theirs, and they ruled the same day —
+  // keep Blade Runner 2049, exclude the other two.
   187017: { flag: 'EXCLUDED', why: '22 Jump Street — a depicted sex scene on top of wall-to-wall crude sexual humour' },
   820525: { flag: 'EXCLUDED', why: 'After Everything — built on depicted sex, like the rest of the After series (After We Fell already scored 7 and auto-excluded)' },
   524: { flag: 'EXCLUDED', why: 'Casino — real sex and nudity, and the vise and bat killings are torture as spectacle; it fails both halves of the rule' },
+
+  // Family decisions, 2026-10-17. Recorded so they are not re-litigated at
+  // the next refresh.
+  335984: { flag: 'CLEAR', why: 'Blade Runner 2049 — family decision; the nudity is atmosphere and the Joi/Mariette scene is not what the rule is aimed at' },
+  508: { flag: 'EXCLUDED', why: 'Love Actually — family decision; the body-double subplot simulates sex throughout, comic framing notwithstanding' },
+  1032863: { flag: 'EXCLUDED', why: 'The Love Hypothesis — family decision; excluded rather than left hidden on an unverified score' },
 
 }
 
