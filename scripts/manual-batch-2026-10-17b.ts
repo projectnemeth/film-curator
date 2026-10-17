@@ -993,8 +993,8 @@ const ADULT_TOP_ORDER: string[] = [
   // LIKED. Mercenary-and-heist action is now the strongest single vein in
   // the Adult history, and Ritchie is the name attached to it.
   'cmuuw7v9d00hnf329etm0lgc4', // Wrath of Man — Ritchie heist-revenge; the closest match in the pool to In the Grey
-  'cmuaw1qgi00he132gv8288v0n', // The Ministry of Ungentlemanly Warfare — Ritchie, and the WWII commando register of the loved war films
-  'cmuuw82xs00jdf329ggo6q1xc', // Guy Ritchie's The Covenant — Ritchie in the American Sniper lane
+  'cmuuw80r300ivf329210wn8lv', // Snatch — the Ritchie back catalogue, now that four of his films are rated LIKED or better
+  'cmtgukwvv00gh11ut7bdk39zw', // Enemy of the State — Tony Scott surveillance thriller; sits directly beside the three Bourne films above
   'cmuuw7rtp00gvf329hrucwhwn', // Blade Runner 2049 — may drop out pending its review
   'cmv4w8vgi0026m9fr1ae5jhdy', // Heat
   'cmtf5k7d300ihezj8ia4ker92', // Source Code
