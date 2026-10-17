@@ -988,11 +988,11 @@ const ADULT_TOP_ORDER: string[] = [
   'cmuuw6se1008wf3296v89785u', // The Bourne Ultimatum
   'cmuuw84jc00jqf329t5hpo657', // Minority Report
   'cmuuw8cg600lif3291zesys7h', // Lone Survivor
+  'cmuaw24h300ku132gqap06vkb', // Extraction — added 2026-10-17 after the family upgraded The Gray Man to LOVED: same AGBO shop, and Extraction 2 is already LIKED
   'cmuuw7rtp00gvf329hrucwhwn', // Blade Runner 2049 — may drop out pending its review
   'cmv4w8vgi0026m9fr1ae5jhdy', // Heat
   'cmtf5k7d300ihezj8ia4ker92', // Source Code
   'cmuuw5rmf000of329l4qrhwjp', // Catch Me If You Can
-  'cmuuw6g4x0064f3298h44kycf', // The Equalizer
   'cmukw3ds2005iuz1wz5xtael2', // Society of the Snow
   'cmuuw67ac0045f3297341tbri', // Cloverfield
   'cmuuw89vp00kxf329grek9hjq', // Spectre

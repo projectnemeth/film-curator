@@ -261,19 +261,32 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   // tags that attach to a supporting character rather than the subject.
 
   // Kept — the keyword is evidence, not a verdict.
+  //
+  // CALIBRATION, 2026-10-17: five of the thirteen CLEARs below were
+  // reversed by the family the same day (The Equalizer, and the four
+  // LGBTQ-tag calls). Two lessons for the next refresh, both of which say
+  // my threshold was set too low:
+  //   - On the LGBTQ watchlist, "only a supporting character" is not the
+  //     bar the family applies. A named character with a storyline counts
+  //     as central enough. Reserve CLEAR for a single line or a one-scene
+  //     reveal — Green Book and Clueless, not Perks or Ma Rainey.
+  //   - "Crime violence between armed professionals" does not save a film
+  //     whose kills are staged as spectacle. The Equalizer's content score
+  //     (violence 9) was the better guide than the genre.
+  // When in doubt on either watchlist, exclude or leave pending.
   36557: { flag: 'CLEAR', why: 'Casino Royale — the torture scene is one beat in a spy thriller, not the film' },
   36669: { flag: 'CLEAR', why: 'Die Another Day — same: a Bond title-sequence beat' },
   7191: { flag: 'CLEAR', why: 'Cloverfield — monster/creature threat, explicitly in-bounds' },
   396535: { flag: 'CLEAR', why: 'Train to Busan — zombie survival; the family LIKED World War Z' },
   1083862: { flag: 'CLEAR', why: 'Resident Evil: Death Island — creature threat, same basis as Train to Busan' },
   906126: { flag: 'CLEAR', why: 'Society of the Snow — Andes-crash survival; the cannibalism is endurance, not predation' },
-  156022: { flag: 'CLEAR', why: 'The Equalizer — vigilante vs. Russian mafia; crime violence between armed professionals' },
+  156022: { flag: 'EXCLUDED', why: 'The Equalizer — family decision, reversing my 2026-10-17 CLEAR; the corkscrew/nail-gun kills are torture as spectacle even though the victims are armed criminals' },
   97630: { flag: 'CLEAR', why: 'Zero Dark Thirty — named in src/lib/exclusion.ts as a film that stays in the pool' },
   466272: { flag: 'CLEAR', why: 'Once Upon a Time... in Hollywood — the `satanic cult` tag is the Manson family; the film is a Hollywood hangout picture, not occult material' },
-  84892: { flag: 'CLEAR', why: 'The Perks of Being a Wallflower — Patrick is a supporting character; the film is about Charlie' },
-  615667: { flag: 'CLEAR', why: "Ma Rainey's Black Bottom — supporting thread; the film is about the band and Levee" },
-  718032: { flag: 'CLEAR', why: 'Licorice Pizza — `closeted homosexual` covers a two-scene subplot' },
-  567690: { flag: 'CLEAR', why: 'Dear Evan Hansen — `gay youth` is incidental; the film is about teen suicide and grief' },
+  84892: { flag: 'EXCLUDED', why: 'The Perks of Being a Wallflower — family decision, reversing my 2026-10-17 CLEAR' },
+  615667: { flag: 'EXCLUDED', why: "Ma Rainey's Black Bottom — family decision, reversing my 2026-10-17 CLEAR" },
+  718032: { flag: 'EXCLUDED', why: 'Licorice Pizza — family decision, reversing my 2026-10-17 CLEAR' },
+  567690: { flag: 'EXCLUDED', why: 'Dear Evan Hansen — family decision, reversing my 2026-10-17 CLEAR' },
 
   // Excluded — LGBTQ watchlist, subject rather than supporting character.
   398818: { flag: 'EXCLUDED', why: 'Call Me by Your Name — central romance' },
