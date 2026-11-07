@@ -41,6 +41,31 @@ describe('getWatchProviders', () => {
     expect(providers).toEqual(['netflix', 'disney_plus'])
   })
 
+  // Real US flatrate names as TMDB returned them on 2026-11-07. Peacock had
+  // been renamed from 'Peacock', which silently left every title untagged.
+  it('maps the current tiered Peacock and Paramount+ names, once each, and ignores add-on channels', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        results: {
+          US: {
+            flatrate: [
+              { provider_id: 386, provider_name: 'Peacock Premium' },
+              { provider_id: 387, provider_name: 'Peacock Premium Plus' },
+              { provider_id: 2303, provider_name: 'Paramount Plus Premium' },
+              { provider_id: 2616, provider_name: 'Paramount Plus Essential' },
+              { provider_id: 582, provider_name: 'Paramount+ Amazon Channel' },
+              { provider_id: 633, provider_name: 'Paramount+ Roku Premium Channel' },
+            ],
+          },
+        },
+      }),
+    }) as unknown as typeof fetch
+
+    const providers = await getWatchProviders(1)
+    expect(providers).toEqual(['peacock', 'paramount_plus'])
+  })
+
   it('returns an empty array when there is no US flatrate data', async () => {
     global.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ results: {} }) }) as unknown as typeof fetch
     const providers = await getWatchProviders(1)
@@ -59,6 +84,15 @@ describe('discoverByProvider', () => {
     expect(calledUrl).toContain(`with_watch_providers=${PROVIDER_IDS.netflix}`)
     expect(calledUrl).toContain('sort_by=popularity.desc')
     expect(calledUrl).toContain('page=1')
+  })
+
+  it('discovers Paramount+ across both of its tiers in one request', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ results: [] }) })
+    global.fetch = fetchMock as unknown as typeof fetch
+
+    await discoverByProvider(PROVIDER_IDS.paramount_plus)
+    const calledUrl = new URL(fetchMock.mock.calls[0][0] as string)
+    expect(calledUrl.searchParams.get('with_watch_providers')).toBe('2303|2616')
   })
 
   it('requests a specific page when given one', async () => {

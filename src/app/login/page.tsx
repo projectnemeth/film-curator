@@ -62,7 +62,7 @@ export default function LoginPage() {
           Tonight&apos;s movie, already figured out.
         </h1>
         <p className="text-textSecondary text-sm leading-relaxed">
-          Film Curator searches Netflix, Disney+, Prime Video, and Peacock for what&apos;s
+          Film Curator searches Netflix, Disney+, Prime Video, Peacock, and Paramount+ for what&apos;s
           actually available, filters it against content you&apos;re comfortable with, and
           ranks it by your family&apos;s taste. It&apos;s a private app for one family — this one.
         </p>
