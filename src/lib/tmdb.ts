@@ -20,7 +20,9 @@ type TmdbWatchProvider = {
 // nothing failed, every Peacock title just stopped being tagged (found
 // 2026-11-07, zero titles tagged). Tiers of one service map to one slug.
 // Add-on channels ('Paramount+ Amazon Channel', 'Paramount+ Roku Premium
-// Channel') are separate subscriptions and deliberately left out.
+// Channel') are separate subscriptions and deliberately left out, and so is
+// 'Paramount Plus Premium': the family has the Essential tier only, and a
+// Premium-only (Showtime) title is one they can't play.
 const PROVIDER_NAME_MAP: Record<string, string> = {
   Netflix: 'netflix',
   'Disney Plus': 'disney_plus',
@@ -28,18 +30,16 @@ const PROVIDER_NAME_MAP: Record<string, string> = {
   Peacock: 'peacock',
   'Peacock Premium': 'peacock',
   'Peacock Premium Plus': 'peacock',
-  'Paramount Plus Premium': 'paramount_plus',
   'Paramount Plus Essential': 'paramount_plus',
 }
 
-// Values go straight into discover's with_watch_providers, where `|` means
-// OR — so a service with tiers is discovered in a single crawl.
-export const PROVIDER_IDS: Record<string, number | string> = {
+// Values go straight into discover's with_watch_providers.
+export const PROVIDER_IDS: Record<string, number> = {
   netflix: 8,
   disney_plus: 337,
   prime_video: 9,
   peacock: 386,
-  paramount_plus: '2303|2616',
+  paramount_plus: 2616, // Paramount Plus Essential
 }
 
 async function tmdbFetch(path: string, params: Record<string, string> = {}) {
@@ -65,7 +65,7 @@ export async function getWatchProviders(tmdbId: number): Promise<string[]> {
   return [...new Set(slugs)]
 }
 
-export async function discoverByProvider(providerId: number | string, page: number = 1): Promise<TmdbSearchResult[]> {
+export async function discoverByProvider(providerId: number, page: number = 1): Promise<TmdbSearchResult[]> {
   const data = await tmdbFetch('/discover/movie', {
     with_watch_providers: String(providerId),
     watch_region: 'US',

@@ -43,7 +43,7 @@ describe('getWatchProviders', () => {
 
   // Real US flatrate names as TMDB returned them on 2026-11-07. Peacock had
   // been renamed from 'Peacock', which silently left every title untagged.
-  it('maps the current tiered Peacock and Paramount+ names, once each, and ignores add-on channels', async () => {
+  it('maps the current tiered Peacock names once, counts only the Essential Paramount+ tier, and ignores add-on channels', async () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({
@@ -66,6 +66,14 @@ describe('getWatchProviders', () => {
     expect(providers).toEqual(['peacock', 'paramount_plus'])
   })
 
+  it('does not tag a title that is only on Paramount+ Premium', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ results: { US: { flatrate: [{ provider_id: 2303, provider_name: 'Paramount Plus Premium' }] } } }),
+    }) as unknown as typeof fetch
+    expect(await getWatchProviders(1)).toEqual([])
+  })
+
   it('returns an empty array when there is no US flatrate data', async () => {
     global.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ results: {} }) }) as unknown as typeof fetch
     const providers = await getWatchProviders(1)
@@ -86,13 +94,13 @@ describe('discoverByProvider', () => {
     expect(calledUrl).toContain('page=1')
   })
 
-  it('discovers Paramount+ across both of its tiers in one request', async () => {
+  it('discovers Paramount+ on the Essential tier, which is the one the family has', async () => {
     const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ results: [] }) })
     global.fetch = fetchMock as unknown as typeof fetch
 
     await discoverByProvider(PROVIDER_IDS.paramount_plus)
     const calledUrl = new URL(fetchMock.mock.calls[0][0] as string)
-    expect(calledUrl.searchParams.get('with_watch_providers')).toBe('2303|2616')
+    expect(calledUrl.searchParams.get('with_watch_providers')).toBe('2616')
   })
 
   it('requests a specific page when given one', async () => {
