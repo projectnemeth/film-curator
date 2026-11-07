@@ -395,14 +395,14 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
 
   // Excluded — LGBTQ watchlist, central or a named storyline.
   957304: { flag: 'EXCLUDED', why: 'Drive-Away Dolls — lesbian road comedy; the subject' },
-  961323: { flag: 'EXCLUDED', why: "Nimona — Ballister and Ambrosius's relationship drives the plot" },
-  455: { flag: 'EXCLUDED', why: "Bend It Like Beckham — Tony's coming-out is a named storyline, plus the running mistaken-lesbian subplot; the 2026-10-17 calibration says that is enough" },
+  961323: { flag: 'EXCLUDED', why: "Nimona — Ballister and Ambrosius's relationship drives the plot; confirmed as a family decision 2026-11-07" },
+  455: { flag: 'EXCLUDED', why: "Bend It Like Beckham — Tony's coming-out is a named storyline, plus the running mistaken-lesbian subplot; the 2026-10-17 calibration says that is enough; confirmed as a family decision 2026-11-07" },
   1182047: { flag: 'EXCLUDED', why: "The Apprentice — a depicted rape, and Roy Cohn's sexuality is part of the portrait" },
   // Not keyword-nominated; caught while ranking Family mode.
-  877269: { flag: 'EXCLUDED', why: "Strange World — Ethan's crush on Diazo is a named, recurring storyline; my call, not a keyword nomination, so easy to flip" },
+  877269: { flag: 'EXCLUDED', why: "Strange World — Ethan's crush on Diazo is a named, recurring storyline; not keyword-nominated, but confirmed as a family decision 2026-11-07" },
 
   // Kept.
-  267935: { flag: 'CLEAR', why: "The BFG — the `cannibal` tag is Dahl's child-eating giants, a fairy-tale creature threat; not predation as the rule means it" },
+  267935: { flag: 'CLEAR', why: "The BFG — the `cannibal` tag is Dahl's child-eating giants, a fairy-tale creature threat; not predation as the rule means it; confirmed as a family decision 2026-11-07" },
 
   // Decided in the same pass as their content scores (scripts/manual-batch-2026-11-07.ts).
   // These are the sexNudity-6 nominations, judged on what the nudity is doing.
