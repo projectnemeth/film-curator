@@ -410,6 +410,60 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   11644: { flag: 'EXCLUDED', why: 'Blow Out — a strangler preying on women is the plot, and the nudity is slasher-film exploitation' },
   839369: { flag: 'EXCLUDED', why: 'May December — a depicted sex scene, and the subject is a grooming relationship' },
 
+  // ---- Second pass, 2026-11-07: 37 pending after Paramount+ was added and
+  // the Peacock tagging fix brought ~300 titles in. Same calibration.
+  // Brotherhood of the Wolf and Dhurandhar: The Revenge are still pending.
+
+  // Kept — war and combat, which the rule keeps however graphic.
+  447332: { flag: 'CLEAR', why: 'A Quiet Place — creature survival; both sequels are already CLEAR' },
+  324786: { flag: 'CLEAR', why: 'Hacksaw Ridge — WWII combat gore; war violence stays in' },
+  2024: { flag: 'CLEAR', why: 'The Patriot — Revolutionary War combat' },
+  1369: { flag: 'CLEAR', why: 'Rambo: First Blood Part II — the torture is a POW-camp beat in a war film, the stated exception' },
+  11362: { flag: 'CLEAR', why: 'The Count of Monte Cristo (2002) — PG-13 prison-and-revenge adventure; `torture` is the Château d’If imprisonment' },
+
+  // Excluded — sadistic predation.
+  10283: { flag: 'EXCLUDED', why: 'Friday the 13th Part VIII — slasher' },
+  9730: { flag: 'EXCLUDED', why: 'Friday the 13th: The Final Chapter — slasher' },
+  10225: { flag: 'EXCLUDED', why: 'Jason Lives: Friday the 13th Part VI — slasher' },
+  10066: { flag: 'EXCLUDED', why: 'House of Wax (2005) — slasher' },
+  9373: { flag: 'EXCLUDED', why: 'The Texas Chainsaw Massacre (2003) — slasher, torture, cannibalism' },
+  1696: { flag: 'EXCLUDED', why: "The Devil's Rejects — sadistic horror; the subject" },
+  413857: { flag: 'EXCLUDED', why: 'Tragedy Girls — teen serial-killer comedy' },
+  807: { flag: 'EXCLUDED', why: 'Se7en — serial killer; staged torture-murders are the film' },
+  1949: { flag: 'EXCLUDED', why: 'Zodiac — serial killer; a procedural, but so is The Silence of the Lambs, the canonical exclusion' },
+  13885: { flag: 'EXCLUDED', why: 'Sweeney Todd — a serial-killer barber and cannibal pies' },
+  301365: { flag: 'EXCLUDED', why: 'The Neon Demon — cannibalism and necrophilia' },
+  402: { flag: 'EXCLUDED', why: 'Basic Instinct — ice-pick killer and explicit sex; fails both rules' },
+  3176: { flag: 'EXCLUDED', why: 'Battle Royale — schoolchildren forced to kill each other, staged as gore spectacle; much further than The Hunger Games' },
+  457335: { flag: 'EXCLUDED', why: 'Guns Akimbo — a streamed death game played for gore; the Equalizer lesson, not the Death Race one' },
+  345887: { flag: 'EXCLUDED', why: 'The Equalizer 2 — consistent with the family excluding The Equalizer for kills staged as spectacle' },
+
+  // Excluded — occult, demonic, supernatural, and horror-adjacent comedy.
+  139038: { flag: 'EXCLUDED', why: 'A Haunted House — demonic possession played for laughs; A Haunted House 2 is already out' },
+  4011: { flag: 'EXCLUDED', why: 'Beetlejuice — ghost/afterlife horror-comedy; Ghostbusters precedent' },
+  60304: { flag: 'EXCLUDED', why: 'Hansel & Gretel: Witch Hunters — witchcraft' },
+  9064: { flag: 'EXCLUDED', why: 'Hellbound: Hellraiser II — demons and torture; Hellraiser is already out' },
+  1368314: { flag: 'EXCLUDED', why: 'Passenger (2026) — demonic horror' },
+  8913: { flag: 'EXCLUDED', why: 'Pet Sematary — supernatural resurrection horror' },
+  805: { flag: 'EXCLUDED', why: "Rosemary's Baby — satanic cult; the subject" },
+  1273221: { flag: 'EXCLUDED', why: 'Scary Movie (2026) — slasher parody; Scary Movie is already out' },
+  4248: { flag: 'EXCLUDED', why: 'Scary Movie 2 — exorcism parody' },
+  4258: { flag: 'EXCLUDED', why: 'Scary Movie 5 — possession parody' },
+  273477: { flag: 'EXCLUDED', why: 'Scouts Guide to the Zombie Apocalypse — zombie horror-comedy; Zombieland precedent' },
+  882598: { flag: 'EXCLUDED', why: 'Smile — demonic entity horror' },
+  1286185: { flag: 'EXCLUDED', why: "The Carpenter's Son — supernatural horror about Jesus's childhood" },
+
+  // Excluded — LGBTQ watchlist.
+  752: { flag: 'EXCLUDED', why: "V for Vendetta — Valerie's letter is a named, extended storyline; the Evey torture is political imprisonment and would not exclude it alone" },
+
+  // Not keyword-nominated; caught while ranking.
+  274857: { flag: 'EXCLUDED', why: 'King Arthur: Legend of the Sword — fantasy magic (mages, sorcery, Excalibur); the Black Clover / Harry Potter cluster, despite the Guy Ritchie fit' },
+  501170: { flag: 'EXCLUDED', why: 'Doctor Sleep — a cult that tortures children to death, plus supernatural horror' },
+
+  // sexNudity-6 nominations from scripts/manual-batch-2026-11-07b.ts, decided in the same pass.
+  1271: { flag: 'EXCLUDED', why: "300 — a depicted Leonidas/Gorgo sex scene and Xerxes' harem orgy; the combat alone would be fine" },
+  87502: { flag: 'EXCLUDED', why: 'Flight — opens on a prolonged, sexualised full-frontal hotel-room scene' },
+
 }
 
 async function main() {
