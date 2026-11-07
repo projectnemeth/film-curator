@@ -370,6 +370,46 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   508: { flag: 'EXCLUDED', why: 'Love Actually — family decision; the body-double subplot simulates sex throughout, comic framing notwithstanding' },
   1032863: { flag: 'EXCLUDED', why: 'The Love Hypothesis — family decision; excluded rather than left hidden on an unverified score' },
 
+  // ---- Reviewed 2026-11-07 (19 pending). ----
+  //
+  // Judged on the stricter 2026-10-17 calibration above: a named character
+  // with a storyline is enough on the LGBTQ watchlist, and when in doubt,
+  // exclude or leave pending. Two titles stay pending (Brotherhood of the
+  // Wolf, Dhurandhar: The Revenge) because I could not judge them honestly.
+
+  // Excluded — sadistic predation.
+  167032: { flag: 'EXCLUDED', why: "Curse of Chucky — slasher; same as the rest of the Child's Play series" },
+  11033: { flag: 'EXCLUDED', why: 'Dressed to Kill — De Palma slasher, a razor killer stalking women' },
+  457799: { flag: 'EXCLUDED', why: 'Extremely Wicked, Shockingly Evil and Vile — the Ted Bundy story' },
+  949423: { flag: 'EXCLUDED', why: 'Pearl — slasher; prequel to X, which is already excluded' },
+  1159559: { flag: 'EXCLUDED', why: 'Scream 7 — slasher' },
+  281: { flag: 'EXCLUDED', why: 'Strange Days — the POV rape-murder playback is the sadistic centrepiece' },
+  505058: { flag: 'EXCLUDED', why: 'Unfriended: Dark Web — captives tortured and killed for a dark-web audience; the lesbian couple are also central' },
+
+  // Excluded — occult, demonic and satanic material.
+  9003: { flag: 'EXCLUDED', why: 'Hellraiser — demonic Cenobites, mutilation; fails both halves of the rule' },
+  591275: { flag: 'EXCLUDED', why: 'Fear Street: 1666 — witchcraft and a pact with the devil' },
+  986097: { flag: 'EXCLUDED', why: 'HIM — satanic sports horror' },
+  287903: { flag: 'EXCLUDED', why: 'Krampus — demon horror-comedy; horror-adjacent comedy is out on the Zombieland precedent' },
+  957452: { flag: 'EXCLUDED', why: 'The Crow (2024) — resurrection through an underworld pact with a soul-trading villain, plus gore; the 1994 film is already excluded' },
+
+  // Excluded — LGBTQ watchlist, central or a named storyline.
+  957304: { flag: 'EXCLUDED', why: 'Drive-Away Dolls — lesbian road comedy; the subject' },
+  961323: { flag: 'EXCLUDED', why: "Nimona — Ballister and Ambrosius's relationship drives the plot" },
+  455: { flag: 'EXCLUDED', why: "Bend It Like Beckham — Tony's coming-out is a named storyline, plus the running mistaken-lesbian subplot; the 2026-10-17 calibration says that is enough" },
+  1182047: { flag: 'EXCLUDED', why: "The Apprentice — a depicted rape, and Roy Cohn's sexuality is part of the portrait" },
+  // Not keyword-nominated; caught while ranking Family mode.
+  877269: { flag: 'EXCLUDED', why: "Strange World — Ethan's crush on Diazo is a named, recurring storyline; my call, not a keyword nomination, so easy to flip" },
+
+  // Kept.
+  267935: { flag: 'CLEAR', why: "The BFG — the `cannibal` tag is Dahl's child-eating giants, a fairy-tale creature threat; not predation as the rule means it" },
+
+  // Decided in the same pass as their content scores (scripts/manual-batch-2026-11-07.ts).
+  // These are the sexNudity-6 nominations, judged on what the nudity is doing.
+  814: { flag: 'EXCLUDED', why: 'An American Werewolf in London — depicted sex scene and nude scenes, and it is horror-comedy, out on the Zombieland precedent' },
+  11644: { flag: 'EXCLUDED', why: 'Blow Out — a strangler preying on women is the plot, and the nudity is slasher-film exploitation' },
+  839369: { flag: 'EXCLUDED', why: 'May December — a depicted sex scene, and the subject is a grooming relationship' },
+
 }
 
 async function main() {
