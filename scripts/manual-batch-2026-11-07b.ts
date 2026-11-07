@@ -13,6 +13,10 @@
 //   npx tsx scripts/manual-batch-2026-11-07b.ts rank
 //
 // Hand order first, then the previous cache order, as in the first pass.
+//
+// Later the same day the family kept V for Vendetta and excluded the two
+// pending titles; its score and rank were added and both stages re-run
+// (the scores stage skips titles already scored).
 
 import { prisma } from '../src/lib/prisma'
 import { computeRankingFingerprint, type TasteHistoryEntry } from '../src/lib/ranking'
@@ -95,6 +99,9 @@ const CONTENT_RATINGS: ContentRating[] = [
     sourceNotes: gk('300, 2007', 'stylised slow-motion decapitations and dismemberment; a depicted sex scene and Xerxes’ harem. Excluded by verdict.') },
   { id: 'cmw6q5odo003u7vo29e66f5do', name: 'Gangs of New York', violence: 9, language: 6, sexNudity: 5, scariness: 6,
     sourceNotes: gk('Gangs of New York, 2002', 'cleaver and knife gang warfare, a public hanging, the Draft Riots; brief nudity and a brothel setting.') },
+  // Added after the family reversed my V for Vendetta exclusion the same day.
+  { id: 'cmw6q53x6000o7vo2os9owwfn', name: 'V for Vendetta', violence: 7, language: 5, sexNudity: 2, scariness: 5,
+    sourceNotes: gk('V for Vendetta, 2006', 'knife-fight finale in slow motion, executions and Evey\u2019s imprisonment and torture; mild sexual content, moderate language.') },
 ]
 
 // ---- Hand ranking ----
@@ -150,6 +157,7 @@ const ADULT_HAND_ORDER: string[] = [
   'cmuuw810d00ixf329ez1ujs3t', // Casino Royale
   'cmukw2qy80006uz1wqsmqy88m', // Top Gun: Maverick
   'cmvowemp5000kx6mmb5dxn0gr', // Gladiator
+  'cmw6q53x6000o7vo2os9owwfn', // V for Vendetta — written and produced by the Wachowskis (The Matrix, LOVED); kept by family decision
   'cmw6q5jli00337vo2rmnaf4ka', // Mission: Impossible (1996) — NEW; dated next to the McQuarrie films, so lower
   'cmuuw86rf00k8f3295rucodjq', // Skyfall
   'cmuuw6jjq006wf329a2zhndfd', // The Bourne Identity

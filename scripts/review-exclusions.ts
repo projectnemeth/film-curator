@@ -454,7 +454,11 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   1286185: { flag: 'EXCLUDED', why: "The Carpenter's Son — supernatural horror about Jesus's childhood" },
 
   // Excluded — LGBTQ watchlist.
-  752: { flag: 'EXCLUDED', why: "V for Vendetta — Valerie's letter is a named, extended storyline; the Evey torture is political imprisonment and would not exclude it alone" },
+  752: { flag: 'CLEAR', why: "V for Vendetta — family decision 2026-11-07, reversing my EXCLUDED on the Valerie storyline" },
+
+  // Family decisions 2026-11-07 on the two titles I left pending.
+  6312: { flag: 'EXCLUDED', why: 'Brotherhood of the Wolf — family decision' },
+  1582770: { flag: 'EXCLUDED', why: 'Dhurandhar: The Revenge — family decision' },
 
   // Not keyword-nominated; caught while ranking.
   274857: { flag: 'EXCLUDED', why: 'King Arthur: Legend of the Sword — fantasy magic (mages, sorcery, Excalibur); the Black Clover / Harry Potter cluster, despite the Guy Ritchie fit' },
