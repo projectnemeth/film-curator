@@ -24,7 +24,7 @@
 // only drops titles that scoring or verdicts have hidden and appends any
 // arrivals. That is the 2026-11-07 approach with an empty hand order.
 
-import { readFileSync } from 'fs'
+import { existsSync, readFileSync } from 'fs'
 import { join } from 'path'
 import { prisma } from '../src/lib/prisma'
 import { computeRankingFingerprint, type TasteHistoryEntry } from '../src/lib/ranking'
@@ -46,8 +46,14 @@ type ScoredTitle = {
   exclusionFlag: { category: string; reason: string } | null
 }
 
-const SCORES: ScoredTitle[] = JSON.parse(
-  readFileSync(join(__dirname, 'manual-batch-2026-11-19.scores.json'), 'utf8')
+// The second file is the 110 titles found later the same day: no longer on
+// any streaming service, but still shown on the dashboard as "availability
+// unknown", so they need scores too. The skill's scoring query had been
+// filtering them out; see the provider trap in SKILL.md. Re-running the
+// scores stage skips anything already scored, so loading both is safe.
+const SCORE_FILES = ['manual-batch-2026-11-19.scores.json', 'manual-batch-2026-11-19b.scores.json']
+const SCORES: ScoredTitle[] = SCORE_FILES.filter((f) => existsSync(join(__dirname, f))).flatMap(
+  (f) => JSON.parse(readFileSync(join(__dirname, f), 'utf8')) as ScoredTitle[]
 )
 
 async function writeContentScores() {

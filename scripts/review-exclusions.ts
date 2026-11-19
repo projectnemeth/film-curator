@@ -568,6 +568,49 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   23483: { flag: 'EXCLUDED', why: 'Kick-Ass — a man burned alive on a livestream, plus torture; the Guns Akimbo precedent' },
   5548: { flag: 'EXCLUDED', why: 'RoboCop — Murphy\'s prolonged execution is sadism staged for the viewer' },
 
+  // ---- 2026-11-19, second batch: the 110 off-streaming titles. ----
+  // These still show on the dashboard as "availability unknown", so they
+  // needed scores; the skill's query had filtered them out. Kept despite a
+  // scorer's flag: Tremors 1 and 2 (creature threat), The World's End,
+  // The Scorpion King, and the Blade films (vampire action, consistent with
+  // Underworld). Get Out was flagged but is rated LIKED.
+  // Hot Fuzz was flagged too, but it already has a CLEAR from 2026-09-11
+  // (a Dark Knight-style false positive), and that decision stands.
+
+  // sexNudity 6 — kept.
+  193893: { flag: 'CLEAR', why: 'Let\'s Be Cops — comic full-frontal nudity with no sex scene; the Balls Up / Baywatch carve-out' },
+
+  // sexNudity 6 — excluded.
+  126889: { flag: 'EXCLUDED', why: 'Alien: Covenant — a brief shower sex scene' },
+  535: { flag: 'EXCLUDED', why: 'Flashdance — a sex scene and topless dancers' },
+  80038: { flag: 'EXCLUDED', why: 'Friends with Kids — depicted sex scenes' },
+  755: { flag: 'EXCLUDED', why: 'From Dusk Till Dawn — vampire horror-comedy, Richie preying on a hostage, strip-club nudity' },
+  460071: { flag: 'EXCLUDED', why: 'Lizzie — a sex scene, a depicted rape, and the central romance is the subject' },
+  195589: { flag: 'EXCLUDED', why: 'Neighbors — a depicted sex scene and topless party nudity' },
+  340666: { flag: 'EXCLUDED', why: 'Nocturnal Animals — the abduction, rape and murder of a mother and daughter' },
+  15764: { flag: 'EXCLUDED', why: 'Sophie\'s Choice — depicted sex scenes' },
+  6957: { flag: 'EXCLUDED', why: 'The 40 Year-Old Virgin — built on sex, with several sexual encounters on screen; Knocked Up and Superbad are out' },
+  9426: { flag: 'EXCLUDED', why: 'The Fly — a sex scene alongside the body horror' },
+  604: { flag: 'EXCLUDED', why: 'The Matrix Reloaded — the sex scene intercut with the rave (already DISLIKED)' },
+  239678: { flag: 'EXCLUDED', why: 'This Is Where I Leave You — the opening walk-in on an affair in progress' },
+  1903: { flag: 'EXCLUDED', why: 'Vanilla Sky — depicted sex scenes' },
+  50647: { flag: 'EXCLUDED', why: 'Wanderlust — constant nudity inside a free-love premise; the No Hard Feelings reasoning' },
+
+  // Flagged by the scorers; excluded on existing precedent.
+  169917: { flag: 'EXCLUDED', why: 'A Walk Among the Tombstones — serial killers abducting, torturing and dismembering women; the Zodiac precedent' },
+  993784: { flag: 'EXCLUDED', why: 'Lisa Frankenstein — horror-comedy' },
+  58151: { flag: 'EXCLUDED', why: 'Fright Night — vampire horror-comedy' },
+  787747: { flag: 'EXCLUDED', why: 'Shell — body-horror satire; low-confidence score, excluded on when-in-doubt' },
+  11618: { flag: 'EXCLUDED', why: 'The Haunting — ghost horror; The Ring precedent' },
+  417384: { flag: 'EXCLUDED', why: 'Scary Stories to Tell in the Dark — curse and ghost horror' },
+  564: { flag: 'EXCLUDED', why: 'The Mummy — resurrection by incantation from the Book of the Dead, curses and plagues; occult and fantasy magic' },
+  1734: { flag: 'EXCLUDED', why: 'The Mummy Returns — same as The Mummy' },
+  854: { flag: 'EXCLUDED', why: 'The Mask — a magic mask holding Loki\'s spirit is the whole premise; fantasy magic' },
+  353491: { flag: 'EXCLUDED', why: 'The Dark Tower — a sorcerer villain and magic at the centre' },
+  18823: { flag: 'EXCLUDED', why: 'Clash of the Titans — the Stygian witches, Hades\' sorcery and djinn magic; fantasy magic' },
+  522938: { flag: 'EXCLUDED', why: 'Rambo: Last Blood — trap kills staged as spectacle; the Equalizer lesson' },
+  9718: { flag: 'EXCLUDED', why: 'Talladega Nights: The Ballad of Ricky Bobby — Jean Girard\'s sexuality and marriage are a running storyline' },
+
 }
 
 async function main() {

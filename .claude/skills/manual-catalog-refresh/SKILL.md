@@ -61,9 +61,18 @@ from `../src/lib/filtering`, then for each mode (`FAMILY`, `ADULT`) dumps:
 
 - **Taste history**: `prisma.tasteRating.findMany({ where: { familyId: 'default', mode }, include: { title: true } })`, filtered to `rating !== 'NOT_SEEN'`, printing `titleName`, `rating`, `director`, `writer`, `topCast`, `studio`. Group/print by rating bucket (LOVED / LIKED / DISLIKED / NOT_INTERESTED / TOO_INAPPROPRIATE) — this is the actual taste signal.
 - **Not-seen candidates**: same visibility + exclusion logic as `src/app/api/recommendations/route.ts` (`isTitleVisible`, exclude `HIDDEN_AFTER_RATING = new Set(['DISLIKED','LIKED','TOO_INAPPROPRIATE','NOT_INTERESTED'])` and `LOVED`), printing `id`, `name`, `year`, `director`, `writer`, `topCast`, `studio`.
-- **Content-rating candidates**: `prisma.title.findMany({ where: { contentScore: null, providers: { isEmpty: false }, AND: [{ OR: [{ mpaaRating: { in: ['PG-13','R'] } }, { modeOverride: 'ADULT' }] }, { OR: [{ contentFlag: null }, { contentFlag: { not: 'EXCLUDED' } }] }] }, orderBy: { createdAt: 'desc' }, take: N })` — `id`, `name`, `year`, `mpaaRating`.
+- **Content-rating candidates**: `prisma.title.findMany({ where: { contentScore: null, AND: [{ OR: [{ mpaaRating: { in: ['PG-13','R'] } }, { modeOverride: 'ADULT' }] }, { OR: [{ contentFlag: null }, { contentFlag: { not: 'EXCLUDED' } }] }] }, orderBy: { createdAt: 'desc' }, take: N })` — `id`, `name`, `year`, `mpaaRating`.
 
-  Three traps here, each of which produced a silently wrong answer once:
+  Four traps here, each of which produced a silently wrong answer once:
+
+  - **Do not filter on `providers: { isEmpty: false }`.** It looks like
+    "only titles on streaming", but nothing on the dashboard filters by
+    provider: a title that has left every service still shows, labelled
+    "availability unknown" (`src/app/page.tsx`). An earlier version of this
+    query carried that filter, and on 2026-11-19 it was found to have hidden
+    89 visible, unscored Adult titles from every refresh — showing the
+    placeholder, and invisible to the sexNudity exclusion rule, which can
+    only nominate a title that has a score.
 
   - **`contentFlag: { not: 'EXCLUDED' }` on its own drops every unreviewed
     title.** `contentFlag` is null for the vast majority of the catalog
