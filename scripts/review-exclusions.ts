@@ -490,6 +490,84 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   12613: { flag: 'EXCLUDED', why: "Street Fighter II: The Animated Movie — Chun-Li's shower scene is voyeuristic nudity staged for the viewer; the Animal House precedent" },
   62215: { flag: 'EXCLUDED', why: 'Melancholia — a depicted sex scene on the golf course; the nude moonbathing alone might pass, the sex does not' },
 
+  // ---- 2026-11-19: decisions on the 386-title scoring batch ----
+  // (scripts/manual-batch-2026-11-19.ts). Scored by four sub-agents
+  // against one calibration table; every call below was made in the main
+  // session on the stricter calibration. The family's own LIKED ratings
+  // outrank a score (the KPop Demon Hunters precedent). Two sexNudity-6
+  // titles are left pending because the scores are low-confidence and I
+  // could not judge them: Office Romance (2026) and Under Suspicion (1991).
+
+  // sexNudity 6 — kept.
+  339846: { flag: 'CLEAR', why: 'Baywatch — comic male nudity on a corpse, no sex scene depicted; the Balls Up carve-out' },
+  1612018: { flag: 'CLEAR', why: 'Jackass: Best and Last — stunt nudity, not sexual; the Balls Up carve-out (score is a low-confidence estimate)' },
+  646380: { flag: 'CLEAR', why: 'Don\'t Look Up — the family has already watched it and rated it LIKED; their rating outranks the score' },
+  222935: { flag: 'CLEAR', why: 'The Fault in Our Stars — rated LIKED by the family; a brief, non-explicit love scene' },
+  11036: { flag: 'CLEAR', why: 'The Notebook — rated LIKED by the family; their rating outranks the score' },
+
+  // sexNudity 6 — excluded. The family's line: sex scenes out, non-sexual nudity can stay.
+  65: { flag: 'EXCLUDED', why: '8 Mile — a depicted sex scene in the factory' },
+  431530: { flag: 'EXCLUDED', why: 'A Bad Moms Christmas — crude sexual content is its mode, including a stripper contest' },
+  340837: { flag: 'EXCLUDED', why: 'A Cure for Wellness — nudity, an attempted rape and an incest plot' },
+  537915: { flag: 'EXCLUDED', why: 'After — depicted sex; every other After film is already out' },
+  197: { flag: 'EXCLUDED', why: 'Braveheart — a love scene with nudity, and Prince Edward\'s companion is a named storyline; fails both the sex and the LGBTQ bar' },
+  1272149: { flag: 'EXCLUDED', why: 'Bridget Jones: Mad About the Boy — depicted sex scenes' },
+  795: { flag: 'EXCLUDED', why: 'City of Angels — a love scene with nudity' },
+  24099: { flag: 'EXCLUDED', why: 'Dreamscape — a depicted sex scene' },
+  1042834: { flag: 'EXCLUDED', why: 'Eden — a sexual assault and nudity' },
+  275: { flag: 'EXCLUDED', why: 'Fargo — brief depicted sex scenes' },
+  8009: { flag: 'EXCLUDED', why: 'Highlander — a love scene with nudity' },
+  644495: { flag: 'EXCLUDED', why: 'House of Gucci — depicted sex scenes' },
+  109431: { flag: 'EXCLUDED', why: 'Identity Thief — a comic sex scene with partial nudity — comic is still depicted' },
+  37958: { flag: 'EXCLUDED', why: 'Immortals — a sex scene with nudity' },
+  1052280: { flag: 'EXCLUDED', why: 'It\'s What\'s Inside — body-swapped guests hooking up at the party' },
+  4964: { flag: 'EXCLUDED', why: 'Knocked Up — depicted sex scenes and a graphic birth scene' },
+  10861: { flag: 'EXCLUDED', why: 'Maximum Risk — a sex scene with nudity' },
+  884605: { flag: 'EXCLUDED', why: 'No Hard Feelings — built on paying a woman to seduce a 19-year-old; the nudity sits inside that premise' },
+  496243: { flag: 'EXCLUDED', why: 'Parasite — the couch sex scene, clothed but explicit' },
+  1662: { flag: 'EXCLUDED', why: 'State of Grace — a depicted sex scene' },
+  912908: { flag: 'EXCLUDED', why: 'Strays — crude sexual gags are the mode (already NOT_INTERESTED)' },
+  8363: { flag: 'EXCLUDED', why: 'Superbad — an interrupted sex scene involving a teenage character' },
+  76493: { flag: 'EXCLUDED', why: 'The Dictator — crude sexual humour throughout; the Borat precedent' },
+  379149: { flag: 'EXCLUDED', why: 'The Foreigner — a sex scene with nudity' },
+  18785: { flag: 'EXCLUDED', why: 'The Hangover — comic nudity, and the credit-sequence photos depict sexual acts; the sequel scores 7' },
+  843527: { flag: 'EXCLUDED', why: 'The Idea of You — several depicted sex scenes' },
+  254904: { flag: 'EXCLUDED', why: 'The November Man — a sex scene with nudity' },
+  50619: { flag: 'EXCLUDED', why: 'The Twilight Saga: Breaking Dawn - Part 1 — the honeymoon sex scene (already NOT_INTERESTED)' },
+  1541: { flag: 'EXCLUDED', why: 'Thelma & Louise — the motel sex scene and an attempted rape' },
+  597: { flag: 'EXCLUDED', why: 'Titanic — the nude portrait sitting and the car sex scene' },
+  1621: { flag: 'EXCLUDED', why: 'Trading Places — extended topless nudity staged to tempt; the Animal House precedent' },
+  138832: { flag: 'EXCLUDED', why: 'We\'re the Millers — a strip scene and comic graphic nudity' },
+  1592: { flag: 'EXCLUDED', why: 'Primal Fear — the videotape the plot turns on shows coerced sexual abuse of minors' },
+
+  // Not nominated by keywords; flagged by the scorers or caught in review.
+  283366: { flag: 'EXCLUDED', why: 'Miss Peregrine\'s Home for Peculiar Children — children with magical powers and time-bending ymbrynes; the fantasy-magic cluster' },
+  1729: { flag: 'EXCLUDED', why: 'The Forbidden Kingdom — sorcery, immortals, a witch and the Monkey King\'s staff drive it; fantasy magic, despite the Jet Li fit' },
+  2758: { flag: 'EXCLUDED', why: 'Addams Family Values — macabre horror-comedy; the Beetlejuice precedent' },
+  2907: { flag: 'EXCLUDED', why: 'The Addams Family — macabre horror-comedy with a seance; the Beetlejuice precedent' },
+  9374: { flag: 'EXCLUDED', why: 'Death Becomes Her — horror-comedy built on a magic immortality potion' },
+  593643: { flag: 'EXCLUDED', why: 'The Menu — killings staged as courses of a meal' },
+  46838: { flag: 'EXCLUDED', why: 'Tucker and Dale vs. Evil — slasher parody; the Scary Movie precedent' },
+  1265063: { flag: 'EXCLUDED', why: 'After the Hunt — a partner\'s gender identity is a named storyline' },
+  11529: { flag: 'EXCLUDED', why: 'Sweet Home Alabama — Bobby Ray\'s coming out is a recurring subplot, more than a single line' },
+  340102: { flag: 'EXCLUDED', why: 'The New Mutants — a central same-sex romance, plus demonic imagery' },
+  511809: { flag: 'EXCLUDED', why: 'West Side Story — Anybodys\'s gender identity is a recurring thread' },
+  9529: { flag: 'EXCLUDED', why: 'Candyman — a summoned vengeful spirit; supernatural slasher' },
+  1246049: { flag: 'EXCLUDED', why: 'Dracula — damnation and vampirism after renouncing God' },
+  9030: { flag: 'EXCLUDED', why: 'The Eye — ghost horror; The Ring precedent' },
+  790: { flag: 'EXCLUDED', why: 'The Fog — vengeful revenant ghosts; The Ring precedent' },
+  1970: { flag: 'EXCLUDED', why: 'The Grudge — curse and vengeful-ghost horror; The Ring precedent' },
+  2637: { flag: 'EXCLUDED', why: 'The Mothman Prophecies — paranormal horror' },
+  13310: { flag: 'EXCLUDED', why: 'Let the Right One In — child-vampire horror' },
+  6977: { flag: 'EXCLUDED', why: 'No Country for Old Men — Chigurh preys on innocents; consistent with Zodiac and The Silence of the Lambs' },
+  1084187: { flag: 'EXCLUDED', why: 'Pretty Lethal — young women hunted at an isolated inn; low-confidence score, excluded on when-in-doubt' },
+  500: { flag: 'EXCLUDED', why: 'Reservoir Dogs — the ear-cutting torture of a bound policeman is the centrepiece' },
+  8374: { flag: 'EXCLUDED', why: 'The Boondock Saints — ritualised executions staged as set pieces; the Equalizer lesson' },
+  241848: { flag: 'EXCLUDED', why: 'The Guest — a psychopath picking off a family and townspeople' },
+  111: { flag: 'EXCLUDED', why: 'Scarface — the chainsaw torture scene; consistent with Casino and Reservoir Dogs' },
+  23483: { flag: 'EXCLUDED', why: 'Kick-Ass — a man burned alive on a livestream, plus torture; the Guns Akimbo precedent' },
+  5548: { flag: 'EXCLUDED', why: 'RoboCop — Murphy\'s prolonged execution is sadism staged for the viewer' },
+
 }
 
 async function main() {

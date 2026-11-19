@@ -1,0 +1,4563 @@
+[
+ {
+  "id": "cmw6q9ovz00rp7vo21afgnjea",
+  "name": "Dreamscape",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 6,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Dreamscape, 1984): nightmare imagery including the snake man and a post-nuclear dream, some shootings and fights; a brief sex scene inside a dream on a train (little or no nudity) puts sexNudity at review level.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Brief dream-sequence sex scene on a train between Dennis Quaid and Kate Capshaw; reviewer should judge."
+  }
+ },
+ {
+  "id": "cmw6q9me900r97vo2ndwxjepr",
+  "name": "The Fast and the Furious: Tokyo Drift",
+  "violence": 4,
+  "language": 5,
+  "sexNudity": 3,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Fast and the Furious: Tokyo Drift, 2006): street-racing crashes, brawls and a yakuza beating, a fatal crash; mild-moderate language and bikini/party ogling with no sex scene.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q9lta00r67vo2nkitiykn",
+  "name": "The Mothman Prophecies",
+  "violence": 3,
+  "language": 4,
+  "sexNudity": 1,
+  "scariness": 7,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Mothman Prophecies, 2002): sustained dread from an unseen winged entity, eerie phone calls and visions, a fatal car crash and the Silver Bridge collapse; little gore.",
+  "exclusionFlag": {
+   "category": "OCCULT",
+   "reason": "Supernatural harbinger entity and paranormal premonitions played as horror; not demonic, but a reviewer may want to look."
+  }
+ },
+ {
+  "id": "cmw6q9lht00r47vo2zikx8w8g",
+  "name": "The Guest",
+  "violence": 8,
+  "language": 7,
+  "sexNudity": 4,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Guest, 2014): escalating shootings, stabbings and brutal fights as a soldier kills members and acquaintances of the family who took him in, ending in a Halloween maze; strong language and brief sexuality.",
+  "exclusionFlag": {
+   "category": "PREDATION",
+   "reason": "A charming psychopath picks off ordinary townspeople and family members, with a killing-spree climax staged in a haunted-house maze."
+  }
+ },
+ {
+  "id": "cmw6q9jdv00qs7vo2vrypm0r8",
+  "name": "A Bad Moms Christmas",
+  "violence": 2,
+  "language": 9,
+  "sexNudity": 6,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (A Bad Moms Christmas, 2017): crude sexual content and language throughout, including a male-stripper Santa contest and a comic waxing scene; slapstick only for violence.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Pervasive crude sexual humor, stripper competition and partial nudity; reviewer should judge whether any of it counts as a sex scene."
+  }
+ },
+ {
+  "id": "cmw6q9igw00qn7vo2wn7ogl1x",
+  "name": "Sweet Home Alabama",
+  "violence": 1,
+  "language": 4,
+  "sexNudity": 2,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Sweet Home Alabama, 2002): bar scuffle and mild language; kissing and innuendo only.",
+  "exclusionFlag": {
+   "category": "LGBTQ",
+   "reason": "Childhood friend Bobby Ray is outed as gay at a bar and his coming out is a minor storyline."
+  }
+ },
+ {
+  "id": "cmw6q9i2700ql7vo2a465zpi2",
+  "name": "Identity Thief",
+  "violence": 5,
+  "language": 8,
+  "sexNudity": 6,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Identity Thief, 2013): comic brawls, a throat punch, car crashes and a skip-tracer shooting; frequent strong language; a played-for-laughs sex scene with partial nudity.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Comic hotel-room sex scene between Melissa McCarthy and Eric Stonestreet with partial nudity."
+  }
+ },
+ {
+  "id": "cmw6q9fqw00q67vo2jiayepjx",
+  "name": "The Shack",
+  "violence": 2,
+  "language": 1,
+  "sexNudity": 0,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Shack, 2017): grief-centered story of a child abducted and murdered (largely off-screen), a childhood abuse flashback; clean language and no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q9eo700q07vo2mmlpvbio",
+  "name": "The Outfit",
+  "violence": 6,
+  "language": 6,
+  "sexNudity": 1,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Outfit, 2022): mob-thriller shootings and a few bloody deaths in a single location, tense double-crosses; moderate-strong language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q9aw300pf7vo2wxmpo7vq",
+  "name": "The Family Man",
+  "violence": 1,
+  "language": 4,
+  "sexNudity": 4,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Family Man, 2000): a brief convenience-store holdup; some language and married-couple innuendo and implied intimacy.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q9a7x00pb7vo2ca3ya36g",
+  "name": "Meet the Parents",
+  "violence": 2,
+  "language": 4,
+  "sexNudity": 3,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Meet the Parents, 2000): slapstick mishaps (volleyball to the face, burning altar); mild language, sexual innuendo and drug-test jokes.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q99tr00p97vo2o28vrhyv",
+  "name": "Planes, Trains and Automobiles",
+  "violence": 1,
+  "language": 6,
+  "sexNudity": 2,
+  "scariness": 0,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Planes, Trains and Automobiles, 1987): car wreck played for comedy; language is mild except one famous rental-counter tirade packed with f-words; sharing-a-bed jokes only.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q979200ot7vo2yo1y1egf",
+  "name": "Gifted",
+  "violence": 1,
+  "language": 4,
+  "sexNudity": 3,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Gifted, 2017): custody-battle drama, a family suicide revealed; some language; implied one-night relationship with a teacher, no nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q95rc00oj7vo2pls9xsel",
+  "name": "Scent of a Woman",
+  "violence": 2,
+  "language": 7,
+  "sexNudity": 2,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Scent of a Woman, 1992): Frank's handgun suicide threat is the tense peak; frequent strong language from Pacino; mild sexual references.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q8zgn00ne7vo21nh7uown",
+  "name": "2012",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 1,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (2012, 2009): mass-casualty disaster destruction with little blood, peril to children and families throughout; moderate language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q8ri900m37vo2jwpzp7mv",
+  "name": "No Hard Feelings",
+  "violence": 4,
+  "language": 8,
+  "sexNudity": 6,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (No Hard Feelings, 2023): a beach fight in which Jennifer Lawrence is fully nude (comic, non-sexual), strong crude sexual language and a seduction premise; no explicit sex scene.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Premise is a woman hired to seduce a 19-year-old; extended comic full nudity in a beach fight; reviewer should judge."
+  }
+ },
+ {
+  "id": "cmw6q8rby00m27vo2mrsbdjt7",
+  "name": "Mechanic: Resurrection",
+  "violence": 8,
+  "language": 5,
+  "sexNudity": 4,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Mechanic: Resurrection, 2016): set-piece assassinations (a pool-bottom drowning, a skyscraper pool), gunfights and brawls; bikini scenes and brief sensuality.",
+  "exclusionFlag": {
+   "category": "PREDATION",
+   "reason": "Plot is a chain of staged assassination set pieces presented as spectacle, similar to the reason The Equalizer was excluded."
+  }
+ },
+ {
+  "id": "cmw6q8qg200lw7vo2yvwzxu70",
+  "name": "Immortals",
+  "violence": 9,
+  "language": 2,
+  "sexNudity": 6,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Immortals, 2011): highly stylized gory battles, a hammer castration and a man roasted in a bronze bull; a brief sex scene with partial nudity between Theseus and the oracle.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Brief sex scene with partial nudity (Henry Cavill and Freida Pinto)."
+  }
+ },
+ {
+  "id": "cmw6q8ntw00lh7vo208xj5vla",
+  "name": "Thelma & Louise",
+  "violence": 5,
+  "language": 7,
+  "sexNudity": 6,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Thelma & Louise, 1991): an attempted rape and a shooting, a trucker's tanker blown up; strong language; a motel sex scene with partial nudity (Geena Davis and Brad Pitt).",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Motel sex scene with partial nudity, plus an attempted-rape scene."
+  }
+ },
+ {
+  "id": "cmw6q8ih200kj7vo23xyxg5sv",
+  "name": "The Day the Earth Stood Still",
+  "violence": 4,
+  "language": 2,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Day the Earth Stood Still, 2008): GORT and a swarm of nanobots devouring structures and people (bloodless), military attacks; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q8ibk00ki7vo2n3vcoe7r",
+  "name": "City of Angels",
+  "violence": 1,
+  "language": 3,
+  "sexNudity": 6,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (City of Angels, 1998): a fatal truck accident and a patient dying on the table; a love scene with brief nudity between Nicolas Cage and Meg Ryan.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Love scene with brief nudity between the angel-turned-human and the surgeon."
+  }
+ },
+ {
+  "id": "cmw6q6nn1009h7vo2h21ki4uu",
+  "name": "Stand by Me",
+  "violence": 3,
+  "language": 7,
+  "sexNudity": 1,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Stand by Me, 1986): boys' frequent profanity, a dead boy's body, a switchblade standoff with a gun, leeches and a pie-eating vomit scene; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q6khf008z7vo2435m9ru2",
+  "name": "Resident Evil",
+  "violence": 8,
+  "language": 5,
+  "sexNudity": 3,
+  "scariness": 7,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Resident Evil, 2002): zombie and mutant-dog attacks, the laser-grid dismemberment, frequent gunfire and bloody bites; brief nudity in the opening shower and a shower-curtain wrap.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q6f7l00837vo20o1g40ld",
+  "name": "The Day After Tomorrow",
+  "violence": 3,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Day After Tomorrow, 2004): disaster deaths from tornadoes, floods and freezing, wolves stalking the survivors; little blood and mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q60nz005q7vo2thzrym9q",
+  "name": "Possible Love",
+  "violence": 3,
+  "language": 5,
+  "sexNudity": 5,
+  "scariness": 2,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Lee Chang-dong drama I do not know beyond its premise (two couples confronting hidden desires, with strike and police-brutality keywords); scored as a typical R-rated Korean art-house drama, whose sexual content can be frank. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q60in005p7vo2amidnpg4",
+  "name": "One Year to Live, Buy a Man",
+  "violence": 0,
+  "language": 2,
+  "sexNudity": 3,
+  "scariness": 3,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Japanese romantic drama I do not know beyond the premise (a terminally ill woman pays a host-club host); scored as a typical PG-13 terminal-illness romance with host-club innuendo. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q601u005m7vo2iocrztwe",
+  "name": "A Dog's Perfect Christmas",
+  "violence": 1,
+  "language": 2,
+  "sexNudity": 0,
+  "scariness": 2,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 family dog film I know only from its premise (a medical emergency splits the family at Christmas); scored as a typical PG-13 family holiday dog movie. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5z17005h7vo24vex090v",
+  "name": "Noah",
+  "violence": 6,
+  "language": 1,
+  "sexNudity": 2,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Noah, 2014): battles between rock-giant Watchers and human hordes, drowning masses, Noah's threat to kill his newborn grandchildren; brief drunken nudity and implied intimacy.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5ynu005f7vo2mbnnq9p5",
+  "name": "Hancock",
+  "violence": 6,
+  "language": 5,
+  "sexNudity": 3,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Hancock, 2008): superhero destruction, a bank-hostage shootout, Hancock shoving an inmate's head up another's backside; repeated 'asshole' and some stronger words; sexual references.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5y4y005c7vo2j4eisawk",
+  "name": "The Aviator",
+  "violence": 3,
+  "language": 5,
+  "sexNudity": 4,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Aviator, 2004): a graphic Beverly Hills plane crash, Hughes' OCD breakdown, naked and isolated in his screening room (non-sexual); womanizing with implied sex.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5xep00587vo27v30njkz",
+  "name": "The Naked Gun: From the Files of Police Squad!",
+  "violence": 3,
+  "language": 3,
+  "sexNudity": 4,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Naked Gun, 1988): slapstick violence and a comic shooting; sexual innuendo and a played-for-laughs 'safe sex' scene in full-body condom suits, no nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5vfc004y7vo2yq8mfnvn",
+  "name": "Teenage Mutant Ninja Turtles: Out of the Shadows",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 2,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Teenage Mutant Ninja Turtles: Out of the Shadows, 2016): cartoonish martial-arts and robot action; Megan Fox's schoolgirl disguise is the only suggestive moment.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5v3y004x7vo22o0eqncv",
+  "name": "G.I. Joe: The Rise of Cobra",
+  "violence": 6,
+  "language": 3,
+  "sexNudity": 2,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (G.I. Joe: The Rise of Cobra, 2009): heavy bloodless gunfire, sword fights and nanomite destruction of the Eiffel Tower; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5uvu004w7vo2zoswvdx1",
+  "name": "Rush Hour 2",
+  "violence": 5,
+  "language": 6,
+  "sexNudity": 4,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Rush Hour 2, 2001): martial-arts fights and gunplay, an exploding embassy; frequent crude and some strong language; a massage-parlor scene and sexual innuendo.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5uei004t7vo2tzziejf6",
+  "name": "When Harry Met Sally...",
+  "violence": 0,
+  "language": 6,
+  "sexNudity": 5,
+  "scariness": 0,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (When Harry Met Sally..., 1989): no violence; frank sexual dialogue throughout including the famous fake-orgasm scene, implied sex with no nudity; some strong language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5u7v004s7vo223a3zawb",
+  "name": "50 First Dates",
+  "violence": 2,
+  "language": 4,
+  "sexNudity": 4,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (50 First Dates, 2004): slapstick and a walrus vomiting; crude sexual humor and innuendo, steroid jokes; no nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5tht004o7vo2i0ch2ak4",
+  "name": "Bridget Jones's Diary",
+  "violence": 1,
+  "language": 7,
+  "sexNudity": 5,
+  "scariness": 0,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Bridget Jones's Diary, 2001): a comic street fight; frequent strong language; implied sex scenes and sexual references, no explicit nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5sd2004h7vo2fzlkwo8e",
+  "name": "Trading Places",
+  "violence": 3,
+  "language": 8,
+  "sexNudity": 6,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Trading Places, 1983): drug planting and a gorilla-cage gag; frequent strong language; Jamie Lee Curtis topless in a non-sex scene, prostitution theme and party nudity.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Not a sex scene: extended topless nudity (Jamie Lee Curtis) and a prostitute character; reviewer should judge."
+  }
+ },
+ {
+  "id": "cmw6q5s5g004g7vo2pur9i2tk",
+  "name": "We're the Millers",
+  "violence": 4,
+  "language": 9,
+  "sexNudity": 6,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (We're the Millers, 2013): cartel gunplay and a punch-up; pervasive strong language; a striptease in underwear, comic male genital nudity from a spider bite, and swinger-couple sexual humor.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Strip scene, comic graphic male nudity and crude sexual content; reviewer should judge."
+  }
+ },
+ {
+  "id": "cmw6q5rgv004c7vo2vyk5niwt",
+  "name": "The Intern",
+  "violence": 0,
+  "language": 3,
+  "sexNudity": 2,
+  "scariness": 0,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Intern, 2015): no violence; mild language and a comic break-in to delete an email; a few sexual references.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5qxi00497vo2dau0wexa",
+  "name": "Twister",
+  "violence": 3,
+  "language": 5,
+  "sexNudity": 0,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Twister, 1996): tornado peril, a father sucked away in the opening flashback, a destroyed drive-in; some strong language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5qs700487vo20akxe6kp",
+  "name": "Bumblebee",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Bumblebee, 2018): Decepticons and Autobots battle, Decepticons liquidating a soldier, bloodless robot destruction; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5qka00477vo2sohlukc8",
+  "name": "Million Dollar Baby",
+  "violence": 6,
+  "language": 5,
+  "sexNudity": 0,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Million Dollar Baby, 2004): brutal boxing including the dirty punch that paralyzes Maggie, her leg amputation, and an assisted death; moderate language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5qex00467vo2eclmaw34",
+  "name": "Indecent Proposal",
+  "violence": 1,
+  "language": 5,
+  "sexNudity": 7,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Indecent Proposal, 1993): a married couple's extended, steamy sex scenes with nudity (on a bed of cash, on the kitchen floor), and the premise of a wife paid to spend a night with a millionaire.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Sexual content is central: extended sex scenes with nudity and a sex-for-money premise."
+  }
+ },
+ {
+  "id": "cmw6q5ppl00427vo25tbgosxw",
+  "name": "Notting Hill",
+  "violence": 0,
+  "language": 4,
+  "sexNudity": 4,
+  "scariness": 0,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Notting Hill, 1999): no violence; some language; implied sex, references to leaked nude photos, a brief rear-view of a man; no explicit sex.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5owr003x7vo2xrbxpbii",
+  "name": "The Dictator",
+  "violence": 4,
+  "language": 8,
+  "sexNudity": 6,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Dictator, 2012): mock executions and slapstick violence; strong crude sexual humor throughout, brief male nudity, an implied sex scene with a celebrity and a crude birth scene.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Pervasive crude sexual humor and brief male nudity; reviewer should judge."
+  }
+ },
+ {
+  "id": "cmw6q5o0c003s7vo2y62bsw49",
+  "name": "Primal Fear",
+  "violence": 6,
+  "language": 8,
+  "sexNudity": 6,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Primal Fear, 1996): the archbishop's bloody, mutilated body in crime photos and a courtroom attack; strong language; a videotape of coerced sexual activity involving teens is a plot point. Raised to sexNudity 6 on review: the videotape the plot turns on shows coerced sexual abuse.",
+  "exclusionFlag": {
+   "category": "PREDATION",
+   "reason": "videotaped coerced sexual abuse of minors drives the plot"
+  }
+ },
+ {
+  "id": "cmw6q5nm1003q7vo2qekxveus",
+  "name": "300: Rise of an Empire",
+  "violence": 9,
+  "language": 2,
+  "sexNudity": 7,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (300: Rise of an Empire, 2014): stylized beheadings and torrents of CGI blood in naval battles; an extended, violent sex scene with nudity between Eva Green and Sullivan Stapleton.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Extended explicit sex scene with nudity (Artemisia and Themistocles)."
+  }
+ },
+ {
+  "id": "cmw6q5n6s003o7vo2z42pslgs",
+  "name": "Addams Family Values",
+  "violence": 3,
+  "language": 3,
+  "sexNudity": 2,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Addams Family Values, 1993): macabre attempts to kill baby Pubert and a black-widow nanny's murder plots, all comic; mild innuendo.",
+  "exclusionFlag": {
+   "category": "HORROR_COMEDY",
+   "reason": "Macabre gothic family comedy in the vein of Beetlejuice."
+  }
+ },
+ {
+  "id": "cmw6q5kc200377vo2n892zois",
+  "name": "Charlie's Angels",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 4,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Charlie's Angels, 2000): stylized martial-arts fights and explosions; sexy disguises, innuendo and revealing outfits; no nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5k6p00367vo20t4k97g8",
+  "name": "The Addams Family",
+  "violence": 3,
+  "language": 2,
+  "sexNudity": 2,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Addams Family, 1991): macabre comic menace (sword fights, a school-play bloodbath gag, Thing the disembodied hand), a seance; mild innuendo between Gomez and Morticia.",
+  "exclusionFlag": {
+   "category": "HORROR_COMEDY",
+   "reason": "Macabre gothic family comedy with a seance and ghoulish humor, in the vein of Beetlejuice."
+  }
+ },
+ {
+  "id": "cmw6q5ips002y7vo272j1pz6e",
+  "name": "Shooter",
+  "violence": 8,
+  "language": 8,
+  "sexNudity": 1,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Shooter, 2007): sniper killings with bloody hits, a massacre of mercenaries and the villain's execution; strong language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5id4002w7vo2io9upxbj",
+  "name": "The Hangover Part II",
+  "violence": 5,
+  "language": 9,
+  "sexNudity": 7,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Hangover Part II, 2011): a severed finger, gunfire and a monkey shot; pervasive strong language; graphic nude photos in the credits, full-frontal nudity and the reveal Stu had sex with a trans sex worker.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Graphic nudity, sex-club and sex-worker content; also a trans character as a punchline the family's LGBTQ rule may cover."
+  }
+ },
+ {
+  "id": "cmw6q5hh7002s7vo2vhqttnrr",
+  "name": "Superbad",
+  "violence": 3,
+  "language": 10,
+  "sexNudity": 6,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Superbad, 2007): police-car mayhem and a punch; near-constant strong and sexual language, drawings of genitals, a brief interrupted sex scene (Fogell) and a period-stain gag.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Brief depicted sex scene with a teen character (Fogell) and pervasive sexual dialogue; reviewer should judge."
+  }
+ },
+ {
+  "id": "cmw6q5gax002m7vo22d39ks7b",
+  "name": "Terminator: Dark Fate",
+  "violence": 8,
+  "language": 7,
+  "sexNudity": 2,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Terminator: Dark Fate, 2019): John Connor's opening killing, Rev-9 stabbings and bloody action throughout; strong language; brief non-sexual nudity on arrival.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5fum002j7vo2eoqdl891",
+  "name": "Jackass: Best and Last",
+  "violence": 6,
+  "language": 9,
+  "sexNudity": 6,
+  "scariness": 2,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Jackass film I do not know in detail; scored as a typical Jackass entry: painful stunts and injuries, constant profanity, and frequent non-sexual male genital nudity in stunts. Treat cautiously.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Not a sex scene: Jackass films routinely feature extended genital-focused stunts and full male nudity; reviewer should judge."
+  }
+ },
+ {
+  "id": "cmw6q5esb002c7vo22lfmb5us",
+  "name": "Rush Hour",
+  "violence": 5,
+  "language": 6,
+  "sexNudity": 2,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Rush Hour, 1998): martial-arts fights, shootouts and a bomb vest; frequent crude language; mild innuendo.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5czo00227vo2xdy1x6rv",
+  "name": "Ghost",
+  "violence": 4,
+  "language": 5,
+  "sexNudity": 5,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Ghost, 1990): Sam's murder in a mugging, villains dragged off by shrieking shadow demons; some strong language; the pottery-wheel scene leading to implied sex, no nudity.",
+  "exclusionFlag": {
+   "category": "OCCULT",
+   "reason": "Ghost story with a medium, a possession-like body sharing and demonic shadows dragging souls to hell."
+  }
+ },
+ {
+  "id": "cmw6q5b00001r7vo2xyfxukjk",
+  "name": "First Blood",
+  "violence": 6,
+  "language": 5,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (First Blood, 1982): police brutality, booby traps and a manhunt with one on-screen death, Rambo's wartime trauma; moderate language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5a00001m7vo2yxdvybuf",
+  "name": "Terminator Genisys",
+  "violence": 6,
+  "language": 3,
+  "sexNudity": 2,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Terminator Genisys, 2015): frequent bloodless gunfire and robot fights; brief non-sexual rear nudity of time travelers; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q59o0001k7vo266rrtolm",
+  "name": "Babylon",
+  "violence": 8,
+  "language": 9,
+  "sexNudity": 9,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Babylon, 2022): an opening orgy with graphic sex and nudity, an elephant defecating on a man, a man eating a live rat and a mob murder; pervasive strong language and drug use.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Explicit orgy and graphic sexual content are central to the film."
+  }
+ },
+ {
+  "id": "cmw6q59i3001j7vo2me4o8oom",
+  "name": "Life Is Beautiful",
+  "violence": 3,
+  "language": 1,
+  "sexNudity": 1,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Life Is Beautiful, 1997): concentration-camp setting, a pile of corpses glimpsed in fog and the father's off-screen execution; little language and only romantic comedy.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q59ck001i7vo2h6benekr",
+  "name": "The Hangover Part III",
+  "violence": 6,
+  "language": 9,
+  "sexNudity": 5,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Hangover Part III, 2013): animals killed for comedy, a prison riot and shootings; pervasive language; brief graphic male nudity in the post-credits scene.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q594n001h7vo2yk93sysp",
+  "name": "Transformers: Age of Extinction",
+  "violence": 6,
+  "language": 4,
+  "sexNudity": 2,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Transformers: Age of Extinction, 2014): prolonged robot battles and destruction, executions of Autobots; mild-moderate language; a teen-romance subplot with innuendo.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q58rx001f7vo2iq6kj28x",
+  "name": "Teenage Mutant Ninja Turtles",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Teenage Mutant Ninja Turtles, 2014): martial-arts and gun violence against the Foot Clan, Shredder's armor; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q58ly001e7vo2j6sbyq4p",
+  "name": "Men in Black",
+  "violence": 4,
+  "language": 4,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Men in Black, 1997): aliens shot into goo, the farmer-skin bug and a squid-baby birth; mild-moderate language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q58gd001d7vo2gfichayo",
+  "name": "Jumanji: Welcome to the Jungle",
+  "violence": 4,
+  "language": 4,
+  "sexNudity": 3,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Jumanji: Welcome to the Jungle, 2017): video-game deaths (avatars burst away), hippo and jaguar attacks; mild language; body-swap genital humor and flirting lessons.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q57sc00197vo2q7zjqatj",
+  "name": "Transformers: Rise of the Beasts",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 0,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Transformers: Rise of the Beasts, 2023): large-scale robot battles and destruction; some language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q573j00157vo2s88nd9gb",
+  "name": "Braveheart",
+  "violence": 9,
+  "language": 3,
+  "sexNudity": 6,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Braveheart, 1995): graphic medieval battles, Murron's throat-slitting, Wallace's public torture and execution; a wedding-night love scene and an affair with the princess with brief nudity; an attempted rape.",
+  "exclusionFlag": {
+   "category": "LGBTQ",
+   "reason": "Prince Edward's male companion Phillip is a storyline and is thrown from a window by the king; the film also has a brief love scene with nudity for review."
+  }
+ },
+ {
+  "id": "cmw6q56pj00137vo2vxar7bpw",
+  "name": "Tuner",
+  "violence": 3,
+  "language": 6,
+  "sexNudity": 4,
+  "scariness": 3,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Daniel Roher crime romance I know only from its premise (a piano tuner turns safecracker); scored as a typical R-rated heist romance with mostly language and some sensuality. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q56bx00117vo2kebgj8z4",
+  "name": "The Hangover",
+  "violence": 4,
+  "language": 9,
+  "sexNudity": 6,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Hangover, 2009): Tyson's punch, a taser demonstration on the guys and a tire-iron gag; pervasive strong language; a stripper wife, a brief breastfeeding shot, comic full-frontal male nudity (Mr. Chow) and explicit photos in the credits.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Not a sex scene: comic full male nudity, a stripper character and sexual photos in the credits; reviewer should judge."
+  }
+ },
+ {
+  "id": "cmw6q566a00107vo26cng9mlr",
+  "name": "Godzilla",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Godzilla, 2014): kaiju battles destroying cities, a nuclear-plant collapse killing a mother, train and tsunami peril; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q53ct000l7vo24wzm2k97",
+  "name": "The Get Out",
+  "violence": 7,
+  "language": 7,
+  "sexNudity": 3,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Russell Crowe cartel thriller I know only from its premise (a nightclub owner squeezed by cartels after a robbery); scored as a typical R-rated crime action thriller. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q5376000k7vo246u1lhmi",
+  "name": "Shutter Island",
+  "violence": 6,
+  "language": 6,
+  "sexNudity": 1,
+  "scariness": 7,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Shutter Island, 2010): Dachau liberation corpses and executions, a mother's drowned children, asylum violence and a mercy shooting; moderate-strong language; disturbing psychological horror.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q52jh000h7vo2cxh6zztg",
+  "name": "Dracula",
+  "violence": 7,
+  "language": 3,
+  "sexNudity": 5,
+  "scariness": 5,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — Luc Besson's 2025 Dracula; I know the outline (a vampire romance, a beheading, perfume used to seduce women) but not scene detail; scored as an R-rated gothic romance with bloody violence and some sensuality. Treat cautiously.",
+  "exclusionFlag": {
+   "category": "OCCULT",
+   "reason": "A prince renounces God and is cursed to eternal life as a vampire; vampirism and damnation themes."
+  }
+ },
+ {
+  "id": "cmw6q51fh000a7vo28qzlcj56",
+  "name": "Parasite",
+  "violence": 7,
+  "language": 6,
+  "sexNudity": 6,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Parasite, 2019): a bloody stabbing rampage at the birthday party and a rock to the head; strong language; a depicted sexual encounter on the couch (clothed, sexual touching).",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Depicted clothed sexual encounter between the Parks on the couch while the Kims hide beneath the table."
+  }
+ },
+ {
+  "id": "cmw6q51ae00097vo2zitay3r6",
+  "name": "Forrest Gump",
+  "violence": 5,
+  "language": 5,
+  "sexNudity": 4,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Forrest Gump, 1994): a Vietnam ambush and Bubba's death, Jenny's implied childhood abuse and drug use; some strong language; Jenny singing nude behind a guitar at a club, implied sex.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmw6q512k00087vo22n19f61r",
+  "name": "Titanic",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 6,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Titanic, 1997): the sinking with mass drowning and frozen bodies, a gunshot suicide; some language; Rose posing nude for a sketch and a car sex scene (steamy, little shown).",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Nude portrait sitting (Kate Winslet) and a brief car sex scene; reviewer should judge."
+  }
+ },
+ {
+  "id": "cmvywjnkw00kstluc2idgpvcv",
+  "name": "Hellfire",
+  "violence": 8,
+  "language": 5,
+  "sexNudity": 2,
+  "scariness": 3,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Isaac Florentine action film I know only from its premise (a drifter versus a small-town crime boss); scored as a typical R-rated Florentine action film with frequent fights and shootings. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvywj8uf00grtluc0gbkcf8s",
+  "name": "Ali G: Who Iz I?",
+  "violence": 3,
+  "language": 9,
+  "sexNudity": 7,
+  "scariness": 1,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Sacha Baron Cohen Ali G film I do not know beyond its premise; scored by comparison with Borat and Ali G Indahouse, which are built on explicit crude sexual humor and nudity. Treat cautiously.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Estimated: Baron Cohen's character films lean heavily on graphic sexual humor and nudity; unverified for this title."
+  }
+ },
+ {
+  "id": "cmvywj8n400gptlucxh3i1864",
+  "name": "Apocalypse Z: New World",
+  "violence": 8,
+  "language": 6,
+  "sexNudity": 2,
+  "scariness": 7,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Spanish zombie sequel I know only from its premise; scored as a typical R-rated zombie action film with bloody attacks and gunfire. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvywj8jk00gotlucoru195wo",
+  "name": "Drive - The Pretenders",
+  "violence": 2,
+  "language": 5,
+  "sexNudity": 5,
+  "scariness": 1,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 German romance based on a novel, known only from its premise (a fake engagement in motor racing); scored as a typical R-rated romance with sensuality and some sexual content. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvywi513005vtluc7p5464fg",
+  "name": "You, Me, Us",
+  "violence": 1,
+  "language": 4,
+  "sexNudity": 3,
+  "scariness": 1,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Italian drama about a couple seeking to adopt, known only from its premise; scored as a typical adult relationship drama. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvywi4iq005qtlucec6bm65u",
+  "name": "The Birthday​ Gift​",
+  "violence": 1,
+  "language": 5,
+  "sexNudity": 2,
+  "scariness": 0,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 German family comedy known only from its premise (a child's birthday party spirals into family quarrels); scored as a typical adult-oriented family comedy. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvywi3x5005ktluciebafwf7",
+  "name": "Collision Course",
+  "violence": 6,
+  "language": 7,
+  "sexNudity": 3,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Spanish heist drama known only from its premise (a bank robbery and getaway crash); scored as a typical R-rated crime thriller. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvywhtty002ttluc4z9etpd1",
+  "name": "Tucker and Dale vs. Evil",
+  "violence": 8,
+  "language": 7,
+  "sexNudity": 2,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Tucker and Dale vs. Evil, 2010): gory accidental deaths played for laughs (a wood chipper, impalings, a man running into a branch), a chainsaw climax; strong language.",
+  "exclusionFlag": {
+   "category": "HORROR_COMEDY",
+   "reason": "Slasher-movie parody with gory comic deaths."
+  }
+ },
+ {
+  "id": "cmvywhtid002qtluc1thwt45u",
+  "name": "Jurassic Park",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 0,
+  "scariness": 7,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Jurassic Park, 1993): T. rex and raptor attacks with children in peril, a man eaten off a toilet and a severed arm; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvowgs0f00ltx6mmbw9faqlp",
+  "name": "Songbird",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 2,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Songbird, 2020): pandemic martial law, a vigilante's attack and shootings, threat of quarantine camps; moderate language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvowgq4t00lax6mmmcz29ivs",
+  "name": "Edison",
+  "violence": 7,
+  "language": 7,
+  "sexNudity": 2,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I know Edison (2005) only in outline (a journalist exposing a brutal elite police unit); scored as a typical R-rated police-corruption thriller with beatings and shootouts. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvowgo5h00kqx6mmhfkeptgh",
+  "name": "Finding Emily",
+  "violence": 0,
+  "language": 4,
+  "sexNudity": 3,
+  "scariness": 0,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 campus romantic comedy known only from its premise; scored as a typical PG-13 romcom with innuendo. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvowfzb700dvx6mm8sxujeme",
+  "name": "The Bride!",
+  "violence": 7,
+  "language": 6,
+  "sexNudity": 5,
+  "scariness": 6,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — Maggie Gyllenhaal's 2026 The Bride!; I know the premise (a murdered woman revived as Frankenstein's companion, a 1930s crime spree) but not scene detail; scored as an R-rated gothic horror-romance with bloody violence and some sexual content. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvowfxzk00dix6mmub651y86",
+  "name": "The Eye",
+  "violence": 4,
+  "language": 3,
+  "sexNudity": 1,
+  "scariness": 7,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Eye, 2008): a blind violinist sees ghosts after a cornea transplant, jump scares, a burning-woman vision and a highway disaster; mild language.",
+  "exclusionFlag": {
+   "category": "OCCULT",
+   "reason": "Ghosts and the spirits of the dead played as horror."
+  }
+ },
+ {
+  "id": "cmvowel9x0006x6mmgpty14vt",
+  "name": "Gajab Raat",
+  "violence": 6,
+  "language": 6,
+  "sexNudity": 2,
+  "scariness": 5,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Hindi crime thriller known only from its premise (a corrupt cop's night spiraling after helping an injured girl); scored as a typical R-rated gritty crime thriller. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvowekti0002x6mmocth686j",
+  "name": "Surviving Hurricane Otis",
+  "violence": 3,
+  "language": 6,
+  "sexNudity": 1,
+  "scariness": 6,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Mexican survival drama known only from its premise (brothers surviving Hurricane Otis in Acapulco); scored as a typical disaster-survival drama with peril and injuries. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewe4sq00m710urvj79uqn8",
+  "name": "Guess Who",
+  "violence": 1,
+  "language": 5,
+  "sexNudity": 3,
+  "scariness": 0,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Guess Who, 2005): no real violence beyond a go-kart rivalry; language and racial humor; sexual references and an innuendo-laden sleeping-arrangements plot.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewe4kf00m510urmi9pti7l",
+  "name": "Malcolm & Marie",
+  "violence": 0,
+  "language": 9,
+  "sexNudity": 4,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Malcolm & Marie, 2021): no violence; near-constant f-words in a long argument; frank sexual dialogue and brief sexual touching, no nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewe40f00m010ur8nunxeal",
+  "name": "Night Always Comes",
+  "violence": 5,
+  "language": 8,
+  "sexNudity": 5,
+  "scariness": 5,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I know Night Always Comes (2025) only in outline (a woman's desperate all-night hunt for $25,000 in Portland); scored as a typical R-rated crime drama with strong language and some sexual content. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewe2j800ln10urity6awis",
+  "name": "It's What's Inside",
+  "violence": 4,
+  "language": 8,
+  "sexNudity": 6,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I know this Netflix dark comedy (It's What's Inside, 2024) only in outline: college friends at a pre-wedding reunion play a body-swapping game that exposes infidelity and ends in a death; I recall sexual content between swapped characters but cannot confirm how much is shown. Scored as an R-rated party dark comedy with strong language, drug use and a sexual encounter; sexNudity set to 6 so a reviewer checks. Treat cautiously.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Body-swapped characters hook up during the game; extent of what is shown is uncertain, so a reviewer should check."
+  }
+ },
+ {
+  "id": "cmvewe1kx00lf10urgj0737ni",
+  "name": "Still Alice",
+  "violence": 0,
+  "language": 4,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Still Alice, 2014): no violence; a little strong language; distress comes from the heroine's early-onset Alzheimer's decline and a near suicide attempt with pills.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewe18y00lc10urkww74pua",
+  "name": "Even If This Love Disappears Tonight",
+  "violence": 0,
+  "language": 1,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2025 Korean remake of the Japanese tearjerker about a girl with daily memory loss; I know the source story (a gentle teen romance ending in a death) but not this version. Scored as a typical PG-13 teen melodrama. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewe0wv00l910urft78vw9c",
+  "name": "Jay Kelly",
+  "violence": 2,
+  "language": 7,
+  "sexNudity": 2,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Jay Kelly, 2025): Noah Baumbach dramedy about an aging star's European trip with his manager; R mainly for language, little violence or sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewdzsb00kz10urg7m598x4",
+  "name": "My Oxford Year",
+  "violence": 0,
+  "language": 3,
+  "sexNudity": 3,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (My Oxford Year, 2025): Netflix romance; kissing and an implied, non-explicit night together; mild language; sadness from the love interest's terminal cancer.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewdyvz00kr10uraadr9tn8",
+  "name": "Boyhood",
+  "violence": 3,
+  "language": 7,
+  "sexNudity": 3,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Boyhood, 2014): frequent language including sexual talk, teen drinking and pot; menace from the mother's abusive alcoholic husband who throws glassware; no sex scenes.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewdvud00k010urw90h7uiv",
+  "name": "Look Both Ways",
+  "violence": 0,
+  "language": 5,
+  "sexNudity": 4,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Look Both Ways, 2022): PG-13 parallel-lives romcom; sexual references and brief non-explicit intimacy, some language, no violence.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewdv7u00jv10urmmehhm0j",
+  "name": "Marriage Story",
+  "violence": 2,
+  "language": 8,
+  "sexNudity": 3,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Marriage Story, 2019): strong language in heated divorce arguments, sexual references and the affair discussed; Charlie punches a wall and later cuts his arm (bloody but brief).",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewdu4800jl10uri94biqgg",
+  "name": "8 Mile",
+  "violence": 5,
+  "language": 10,
+  "sexNudity": 6,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (8 Mile, 2002): pervasive profanity and slurs in rap battles; fights and a beating; a brief sex scene with Alex in the factory with partial nudity.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Brief standing sex scene in the factory between Jimmy and Alex, with partial nudity."
+  }
+ },
+ {
+  "id": "cmvewdtch00je10ursthb79ui",
+  "name": "Knocked Up",
+  "violence": 1,
+  "language": 9,
+  "sexNudity": 6,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Knocked Up, 2007): constant crude language and drug humor; a comic drunken sex scene, strip-club toplessness and a graphic birth shot.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Comic one-night-stand sex scene plus strip-club nudity and a graphic childbirth shot."
+  }
+ },
+ {
+  "id": "cmvewdsjv00j710uruh6sl9m9",
+  "name": "The Life List",
+  "violence": 0,
+  "language": 3,
+  "sexNudity": 3,
+  "scariness": 2,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I know this 2025 Netflix romance (The Life List) only in outline: a daughter completes her late mother's bucket list. Scored as a typical PG-13 romantic drama with grief themes. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewdkzg00hb10urxrw64owc",
+  "name": "Therapy Done Right",
+  "violence": 2,
+  "language": 6,
+  "sexNudity": 3,
+  "scariness": 1,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2026 Argentine dark comedy with Ricardo Darín that I cannot place beyond the synopsis. Scored as a typical R-rated talky dark comedy. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewdj6600gv10ur4566t1k8",
+  "name": "The Storm",
+  "violence": 2,
+  "language": 7,
+  "sexNudity": 4,
+  "scariness": 1,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2026 Swedish comedy-drama I cannot place beyond the synopsis of friends' betrayals at a snowed-in lodge. Scored as a typical R-rated ensemble comedy with language and sexual talk. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewdil500gq10urv7dnk30s",
+  "name": "Sacrifice",
+  "violence": 5,
+  "language": 7,
+  "sexNudity": 3,
+  "scariness": 3,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2026 Romain Gavras satire (Chris Evans, Anya Taylor-Joy) I know only from its premise of a gala hostage-taking by a radical and her disciples. Scored as a typical R-rated action satire. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewdih200gp10urxoc79ojt",
+  "name": "Reporting Live",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 1,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2026 Indian crime thriller I cannot place beyond its premise of reporters exposing a sand-mining syndicate. Scored as a typical PG-13 crime thriller. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewdg4500g410urz534wnbf",
+  "name": "In Dubious Battle",
+  "violence": 5,
+  "language": 6,
+  "sexNudity": 2,
+  "scariness": 3,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I know James Franco's Steinbeck adaptation (In Dubious Battle, 2016) only in outline: a 1930s apple-pickers' strike with beatings and shootings. Scored as an R-rated period labor drama with violence and language. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewdf7c00fw10urybe09se9",
+  "name": "Let the Right One In",
+  "violence": 7,
+  "language": 3,
+  "sexNudity": 3,
+  "scariness": 8,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Let the Right One In, 2008): bloody vampire killings, a man burning himself with acid, the pool massacre with severed limbs; a brief non-sexual glimpse of Eli's scarred groin; strong dread throughout.",
+  "exclusionFlag": {
+   "category": "OCCULT",
+   "reason": "Vampire horror centered on a child vampire; Eli's ambiguous gender ('I'm not a girl') is also a plot point a reviewer may want to weigh."
+  }
+ },
+ {
+  "id": "cmvewdbep00ey10urjkcwpf2d",
+  "name": "The Fog",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 1,
+  "scariness": 7,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Fog, 1980): vengeful ghosts of drowned lepers kill townspeople with hooks and blades; mostly dark and atmospheric rather than gory.",
+  "exclusionFlag": {
+   "category": "OCCULT",
+   "reason": "Ghost-story horror: revenant ghosts emerge from the fog to kill."
+  }
+ },
+ {
+  "id": "cmvewdaeg00ep10urvtbg832g",
+  "name": "They Came Together",
+  "violence": 2,
+  "language": 7,
+  "sexNudity": 5,
+  "scariness": 0,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (They Came Together, 2014): romcom parody with frequent crude sexual gags and language; comic sex material but no explicit scene that I recall.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewd4w500dc10urxkcfuqbx",
+  "name": "Hot Spot",
+  "violence": 5,
+  "language": 5,
+  "sexNudity": 4,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2026 Polish-led sci-fi noir (Noomi Rapace) I know only from its premise of an AI-ruled future and a murder investigation. Scored as a typical R-rated sci-fi thriller. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewcvjc00b110uralllyeqg",
+  "name": "The Host",
+  "violence": 6,
+  "language": 5,
+  "sexNudity": 0,
+  "scariness": 7,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Host, 2006): a mutant river creature attacks crowds and drags victims away; deaths including a family member; child peril; bleak but not gory.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewcvel00b010uraxxtn2lm",
+  "name": "Aline",
+  "violence": 0,
+  "language": 2,
+  "sexNudity": 2,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Aline, 2021): gentle fictionalized Celine Dion biopic; a non-explicit romance with her older manager, mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewcu6300ap10urb5kgk6bn",
+  "name": "The Quick and the Dead",
+  "violence": 7,
+  "language": 4,
+  "sexNudity": 3,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Quick and the Dead, 1995): repeated quick-draw duels with bloody gunshot wounds; a flashback hanging; brief sensuality but no sex scene I recall.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewcs8f00a810urj9r99qo6",
+  "name": "Thirteen Lives",
+  "violence": 1,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Thirteen Lives, 2022): sustained tension of the Thai cave rescue, a diver's death, claustrophobic underwater sequences; little else.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewcrmy00a310url9urm72d",
+  "name": "The November Man",
+  "violence": 8,
+  "language": 8,
+  "sexNudity": 6,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The November Man, 2014): brutal shootings and a knife killing; strong language; an early sex scene with nudity and a strip-club setting.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Early sex scene with partial nudity; the plot also involves sexual abuse of a trafficked girl, discussed rather than shown."
+  }
+ },
+ {
+  "id": "cmvewcric00a210ur201pspfw",
+  "name": "A Cure for Wellness",
+  "violence": 7,
+  "language": 4,
+  "sexNudity": 6,
+  "scariness": 9,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (A Cure for Wellness, 2017): a dentist's drill to a tooth, eels in tanks, body horror; extensive non-sexual nudity of elderly patients and bathing; an attempted incestuous rape of Hannah near the end.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "No consensual sex scene, but extensive patient nudity and an attempted rape/forced 'wedding night' a reviewer should judge."
+  }
+ },
+ {
+  "id": "cmvewcqha009v10uro4pcoqj2",
+  "name": "Good Boy",
+  "violence": 6,
+  "language": 8,
+  "sexNudity": 3,
+  "scariness": 6,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2026 Jan Komasa thriller (Stephen Graham) I know only from its premise: a violent, drug-using 19-year-old is abducted and imprisoned in a family's basement. Scored as a typical R-rated captivity thriller with strong language. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewcpd4009n10ur74fga9oi",
+  "name": "The Monuments Men",
+  "violence": 4,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Monuments Men, 2014): WWII art-recovery drama; a few shootings and two team members killed; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewcp45009l10urwvkmb0xy",
+  "name": "Sound of Metal",
+  "violence": 2,
+  "language": 8,
+  "sexNudity": 3,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Sound of Metal, 2020): frequent f-words; brief partial nudity and non-explicit intimacy between Ruben and Lou; distress from sudden hearing loss and addiction.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewcok9009g10ursl4bm1nh",
+  "name": "The Fire Inside",
+  "violence": 4,
+  "language": 4,
+  "sexNudity": 0,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Fire Inside, 2024): amateur and Olympic boxing bouts; references to childhood abuse and poverty; some language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewco3n009c10urrf22clc2",
+  "name": "Unstoppable",
+  "violence": 4,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Unstoppable, 2024): wrestling matches; a menacing, abusive stepfather with a violent outburst; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewcmrp009010ur6olxrn7i",
+  "name": "Maximum Risk",
+  "violence": 8,
+  "language": 6,
+  "sexNudity": 6,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Maximum Risk, 1996): Van Damme shootouts, brutal fights and car chases; a sex scene with Natasha Henstridge with partial nudity.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Sex scene between Van Damme's character and his brother's girlfriend, partial nudity."
+  }
+ },
+ {
+  "id": "cmvewc95z005n10urgndqucjw",
+  "name": "Love of Your Life",
+  "violence": 1,
+  "language": 6,
+  "sexNudity": 5,
+  "scariness": 2,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2026 romantic drama (Margaret Qualley) I know only from its premise of love, a husband's death and moving on. Scored as a typical R-rated adult romance; sexual content could be higher than estimated. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewc8s2005k10urpklvafp6",
+  "name": "Masterplan",
+  "violence": 4,
+  "language": 6,
+  "sexNudity": 2,
+  "scariness": 2,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2026 heist comedy-thriller (Stanley Tucci) I know only from its Mona Lisa heist premise. Scored as a typical R-rated caper film. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmvewc5td004u10urlkaop3e7",
+  "name": "West Side Story",
+  "violence": 6,
+  "language": 4,
+  "sexNudity": 3,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (West Side Story, 2021): rumble with a fatal stabbing and later a shooting; an attempted sexual assault of Anita in the drugstore; ethnic slurs.",
+  "exclusionFlag": {
+   "category": "LGBTQ",
+   "reason": "Anybodys is written as a transgender character whose wish to be accepted by the Jets is a recurring thread."
+  }
+ },
+ {
+  "id": "cmv4w98ec005mm9fr6dcbour2",
+  "name": "Disclosure Day",
+  "violence": 4,
+  "language": 3,
+  "sexNudity": 1,
+  "scariness": 5,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2026 Spielberg alien-disclosure thriller I know only from its premise. Scored as a typical PG-13 sci-fi conspiracy thriller with some menace. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmuuw6bz60056f329h3ol2qbl",
+  "name": "The Grudge",
+  "violence": 4,
+  "language": 2,
+  "sexNudity": 0,
+  "scariness": 9,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Grudge, 2004): a cursed Tokyo house whose vengeful ghosts kill each visitor; constant jump scares and the croaking Kayako apparition.",
+  "exclusionFlag": {
+   "category": "OCCULT",
+   "reason": "Curse and vengeful-ghost horror."
+  }
+ },
+ {
+  "id": "cmuuw67ac0045f3297341tbri",
+  "name": "Cloverfield",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 1,
+  "scariness": 7,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Cloverfield, 2008): giant monster and parasite attacks in found-footage chaos; a character bursts with blood after a bite; some language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmuuw5wca001pf329a7nr4lxz",
+  "name": "A.I. Artificial Intelligence",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 3,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (A.I. Artificial Intelligence, 2001): robots destroyed at the Flesh Fair; Jude Law's gigolo robot and Rouge City innuendo with no nudity; a child abandoned in the woods is distressing.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmuuw5t4m0010f3290tpd5fr2",
+  "name": "War of the Worlds",
+  "violence": 6,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 8,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (War of the Worlds, 2005): tripods vaporize crowds, a river of bodies, blood-sprayed landscapes; Ray kills a man to protect his daughter; intense child peril.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmuuw5s0i000rf329plgc9nyh",
+  "name": "No Country for Old Men",
+  "violence": 9,
+  "language": 6,
+  "sexNudity": 0,
+  "scariness": 8,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (No Country for Old Men, 2007): Chigurh's captive-bolt killings and shootings, bloody wounds, a strangling; relentless menace to innocent bystanders.",
+  "exclusionFlag": {
+   "category": "PREDATION",
+   "reason": "Psychopathic hitman Chigurh methodically kills innocents (coin toss, Carla Jean); reviewer may consider it predation."
+  }
+ },
+ {
+  "id": "cmuuw5rw1000qf329yw0e9oel",
+  "name": "Saving Private Ryan",
+  "violence": 10,
+  "language": 8,
+  "sexNudity": 0,
+  "scariness": 7,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Saving Private Ryan, 1998): the Omaha Beach landing with graphic dismemberment, a slow knife killing; strong soldier language. War violence, not flagged per brief.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmuuw5rr3000pf3296vwlvtrr",
+  "name": "Arrival",
+  "violence": 2,
+  "language": 2,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Arrival, 2016): a bomb blast in the alien ship; grief over a child's illness and death; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmuuw5rmf000of329l4qrhwjp",
+  "name": "Catch Me If You Can",
+  "violence": 2,
+  "language": 4,
+  "sexNudity": 4,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Catch Me If You Can, 2002): a call girl in her underwear and implied sex; a brief scuffle; some language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmuaw0sxw009c132g1a857ued",
+  "name": "After the Hunt",
+  "violence": 2,
+  "language": 7,
+  "sexNudity": 4,
+  "scariness": 3,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I know Guadagnino's After the Hunt (2025) in outline: a professor caught between a student's assault accusation against a colleague and her own past. I recall frank sexual dialogue and a charged encounter but not specifics; scored as an R-rated campus drama. Treat cautiously.",
+  "exclusionFlag": {
+   "category": "LGBTQ",
+   "reason": "Maggie's relationship with a nonbinary partner (Lio Mehiel) and identity politics feature in the story; reviewer should check how prominent it is."
+  }
+ },
+ {
+  "id": "cmuaw0sdb0097132gewue5h9f",
+  "name": "Under Suspicion",
+  "violence": 5,
+  "language": 5,
+  "sexNudity": 6,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I know Under Suspicion (1991, Liam Neeson) only in outline as a 1950s Brighton noir about a fake divorce-evidence scheme that ends in a double murder; it is an adult noir with adultery at its core, and I believe sex and nudity appear but cannot confirm. Treat cautiously.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Adultery noir likely including sex scenes and nudity; unverified."
+  }
+ },
+ {
+  "id": "cmuaw0pto008l132g262r8197",
+  "name": "Jackpot!",
+  "violence": 6,
+  "language": 7,
+  "sexNudity": 1,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Jackpot!, 2024): slapstick but frequent action fights and deaths in a deadly-lottery chase; frequent language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmuaw0mkp007t132gshgt2crb",
+  "name": "State of Grace",
+  "violence": 8,
+  "language": 9,
+  "sexNudity": 6,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (State of Grace, 1990): brutal Irish-mob killings and a bloody slow-motion climactic shootout; pervasive profanity; a love scene between Terry and Kathleen (my recollection of its explicitness is weaker).",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Love scene between Sean Penn's and Robin Wright's characters; extent not confirmed."
+  }
+ },
+ {
+  "id": "cmuaw0e15005q132ggael6w38",
+  "name": "You+Me - Against the World",
+  "violence": 1,
+  "language": 5,
+  "sexNudity": 5,
+  "scariness": 1,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2026 French college romance based on a novel that I cannot place. Scored as a typical R-rated young-adult romance; sexual content could be higher. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmu0vxdtl004wh0gux3mcfrx1",
+  "name": "The Family",
+  "violence": 7,
+  "language": 9,
+  "sexNudity": 4,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Family, 2013): bloody mob violence, a man beaten with a bat, a climactic shootout; pervasive f-words; teen daughter's affair implied and brief sexuality.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmu0vxapl0047h0gu13ab8p8j",
+  "name": "Left Behind",
+  "violence": 3,
+  "language": 2,
+  "sexNudity": 1,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Left Behind, 2014): rapture chaos with car and plane crashes, looting, a gun brandished on the plane; little blood; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmu0vx97p003vh0gugtk9kufr",
+  "name": "Broken Land",
+  "violence": 4,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — small 2024 border drama (David Morse) I know only from its premise of a rancher accidentally shooting a migrant woman. Scored as a typical PG-13 drama with a shooting and tension. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmu0vx6lr003ah0guccmpfvdu",
+  "name": "The Foreigner",
+  "violence": 8,
+  "language": 7,
+  "sexNudity": 6,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Foreigner, 2017): an opening bombing killing a teen, Jackie Chan's brutal fights, homemade bombs, torture by IRA men; a brief sex scene between Hennessy's mistress and his nephew.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Brief sex scene between Maggie and Sean; no extended nudity as I recall."
+  }
+ },
+ {
+  "id": "cmu0vx5zn0035h0guly4vm5gn",
+  "name": "Death Becomes Her",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 3,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Death Becomes Her, 1992): darkly comic falls, a twisted neck and a hole blown through a torso; Isabella's seduction and brief rear nudity; a potion of eternal youth.",
+  "exclusionFlag": {
+   "category": "HORROR_COMEDY",
+   "reason": "Macabre horror-comedy with undead rivals and a magic immortality potion."
+  }
+ },
+ {
+  "id": "cmu0vx4dx002sh0gun3yw8lg0",
+  "name": "Christine",
+  "violence": 4,
+  "language": 6,
+  "sexNudity": 2,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Christine, 2016): pervasive depression culminating in the reporter's on-air suicide by gunshot; some language; no sex scenes.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmu0vwrnv0003h0gun4pzv2l5",
+  "name": "Cavegirl",
+  "violence": 2,
+  "language": 5,
+  "sexNudity": 7,
+  "scariness": 1,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I cannot place Cavegirl (1985) beyond its synopsis; it is an R-rated 80s teen time-travel sex comedy, a genre where nudity and sexual gags are the point. Scored on that basis. Treat cautiously.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "R-rated 80s teen sex comedy; likely nudity and sexual content as the core."
+  }
+ },
+ {
+  "id": "cmtqvvlpa00hocox7jxym828b",
+  "name": "Fun and Games",
+  "violence": 3,
+  "language": 3,
+  "sexNudity": 8,
+  "scariness": 2,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I cannot place Fun and Games (1971) beyond its synopsis and keywords (exploitation, schoolgirl tease, prison inmates), which mark it as British sexploitation. Scored as typical of that genre. Treat cautiously.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Early-70s British sexploitation film; sexual content is likely the point."
+  }
+ },
+ {
+  "id": "cmtqvvhy500gocox7rc3etne2",
+  "name": "The Runner",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 1,
+  "scariness": 6,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2026 Gal Gadot kidnap thriller I know only from its premise of a mother forced to obey a kidnapper's commands. Scored as a typical PG-13 child-in-peril thriller. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtqvuxhg00b5cox7duun5rsu",
+  "name": "The Mandalorian and Grogu",
+  "violence": 5,
+  "language": 1,
+  "sexNudity": 0,
+  "scariness": 3,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2026 Star Wars film I know only from its premise; scored like the Mandalorian series: blaster fights and creature battles, no blood, no sexual content. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtqvuo3s008pcox7qpeis8x1",
+  "name": "Turning Point: Generation 9/11",
+  "violence": 5,
+  "language": 6,
+  "sexNudity": 0,
+  "scariness": 5,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2026 9/11 documentary I know only from its premise; scored on likely archival footage of the attacks and war, and interviewees' language. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtqvula7007ycox7uny3tdr1",
+  "name": "MOBILE SUIT GUNDAM HATHAWAY The Sorcery of Nymph Circe",
+  "violence": 6,
+  "language": 2,
+  "sexNudity": 2,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — second Gundam Hathaway film (2026) I know only through the first one: mecha battles that kill civilians, terrorism themes, mild romantic tension. Scored as a typical PG-13 war anime. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtqvucju005mcox72ke7zxcd",
+  "name": "Gandhari",
+  "violence": 7,
+  "language": 5,
+  "sexNudity": 1,
+  "scariness": 5,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2026 Indian revenge thriller (Taapsee Pannu) I know only from its premise of a blinded mother hunting her daughter's kidnappers. Scored as a typical R-rated revenge actioner. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtqvu9z3004xcox7oq7ctot5",
+  "name": "Candyman",
+  "violence": 8,
+  "language": 6,
+  "sexNudity": 3,
+  "scariness": 9,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Candyman, 1992): hook disembowelings, a decapitated dog, a baby abducted, bees, blood-soaked scenes; a brief sexual moment; sustained dread.",
+  "exclusionFlag": {
+   "category": "OCCULT",
+   "reason": "Summoned vengeful spirit of urban legend who kills when his name is said."
+  }
+ },
+ {
+  "id": "cmtqvu6pe0042cox7i9hcoh2v",
+  "name": "Star Trek Beyond",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 0,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Star Trek Beyond, 2016): swarm-ship destruction of the Enterprise, phaser fights, a villain draining life from crew; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtqvu62c003wcox7e37a16y7",
+  "name": "House of Gucci",
+  "violence": 4,
+  "language": 7,
+  "sexNudity": 6,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (House of Gucci, 2021): a comic, clothed sex scene on a desk and other sexual content; strong language; Maurizio's murder by a hitman.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Comic sex scene between Patrizia and Maurizio in an office, largely clothed as I recall."
+  }
+ },
+ {
+  "id": "cmtqvu0lm002hcox7xxcmx6v4",
+  "name": "Star Trek Into Darkness",
+  "violence": 6,
+  "language": 2,
+  "sexNudity": 3,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Star Trek Into Darkness, 2013): Khan crushes a man's skull, terrorist bombing, starship battles; Carol Marcus in underwear; Kirk with two alien women in bed (implied).",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtqvtyoj001zcox77cfivvhv",
+  "name": "Escape Plan",
+  "violence": 7,
+  "language": 7,
+  "sexNudity": 0,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Escape Plan, 2013): prison beatings and brutal guards, a riot, shootouts in the escape; strong language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtqvtykc001ycox7ek0musm5",
+  "name": "The Twilight Saga: Breaking Dawn - Part 2",
+  "violence": 6,
+  "language": 1,
+  "sexNudity": 3,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Twilight Saga: Breaking Dawn - Part 2, 2012): bloodless vampire decapitations in the climactic battle vision; married sensuality without explicit nudity.",
+  "exclusionFlag": {
+   "category": "FANTASY_MAGIC",
+   "reason": "Vampire and werewolf supernatural fantasy with powers; not spell-casting, but reviewer may want to weigh it against the fantasy rule."
+  }
+ },
+ {
+  "id": "cmtqvtxju001pcox7kjlslwhw",
+  "name": "Star Trek",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Star Trek, 2009): planet Vulcan destroyed, starship battles, Nero's attacks; Kirk with Uhura's roommate in underwear.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtqvtxa2001ncox7mmyyimts",
+  "name": "The Twilight Saga: Breaking Dawn - Part 1",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 6,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Twilight Saga: Breaking Dawn - Part 1, 2011): a depicted honeymoon love scene (no explicit nudity) and bruised aftermath; a gruesome, bloody birth sequence; Bella's wasting pregnancy.",
+  "exclusionFlag": {
+   "category": "FANTASY_MAGIC",
+   "reason": "Vampire/werewolf supernatural fantasy; also includes a depicted honeymoon sex scene for the 6 review."
+  }
+ },
+ {
+  "id": "cmtqvtw8c001dcox7rcd6vhr2",
+  "name": "The Twilight Saga: Eclipse",
+  "violence": 5,
+  "language": 1,
+  "sexNudity": 2,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Twilight Saga: Eclipse, 2010): newborn vampire army battle with bloodless dismemberment; kissing and Bella's push for intimacy rebuffed.",
+  "exclusionFlag": {
+   "category": "FANTASY_MAGIC",
+   "reason": "Vampire and werewolf supernatural fantasy; reviewer may want to weigh it against the fantasy rule."
+  }
+ },
+ {
+  "id": "cmtqvtvt90019cox76b9mnfgh",
+  "name": "The Menu",
+  "violence": 6,
+  "language": 7,
+  "sexNudity": 2,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Menu, 2022): a finger cut off, suicide by gunshot, a stabbing, diners burned alive; strong language; menace building throughout.",
+  "exclusionFlag": {
+   "category": "HORROR_COMEDY",
+   "reason": "Darkly comic horror in which killings are staged as courses of a meal; could also be treated as killing-as-spectacle."
+  }
+ },
+ {
+  "id": "cmtqvtuun0010cox7icx9mfna",
+  "name": "The Twilight Saga: New Moon",
+  "violence": 4,
+  "language": 1,
+  "sexNudity": 2,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Twilight Saga: New Moon, 2009): werewolf attacks, Bella's cut finger provoking Jasper, Volturi threat; kissing only.",
+  "exclusionFlag": {
+   "category": "FANTASY_MAGIC",
+   "reason": "Vampire and werewolf supernatural fantasy; reviewer may want to weigh it against the fantasy rule."
+  }
+ },
+ {
+  "id": "cmtqvttsa000qcox79gac2e0s",
+  "name": "Twilight",
+  "violence": 4,
+  "language": 1,
+  "sexNudity": 2,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Twilight, 2008): vampire hunting of Bella and a ballet-studio attack with a bite; romantic kissing, no sex.",
+  "exclusionFlag": {
+   "category": "FANTASY_MAGIC",
+   "reason": "Vampire supernatural romance-fantasy; reviewer may want to weigh it against the fantasy rule."
+  }
+ },
+ {
+  "id": "cmtqvttoh000pcox7ws8d9a63",
+  "name": "The Sixth Sense",
+  "violence": 4,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 8,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Sixth Sense, 1999): ghosts with wounds appearing to a child, a girl's poisoning revealed on tape, a shooting at the opening; frightening apparitions.",
+  "exclusionFlag": {
+   "category": "OCCULT",
+   "reason": "Ghost story; a child sees the dead as frightening apparitions."
+  }
+ },
+ {
+  "id": "cmtguljdy00lx11uth6ohicmi",
+  "name": "I Could Never Be Your Woman",
+  "violence": 0,
+  "language": 4,
+  "sexNudity": 4,
+  "scariness": 0,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (I Could Never Be Your Woman, 2007): romcom with sexual references and an implied relationship, some language, no violence.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtgukwnt00gf11utjkq7brh1",
+  "name": "Plane",
+  "violence": 8,
+  "language": 8,
+  "sexNudity": 0,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Plane, 2023): militia executions, brutal hand-to-hand fights, shootouts with bloody hits; strong language; hostage peril.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtgukwjp00ge11uttive7k64",
+  "name": "Brooklyn's Finest",
+  "violence": 9,
+  "language": 10,
+  "sexNudity": 7,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Brooklyn's Finest, 2010): bloody shootings and executions; pervasive profanity; several scenes of Richard Gere's cop with a prostitute featuring strong sexuality and nudity.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Repeated sex scenes with nudity between Eddie and a prostitute."
+  }
+ },
+ {
+  "id": "cmtgukvgj00g411uttso4rjum",
+  "name": "The Loft",
+  "violence": 5,
+  "language": 7,
+  "sexNudity": 7,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Loft, 2014): an erotic thriller built around a shared apartment for affairs; multiple sex scenes with nudity; a bloody corpse handcuffed to the bed; strong language.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Erotic thriller with multiple sex scenes and nudity; sexual affairs are the premise."
+  }
+ },
+ {
+  "id": "cmtguk9fh00ay11utfwnuh9hf",
+  "name": "Morbius",
+  "violence": 6,
+  "language": 2,
+  "sexNudity": 0,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Morbius, 2022): vampiric attacks draining mercenaries on a ship, bloodless superhero fights; mild language. Sci-fi vampirism, not supernatural.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtguk8nm00ar11ut4p0lydhe",
+  "name": "Miss Peregrine's Home for Peculiar Children",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 1,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Miss Peregrine's Home for Peculiar Children, 2016): eyeless victims and hollowgasts that eat eyes, a skeleton battle; children with magical peculiar powers; mild language.",
+  "exclusionFlag": {
+   "category": "FANTASY_MAGIC",
+   "reason": "Children with magical powers and a time-loop guardian (an ymbryne) are central."
+  }
+ },
+ {
+  "id": "cmtguk64700a411utij16xv57",
+  "name": "The Last Scene",
+  "violence": 1,
+  "language": 3,
+  "sexNudity": 3,
+  "scariness": 2,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2026 Turkish romantic drama I know only from its premise of a woman who foresees others' futures in dreams. Scored as a typical romantic drama. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtgujmxz005j11utvv5kasj0",
+  "name": "The Theory of Everything",
+  "violence": 0,
+  "language": 2,
+  "sexNudity": 3,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Theory of Everything, 2014): implied marital intimacy, no nudity; distress from Hawking's ALS decline.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtgujmu6005i11ut30d46clc",
+  "name": "Anaconda",
+  "violence": 6,
+  "language": 4,
+  "sexNudity": 2,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Anaconda, 1997): characters crushed and swallowed by the snake, a neck snapped by Voight's hunter; a swimsuit scene; creature jump scares.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtgujmi9005f11utdrnyq199",
+  "name": "Eden",
+  "violence": 7,
+  "language": 5,
+  "sexNudity": 6,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Eden, 2025): Ron Howard's Galápagos survival drama with shootings, a poisoning and killings among the settlers; Sydney Sweeney's harrowing solo childbirth; some sex and non-sexual nudity (my recall of how explicit is moderate).",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Sex and nudity among the settlers plus a graphic childbirth; reviewer should judge."
+  }
+ },
+ {
+  "id": "cmtgujl6k005311utugrlxyf8",
+  "name": "Beverly Hills Cop: Axel F",
+  "violence": 7,
+  "language": 9,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Beverly Hills Cop: Axel F, 2024): shootouts, a snowplow chase and a helicopter crash; frequent profanity from Eddie Murphy.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtgujkuk005011utkz7qwt5f",
+  "name": "The Other Guys",
+  "violence": 4,
+  "language": 6,
+  "sexNudity": 4,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Other Guys, 2010): comic action shootouts and a fatal jump; crude sexual humor and innuendo, no nudity; language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtgujkpi004z11utffsi272d",
+  "name": "Mirage",
+  "violence": 4,
+  "language": 3,
+  "sexNudity": 2,
+  "scariness": 5,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I know Oriol Paulo's Mirage (2018) in outline: a 1980s Spain time-crossed storm thriller involving a boy's death and a murder. Scored as a typical R-rated mystery thriller. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtgujk9f004v11utfgr2384g",
+  "name": "RRR",
+  "violence": 8,
+  "language": 2,
+  "sexNudity": 0,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (RRR, 2022): stylized but bloody fights, a brutal flogging, colonial atrocities against a child's family; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtgujjac004m11utnd08yg7g",
+  "name": "The Shallows",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 1,
+  "scariness": 8,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Shallows, 2016): shark attacks with bloody wounds, a gaping leg gash self-stitched, men killed; bikini wear; sustained peril.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtgujimi004g11uto9k3bdym",
+  "name": "People We Meet on Vacation",
+  "violence": 0,
+  "language": 5,
+  "sexNudity": 4,
+  "scariness": 1,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2026 Netflix adaptation of the Emily Henry romance; I know the book in outline (friends-to-lovers trips) but not the film. Scored as a typical PG-13 romcom with innuendo and some language. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5khtw00l2ezj89z4zj5sa",
+  "name": "You, Me & Tuscany",
+  "violence": 0,
+  "language": 3,
+  "sexNudity": 3,
+  "scariness": 0,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — 2026 Italian-set romcom (Halle Bailey) I know only from its premise. Scored as a typical PG-13 romcom. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5kf4800kkezj8pai67w62",
+  "name": "Strays",
+  "violence": 4,
+  "language": 10,
+  "sexNudity": 6,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Strays, 2023): non-stop f-words; pervasive crude sexual gags with dogs humping objects, dog genitals and a recurring masturbation joke; a dog bites off the owner's genitals at the climax.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Not human sex scenes but pervasive crude sexual humor and animal sex gags; reviewer should judge."
+  }
+ },
+ {
+  "id": "cmtf5kepo00keezj8s6au7w3u",
+  "name": "Requiem for a Dream",
+  "violence": 6,
+  "language": 8,
+  "sexNudity": 8,
+  "scariness": 9,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Requiem for a Dream, 2000): explicit sex-show sequence and prostitution scenes with nudity; a gangrenous arm amputation and electroshock; harrowing addiction imagery.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Graphic sex-party sequence and sexual exploitation scenes with nudity."
+  }
+ },
+ {
+  "id": "cmtf5kdio00k5ezj8qae1zo0g",
+  "name": "The Man from Nowhere",
+  "violence": 9,
+  "language": 7,
+  "sexNudity": 0,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Man from Nowhere, 2010): organ harvesting of trafficked children, brutal knife fights and shootings, a suicide; a child in peril throughout.",
+  "exclusionFlag": {
+   "category": "PREDATION",
+   "reason": "Gangs harvest organs from children and the hero's climactic knife rampage is staged as a showcase, similar to The Equalizer."
+  }
+ },
+ {
+  "id": "cmtf5kdgc00k4ezj8zp6zj3a9",
+  "name": "Bridget Jones: Mad About the Boy",
+  "violence": 0,
+  "language": 7,
+  "sexNudity": 6,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Bridget Jones: Mad About the Boy, 2025): frequent strong language; Bridget's affair with Roxster includes brief bedroom scenes without explicit nudity; grief over Mark's death.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Brief non-explicit sex scenes between Bridget and Roxster."
+  }
+ },
+ {
+  "id": "cmtf5kcy100k1ezj8x5felafr",
+  "name": "The Boondock Saints",
+  "violence": 9,
+  "language": 10,
+  "sexNudity": 2,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Boondock Saints, 1999): execution-style shootings, a toilet dropped on a man, bloody slow-motion gunfights; pervasive profanity and slurs.",
+  "exclusionFlag": {
+   "category": "PREDATION",
+   "reason": "Vigilante brothers' ritualized executions are staged as showcase kills, similar to The Equalizer."
+  }
+ },
+ {
+  "id": "cmtf5kct500jzezj8dtl81sok",
+  "name": "Killer Elite",
+  "violence": 8,
+  "language": 7,
+  "sexNudity": 3,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Killer Elite, 2011): frequent gunfights, brutal hand-to-hand fights and a torture/beating scene; regular strong language; a romance subplot with no explicit sex.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5kcqy00jyezj84a96p0z7",
+  "name": "The Killer",
+  "violence": 8,
+  "language": 6,
+  "sexNudity": 2,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I know this John Woo remake only in outline (contract killer protecting a blind witness); scored as a typical R-rated Woo-style action thriller with heavy stylised gunplay and strong language. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5kc4i00jtezj8v9yiituw",
+  "name": "Renfield",
+  "violence": 9,
+  "language": 8,
+  "sexNudity": 1,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Renfield, 2023): very gory comic violence (limbs torn off, blood sprays), Dracula feeding on victims, frequent f-words; no sex.",
+  "exclusionFlag": {
+   "category": "HORROR_COMEDY",
+   "reason": "Vampire horror-comedy built around Dracula and gory comic kills."
+  }
+ },
+ {
+  "id": "cmtf5kbzo00jrezj812h8lc16",
+  "name": "F9",
+  "violence": 6,
+  "language": 3,
+  "sexNudity": 1,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (F9, 2021): constant car-crash and fistfight action with little blood; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5kbfe00joezj8jq6mrhh0",
+  "name": "The 355",
+  "violence": 6,
+  "language": 4,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The 355, 2022): regular gunfights and hand-to-hand fights, some killings shown; moderate language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ka2100j8ezj8qucnc2pc",
+  "name": "Borderlands",
+  "violence": 6,
+  "language": 5,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Borderlands, 2024): frequent cartoonish shootouts with bandits and creatures, crude humour and some strong language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5k9zq00j7ezj82roovc0z",
+  "name": "Cocaine Bear",
+  "violence": 8,
+  "language": 8,
+  "sexNudity": 1,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Cocaine Bear, 2023): graphic gory bear maulings (dismemberment, a severed leg), drug use including children handling cocaine, frequent f-words.",
+  "exclusionFlag": {
+   "category": "HORROR_COMEDY",
+   "reason": "Gory animal-attack horror comedy played for laughs."
+  }
+ },
+ {
+  "id": "cmtf5k9lt00j1ezj8j60kgel1",
+  "name": "Ferris Bueller's Day Off",
+  "violence": 1,
+  "language": 5,
+  "sexNudity": 3,
+  "scariness": 0,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Ferris Bueller's Day Off, 1986): no real violence; moderate profanity and crude language; teen sexual innuendo, no nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5k93k00j0ezj8ic2z8e9p",
+  "name": "The School of Rock",
+  "violence": 0,
+  "language": 3,
+  "sexNudity": 1,
+  "scariness": 0,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The School of Rock, 2003): no violence; mild language and rude humour.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5k8dm00isezj85ea8prum",
+  "name": "The Holdovers",
+  "violence": 2,
+  "language": 7,
+  "sexNudity": 2,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Holdovers, 2023): a minor injury and a bar scuffle; frequent profanity including f-words; brief sexual references, no nudity; themes of grief.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5k83t00ioezj8mb7cyl23",
+  "name": "Old",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 3,
+  "scariness": 7,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Old, 2021): body horror from rapid aging (decomposition, bone-breaking contortions, self-surgery), several deaths; a teen pregnancy that happens off-screen; creeping dread throughout.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5k6n700icezj8dtgjertg",
+  "name": "Reminders of Him",
+  "violence": 2,
+  "language": 4,
+  "sexNudity": 4,
+  "scariness": 3,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Colleen Hoover adaptation I do not know in detail; scored as a PG-13 romance drama with a past fatal car accident, grief, and implied/non-explicit intimacy. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5k61s00i8ezj8scvinyml",
+  "name": "Battleship",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 2,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Battleship, 2012): extended naval and alien combat with explosions, little blood; mild language; brief bikini/bra comedy scene.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5k4ss00hvezj8ekb9y1of",
+  "name": "Exodus: Gods and Kings",
+  "violence": 7,
+  "language": 1,
+  "sexNudity": 0,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Exodus: Gods and Kings, 2014): large battle scenes, hangings, crocodile attacks and the plagues including the death of the firstborn children; no sex.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5k4cw00htezj8lhauysns",
+  "name": "Mean Girls",
+  "violence": 1,
+  "language": 5,
+  "sexNudity": 4,
+  "scariness": 0,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Mean Girls, 2004): no real violence; crude teen language and sexual references; a lingerie Halloween party, no nudity.",
+  "exclusionFlag": {
+   "category": "LGBTQ",
+   "reason": "Damian is an openly gay recurring character, and a rumour that Janis is a lesbian drives part of the plot."
+  }
+ },
+ {
+  "id": "cmtf5k45700hqezj8zj8xfvre",
+  "name": "Nobody",
+  "violence": 8,
+  "language": 8,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Nobody, 2021): extended brutal fights (bus beat-down, tracheotomy), many shootouts and booby-trap kills played with relish; frequent f-words.",
+  "exclusionFlag": {
+   "category": "PREDATION",
+   "reason": "One-man-army vigilante film with Equalizer-style showcase kills."
+  }
+ },
+ {
+  "id": "cmtf5k35w00hnezj844ie3pou",
+  "name": "The Help",
+  "violence": 2,
+  "language": 4,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Help, 2011): a domestic-abuse beating mostly off-screen and a miscarriage scene; some mild language and racial slurs; themes of racism.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5k1xc00haezj8k6gemx9k",
+  "name": "Good Will Hunting",
+  "violence": 4,
+  "language": 9,
+  "sexNudity": 3,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Good Will Hunting, 1997): a street brawl and an arrest; very frequent f-words; crude sexual talk and an implied sex scene without nudity; an abuse backstory.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5k0cg00gkezj8giu8i04j",
+  "name": "Gemini Man",
+  "violence": 6,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Gemini Man, 2019): frequent gunfights and a motorbike chase, little blood; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jzv500ghezj8ka0wyo9x",
+  "name": "Good Fortune",
+  "violence": 1,
+  "language": 7,
+  "sexNudity": 3,
+  "scariness": 1,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I know this 2025 Aziz Ansari angel comedy only in outline; scored as an R-rated comedy with frequent profanity and some drug/sexual humour, little violence. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jzsz00ggezj8k4uixtqf",
+  "name": "Stonehearst Asylum",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 2,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Stonehearst Asylum, 2014): electroshock and ice-water \"treatments\" used as torture, a throat-cutting and other killings; gothic dread; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jzlt00gdezj8c48a4orp",
+  "name": "The Wave",
+  "violence": 4,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 7,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Wave, 2015): tsunami disaster with drownings and bodies; a sustained family-in-peril sequence underwater; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jz0800gaezj81a1cknkh",
+  "name": "Is God Is",
+  "violence": 7,
+  "language": 7,
+  "sexNudity": 3,
+  "scariness": 5,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 adaptation of the Aleshea Harris play I know only by premise; scored as an R-rated revenge drama with domestic violence, arson-burn backstory and strong language. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jyy000g9ezj834fctdfm",
+  "name": "Deep Cover",
+  "violence": 5,
+  "language": 8,
+  "sexNudity": 2,
+  "scariness": 3,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I know this 2025 Prime Video action comedy only in outline; scored as an R-rated crime comedy with gangland violence and frequent profanity. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jyvs00g8ezj88v4px23j",
+  "name": "Don Jon",
+  "violence": 1,
+  "language": 9,
+  "sexNudity": 8,
+  "scariness": 0,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Don Jon, 2013): pornography addiction is the subject — repeated explicit porn clips with nudity, several sex scenes and masturbation; near-constant crude language.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Porn clips, sex scenes and masturbation are the core content of the film."
+  }
+ },
+ {
+  "id": "cmtf5jxvk00fzezj8rqnwvna5",
+  "name": "Moonfall",
+  "violence": 4,
+  "language": 4,
+  "sexNudity": 0,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Moonfall, 2022): mass destruction, floods and some killings; moderate language; no sex.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jxta00fyezj82n01piow",
+  "name": "Original Sin",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 9,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Original Sin, 2001): an erotic thriller with multiple explicit sex scenes and full nudity; some violence including a poisoning and a shooting.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Erotic thriller with repeated explicit sex scenes."
+  }
+ },
+ {
+  "id": "cmtf5jwlp00fuezj84diso9d7",
+  "name": "Air",
+  "violence": 0,
+  "language": 8,
+  "sexNudity": 0,
+  "scariness": 0,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Air, 2023): no violence; frequent f-words in business banter; no sex.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jwe700frezj8wp56rife",
+  "name": "You're Cordially Invited",
+  "violence": 1,
+  "language": 7,
+  "sexNudity": 3,
+  "scariness": 0,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I know this 2025 wedding comedy only in outline; scored as an R-rated Will Ferrell/Reese Witherspoon comedy with frequent profanity and crude sexual humour, no real violence. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jw1x00fqezj8j9p5bjvo",
+  "name": "Vivarium",
+  "violence": 4,
+  "language": 4,
+  "sexNudity": 2,
+  "scariness": 8,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Vivarium, 2019): oppressive existential dread, a disturbing child-like being, a man digging himself to death and body-bag disposal; some language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jvv600fnezj8k0gn2ga9",
+  "name": "Brothers",
+  "violence": 6,
+  "language": 6,
+  "sexNudity": 3,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Brothers, 2009): a POW forced to beat a fellow prisoner to death, PTSD rage including smashing a kitchen and a gun stand-off; some language; implied intimacy.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jvqi00flezj8v5hqz2kf",
+  "name": "Hunt for the Wilderpeople",
+  "violence": 3,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Hunt for the Wilderpeople, 2016): a boar attack, a dog killed, the death of a foster mother, and a comic police chase; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jv3700fgezj8pnayxrdl",
+  "name": "The Next Three Days",
+  "violence": 5,
+  "language": 5,
+  "sexNudity": 2,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Next Three Days, 2010): a violent drug-den confrontation and shootings, a suicide attempt; some strong language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5juiw00fcezj8n51hi2c8",
+  "name": "Warrior",
+  "violence": 6,
+  "language": 4,
+  "sexNudity": 0,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Warrior, 2011): repeated bloody MMA bouts and family conflict; some profanity; no sex.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jugi00fbezj8tihm3z8n",
+  "name": "Tropic Thunder",
+  "violence": 7,
+  "language": 10,
+  "sexNudity": 3,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Tropic Thunder, 2008): comic war violence with gore gags (a director blown up, a severed head), near-constant f-words; crude sexual jokes, no nudity of note.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jue900faezj8ywglygxm",
+  "name": "The Hunt",
+  "violence": 4,
+  "language": 6,
+  "sexNudity": 5,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Hunt, 2012): a false child-abuse accusation is the subject, with community violence against the accused and his dog killed; a brief sex scene with partial nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jubd00f9ezj80yeu27a5",
+  "name": "The Pickup",
+  "violence": 6,
+  "language": 8,
+  "sexNudity": 3,
+  "scariness": 2,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I know this 2025 Eddie Murphy action comedy only by premise; scored as an R-rated buddy action comedy with shootouts and frequent profanity. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ju9400f8ezj894gvnrcp",
+  "name": "The Forbidden Kingdom",
+  "violence": 5,
+  "language": 1,
+  "sexNudity": 0,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Forbidden Kingdom, 2008): extended martial-arts fights with little blood; mild language; mystical elements.",
+  "exclusionFlag": {
+   "category": "FANTASY_MAGIC",
+   "reason": "Immortals, a sorcerous Jade Warlord, a white-haired witch and the Monkey King's magic staff drive the story."
+  }
+ },
+ {
+  "id": "cmtf5jtqy00f6ezj85laosuzm",
+  "name": "The Bluff",
+  "violence": 8,
+  "language": 5,
+  "sexNudity": 2,
+  "scariness": 5,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Prime pirate action film I know only by premise; scored as an R-rated period siege/revenge action film with bloody swordplay and gunfire. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jtk300f3ezj82cqrsude",
+  "name": "For a Few Dollars More",
+  "violence": 6,
+  "language": 1,
+  "sexNudity": 2,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (For a Few Dollars More, 1965): many shootings and a sadistic villain; a flashback implies a rape and suicide; drug use; little language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jt1s00ewezj8qtqfeni3",
+  "name": "Triangle",
+  "violence": 7,
+  "language": 5,
+  "sexNudity": 1,
+  "scariness": 8,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Triangle, 2009): a masked killer shoots the protagonist's friends one by one on a ghost ship in a time loop; bloody deaths and a body pile; sustained dread.",
+  "exclusionFlag": {
+   "category": "PREDATION",
+   "reason": "A masked killer picks off a group of friends, slasher-style, though framed as a time-loop puzzle."
+  }
+ },
+ {
+  "id": "cmtf5jsyp00evezj8y84pvoid",
+  "name": "Homefront",
+  "violence": 7,
+  "language": 7,
+  "sexNudity": 1,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Homefront, 2013): brutal fights, shootouts and a child placed in peril; strong language; meth use.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jsdz00esezj8r8kl713u",
+  "name": "Secretary",
+  "violence": 2,
+  "language": 5,
+  "sexNudity": 9,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Secretary, 2002): a sadomasochistic sexual relationship is the subject — spanking, sex scenes and nudity; self-harm is depicted.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "BDSM sexual relationship is the point of the film, with sex scenes and nudity."
+  }
+ },
+ {
+  "id": "cmtf5jrwv00eoezj890fye603",
+  "name": "Baywatch",
+  "violence": 5,
+  "language": 9,
+  "sexNudity": 6,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Baywatch, 2017): action-comedy fights and burnings; very frequent crude language; extended comic male genital nudity (a corpse) and constant sexual jokes.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jruo00enezj80uyppq49",
+  "name": "The Map That Leads to You",
+  "violence": 0,
+  "language": 3,
+  "sexNudity": 4,
+  "scariness": 1,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2025 PG-13 Prime romance I know only by premise; scored as a PG-13 travel romance with implied sex and some language. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jra000ejezj8kynagini",
+  "name": "Highlander",
+  "violence": 7,
+  "language": 4,
+  "sexNudity": 6,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Highlander, 1986): many sword-fight beheadings and a bloody villain; a love scene with brief nudity and a threatened rape.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jr5g00ehezj8z5vpi5x5",
+  "name": "Manchester by the Sea",
+  "violence": 2,
+  "language": 9,
+  "sexNudity": 2,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Manchester by the Sea, 2016): bar fights and a suicide attempt; the backstory of children dying in a house fire; very frequent f-words.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jr3a00egezj8nevz9q7g",
+  "name": "The Hurt Locker",
+  "violence": 7,
+  "language": 9,
+  "sexNudity": 0,
+  "scariness": 7,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Hurt Locker, 2008): IEDs, a sniper battle and a child's body implanted with a bomb; sustained tension; very frequent profanity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jqq800ebezj85j7na9hd",
+  "name": "Olympus Has Fallen",
+  "violence": 9,
+  "language": 8,
+  "sexNudity": 0,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Olympus Has Fallen, 2013): very high body count, executions of hostages, brutal knife kills and torture of officials; frequent strong language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jq1300e9ezj8kc0fzcjp",
+  "name": "Snowpiercer",
+  "violence": 8,
+  "language": 6,
+  "sexNudity": 0,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Snowpiercer, 2013): a bloody axe battle in a train car, an arm frozen and shattered as punishment, cannibalism backstory; child labour; some strong language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jpyv00e8ezj8a2egp4kl",
+  "name": "65",
+  "violence": 6,
+  "language": 2,
+  "sexNudity": 0,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (65, 2023): repeated dinosaur attacks, bloody injuries and a child in peril; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jpna00e7ezj8peye8knv",
+  "name": "Legally Blonde",
+  "violence": 0,
+  "language": 3,
+  "sexNudity": 3,
+  "scariness": 0,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Legally Blonde, 2001): no violence; mild language; sexual innuendo and a harassing professor, no nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jpl100e6ezj8yucnwtxq",
+  "name": "War Dogs",
+  "violence": 4,
+  "language": 9,
+  "sexNudity": 3,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (War Dogs, 2016): a tense ambush in Iraq; very frequent f-words; heavy drug use; brief sexual content without nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jpgl00e4ezj8rtpf38cr",
+  "name": "Kick-Ass",
+  "violence": 9,
+  "language": 9,
+  "sexNudity": 4,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Kick-Ass, 2010): a child vigilante killing many people graphically, a man burned alive, a torture scene; very frequent f-words including from the child; sexual references.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jo5s00e0ezj80p6o18po",
+  "name": "The Idea of You",
+  "violence": 0,
+  "language": 7,
+  "sexNudity": 6,
+  "scariness": 0,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Idea of You, 2024): several depicted sex scenes without explicit nudity in an age-gap romance; frequent strong language.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Several depicted (non-explicit) sex scenes in the central romance."
+  }
+ },
+ {
+  "id": "cmtf5jo3k00dzezj83hir884i",
+  "name": "The Amateur",
+  "violence": 6,
+  "language": 4,
+  "sexNudity": 1,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Amateur, 2025): a terrorist attack, bombings and revenge killings, some bloody; moderate language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jnph00dtezj8va4j2pku",
+  "name": "RoboCop",
+  "violence": 9,
+  "language": 7,
+  "sexNudity": 3,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (RoboCop, 1987): extremely graphic shootings — Murphy's execution, a man shot to pieces by ED-209, a melting-by-toxic-waste death; brief nudity in a locker room.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jnl000drezj8xtyib3mx",
+  "name": "Donnie Darko",
+  "violence": 4,
+  "language": 8,
+  "sexNudity": 3,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Donnie Darko, 2001): a menacing rabbit figure, arson, a girl killed by a car and a shooting; frequent f-words; brief sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jmpn00dlezj802e8evll",
+  "name": "Regretting You",
+  "violence": 1,
+  "language": 4,
+  "sexNudity": 4,
+  "scariness": 3,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2025 Colleen Hoover adaptation I know only by premise; scored as a PG-13 family/teen romance drama with grief from a fatal car crash, infidelity themes and implied intimacy. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jlmc00ddezj83kdigjmy",
+  "name": "Transformers: The Last Knight",
+  "violence": 6,
+  "language": 4,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Transformers: The Last Knight, 2017): relentless robot combat and destruction, little blood; some language.",
+  "exclusionFlag": {
+   "category": "FANTASY_MAGIC",
+   "reason": "Merlin and his magic staff are central to the plot."
+  }
+ },
+ {
+  "id": "cmtf5jlk200dcezj8arzraa71",
+  "name": "Hercules",
+  "violence": 7,
+  "language": 3,
+  "sexNudity": 1,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Hercules, 2014): large battle scenes with impalings and bloody sword fighting; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jlhc00dbezj8f7i8naek",
+  "name": "Oblivion",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 4,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Oblivion, 2013): drone attacks and gunfights, little blood; a nude swimming scene with brief partial nudity and implied sex.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jlap00d8ezj83zyiclxq",
+  "name": "The Tomorrow War",
+  "violence": 6,
+  "language": 5,
+  "sexNudity": 0,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Tomorrow War, 2021): intense alien-attack sequences with soldiers killed, little gore; some strong language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jkd000d7ezj82o2cfg51",
+  "name": "The Girl Next Door",
+  "violence": 3,
+  "language": 8,
+  "sexNudity": 7,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Girl Next Door, 2004): a sex comedy set in the porn industry with toplessness, a sex scene and constant sexual material; strong language.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Sex comedy built around the porn industry, with nudity and sex scenes."
+  }
+ },
+ {
+  "id": "cmtf5jjzb00d1ezj8q8ea1zov",
+  "name": "The Naked Gun",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 3,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Naked Gun, 2025): slapstick violence and some gunplay; crude innuendo; mild-to-moderate language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jjk300cyezj8fvvsinfd",
+  "name": "How to Lose a Guy in 10 Days",
+  "violence": 0,
+  "language": 4,
+  "sexNudity": 3,
+  "scariness": 0,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (How to Lose a Guy in 10 Days, 2003): no violence; mild language; sexual innuendo with no nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jjd200cvezj8tgoldfvu",
+  "name": "In Time",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 4,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (In Time, 2011): shootings and people \"timing out\" dead; brief partial nudity in a swimming scene and implied sex.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jiwm00crezj8gctc3toj",
+  "name": "Uncharted",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Uncharted, 2022): extended action and fights, little blood; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jidl00coezj8f4kpm8vv",
+  "name": "Reservoir Dogs",
+  "violence": 9,
+  "language": 10,
+  "sexNudity": 0,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Reservoir Dogs, 1992): Mr. Orange bleeding throughout, a sadistic torture scene where a policeman's ear is cut off and he is doused in petrol, a final bloodbath; near-constant f-words and slurs.",
+  "exclusionFlag": {
+   "category": "PREDATION",
+   "reason": "The ear-cutting torture of a bound policeman is staged as a centrepiece."
+  }
+ },
+ {
+  "id": "cmtf5ji3o00cnezj8diyz4x9h",
+  "name": "The Phoenician Scheme",
+  "violence": 4,
+  "language": 3,
+  "sexNudity": 2,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Phoenician Scheme, 2025): deadpan assassination attempts, a plane crash and some bloody injuries; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jhz900clezj83irw8lq6",
+  "name": "Kingdom of the Planet of the Apes",
+  "violence": 5,
+  "language": 1,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Kingdom of the Planet of the Apes, 2024): ape battles and a village raid, a parent killed; some peril; minimal language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jhuo00cjezj81wsj3spr",
+  "name": "Pretty Lethal",
+  "violence": 8,
+  "language": 6,
+  "sexNudity": 1,
+  "scariness": 6,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 action-horror I know only by premise (ballerinas trapped at a remote inn); scored as an R-rated survival thriller with bloody fights and horror tension. Treat cautiously.",
+  "exclusionFlag": {
+   "category": "PREDATION",
+   "reason": "A group of young women hunted by killers at an isolated inn; a reviewer may want to check how the kills are staged."
+  }
+ },
+ {
+  "id": "cmtf5jhmb00cgezj8ixpqoxs2",
+  "name": "Mercy",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 sci-fi thriller I know only by premise (a detective on trial before an AI judge); scored as a PG-13 race-against-the-clock thriller with some violence and peril. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jhk300cfezj8by7fyhnd",
+  "name": "Mr. & Mrs. Smith",
+  "violence": 6,
+  "language": 4,
+  "sexNudity": 4,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Mr. & Mrs. Smith, 2005): extended shootouts and a destructive marital fight; implied sex after the fight, no nudity; moderate language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jhhv00ceezj8oicj6n5i",
+  "name": "World War Z",
+  "violence": 6,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 7,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (World War Z, 2013): fast-zombie swarms, bites and an amputation, little blood shown; sustained tension; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jhcj00ccezj8503ipi7l",
+  "name": "Play Dirty",
+  "violence": 7,
+  "language": 8,
+  "sexNudity": 2,
+  "scariness": 3,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I know this 2025 Shane Black Parker film only by premise; scored as an R-rated heist action film with shootouts and frequent profanity. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jh9t00cbezj8jbb0ovax",
+  "name": "Unfaithful",
+  "violence": 5,
+  "language": 5,
+  "sexNudity": 8,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Unfaithful, 2002): an erotic thriller about an affair with several explicit sex scenes and nudity, and a murder with a snow globe.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Erotic thriller whose adulterous sex scenes are the core of the film."
+  }
+ },
+ {
+  "id": "cmtf5jgui00caezj8ye50s65x",
+  "name": "Your Fault: London",
+  "violence": 2,
+  "language": 6,
+  "sexNudity": 7,
+  "scariness": 2,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 sequel I have not seen, though its predecessor My Fault: London is in the catalog at s7 and its keywords say \"steamy romance\"; scored as a steamy R-rated young-adult romance with sex scenes. Treat cautiously.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Sequel to a steamy romance tagged \"steamy romance\"; sex scenes expected."
+  }
+ },
+ {
+  "id": "cmtf5jgnl00c7ezj88xvddv5s",
+  "name": "Lolita",
+  "violence": 5,
+  "language": 5,
+  "sexNudity": 8,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Lolita, 1997): a middle-aged man's sexual relationship with a 14-year-old girl is the subject, with sexual scenes (body double) and a bloody murder of Quilty.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Sexual relationship between an adult and a young teenage girl is the core of the film."
+  }
+ },
+ {
+  "id": "cmtf5jggr00c4ezj8nwly0p81",
+  "name": "Die Hard",
+  "violence": 8,
+  "language": 9,
+  "sexNudity": 3,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Die Hard, 1988): many shootings, a bloody glass-feet sequence and hostages executed; frequent f-words; nude pin-ups and a couple interrupted mid-tryst.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jfty00c3ezj8i7m12rp9",
+  "name": "The Beekeeper",
+  "violence": 8,
+  "language": 7,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Beekeeper, 2024): brutal revenge kills, including fingers cut off and a man tied to a truck driven off a bridge; frequent strong language.",
+  "exclusionFlag": {
+   "category": "PREDATION",
+   "reason": "Vigilante revenge film with Equalizer-style showcase kills and torture."
+  }
+ },
+ {
+  "id": "cmtf5jfrq00c2ezj8b57qkhr9",
+  "name": "The Notebook",
+  "violence": 2,
+  "language": 3,
+  "sexNudity": 6,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Notebook, 2004): a depicted sex scene with brief nudity; WWII combat briefly shown; mild language; grief and dementia.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "A depicted sex scene with brief nudity between the leads."
+  }
+ },
+ {
+  "id": "cmtf5jfn900c0ezj87k1hhmig",
+  "name": "Red One",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Red One, 2024): fantasy action fights with monsters and a witch, little blood; mild language.",
+  "exclusionFlag": {
+   "category": "FANTASY_MAGIC",
+   "reason": "The villain is the witch Gryla, with spell-casting and Krampus central to the plot."
+  }
+ },
+ {
+  "id": "cmtf5jfkz00bzezj832sjoy9f",
+  "name": "xXx: Return of Xander Cage",
+  "violence": 6,
+  "language": 4,
+  "sexNudity": 4,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (xXx: Return of Xander Cage, 2017): constant stylised action and shootouts; sexual innuendo and a group-tryst implication, no explicit nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jeyq00bwezj8we941ggs",
+  "name": "A Working Man",
+  "violence": 8,
+  "language": 7,
+  "sexNudity": 1,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (A Working Man, 2025): brutal fights and shootings against human traffickers, a kidnapped young woman in peril; strong language.",
+  "exclusionFlag": {
+   "category": "PREDATION",
+   "reason": "Vigilante film in the Beekeeper/Equalizer mould, with showcase kills of traffickers."
+  }
+ },
+ {
+  "id": "cmtf5jeu200buezj8yo66t6qh",
+  "name": "Beast Race",
+  "violence": 7,
+  "language": 6,
+  "sexNudity": 2,
+  "scariness": 5,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Brazilian dystopian film I know only by premise; scored as an R-rated deadly-race action thriller with violence and strong language. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jeru00btezj8nw5y4g6g",
+  "name": "Scarface",
+  "violence": 9,
+  "language": 10,
+  "sexNudity": 5,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Scarface, 1983): extremely bloody shootouts, the chainsaw dismemberment scene, heavy cocaine use; near-constant f-words; brief nudity and sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jel000bqezj8hqoq9obn",
+  "name": "Road House",
+  "violence": 8,
+  "language": 8,
+  "sexNudity": 2,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Road House, 2024): frequent bloody bar brawls, bone-breaking and killings; frequent strong language; brief sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jeir00bpezj8ka4pauor",
+  "name": "The Martian",
+  "violence": 1,
+  "language": 6,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Martian, 2015): self-surgery to remove an antenna shard; peril in space; some f-words; brief rear nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5jc4g00auezj8zl9u1hp9",
+  "name": "Jungle Cruise",
+  "violence": 5,
+  "language": 1,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Jungle Cruise, 2021): adventure action with cursed conquistadors made of snakes and bees, little blood; mild language.",
+  "exclusionFlag": {
+   "category": "LGBTQ",
+   "reason": "MacGregor has a scene explaining he is gay; check whether the family counts it as more than a single line."
+  }
+ },
+ {
+  "id": "cmtf5jbri00asezj8t434bteu",
+  "name": "The New Mutants",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 2,
+  "scariness": 7,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The New Mutants, 2020): horror-styled mutant powers, the Smiley Men and a Demon Bear, a self-harm/violent backstory; a teen romance between two girls.",
+  "exclusionFlag": {
+   "category": "LGBTQ",
+   "reason": "A romance between Rahne and Dani is a central storyline; the film also features a Demon Bear and demonic Limbo imagery."
+  }
+ },
+ {
+  "id": "cmtf5j9q500abezj89ljsbxn4",
+  "name": "Indiana Jones and the Kingdom of the Crystal Skull",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Indiana Jones and the Kingdom of the Crystal Skull, 2008): fights and shootouts, flesh-eating ants and a face-melting finale; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j8om00a1ezj8d8yeol9w",
+  "name": "Rogue One: A Star Wars Story",
+  "violence": 6,
+  "language": 1,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Rogue One, 2016): extended war-style battles with many deaths including the whole main cast; Darth Vader's hallway massacre; minimal language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j7xr009pezj8530guoqr",
+  "name": "Edward Scissorhands",
+  "violence": 4,
+  "language": 2,
+  "sexNudity": 3,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Edward Scissorhands, 1990): accidental cuts, a burglary and a fatal stabbing fall; a housewife's seduction attempt; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j7iu009oezj8feopwonb",
+  "name": "Fantastic Four",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 3,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Fantastic Four, 2005): superhero action with explosions and an accident in space; sexual innuendo and a brief strip by an invisible woman; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j77g009jezj8yly3v9ul",
+  "name": "Indiana Jones and the Dial of Destiny",
+  "violence": 6,
+  "language": 2,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Indiana Jones and the Dial of Destiny, 2023): shootouts, a train fight and several killings including a friend; mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j74w009iezj8a9knmiqx",
+  "name": "Star Wars: The Rise of Skywalker",
+  "violence": 5,
+  "language": 1,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Star Wars: The Rise of Skywalker, 2019): lightsaber and space-battle violence, little blood; Palpatine's menace; minimal language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j6ce009dezj86vfqpf9p",
+  "name": "Solo: A Star Wars Story",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Solo: A Star Wars Story, 2018): blaster battles, a train-heist sequence and mine revolt with deaths but little blood; mild language; a couple of kisses only.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j67t009bezj8n4lb0yby",
+  "name": "The Marvels",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 0,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Marvels, 2023): frequent bloodless superpowered fights and planetary destruction; very mild language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j65h009aezj8wsrs4h2e",
+  "name": "TRON: Ares",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (TRON: Ares, 2025): digital-world and real-world chases and fights where programs 'derez' bloodlessly, some menace from the hunter program; mild language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j5r20098ezj89uzb8nal",
+  "name": "Pirates of the Caribbean: Dead Men Tell No Tales",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 2,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Pirates of the Caribbean: Dead Men Tell No Tales, 2017): sword fights and executions, decaying ghost sailors and ghost sharks that are fairly menacing; innuendo jokes and a comic near-wedding gag, no nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j5ju0095ezj8hnu08u22",
+  "name": "Dark Phoenix",
+  "violence": 6,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Dark Phoenix, 2019): mutant battles, Jean kills Mystique and a train fight with many alien deaths; mild language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j4z80093ezj8dxt98a2n",
+  "name": "Free Guy",
+  "violence": 5,
+  "language": 5,
+  "sexNudity": 1,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Free Guy, 2021): constant cartoonish video-game shootouts and explosions with no blood; some profanity including a bleeped/partial f-word; kissing only.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j3x7008wezj8q44i0gwk",
+  "name": "Captain America: The Winter Soldier",
+  "violence": 6,
+  "language": 3,
+  "sexNudity": 1,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Captain America: The Winter Soldier, 2014): intense hand-to-hand fights, shootouts and Nick Fury's apparent shooting; mild language; a joke kiss only.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j39y008qezj8fgz3wg3m",
+  "name": "Captain America: The First Avenger",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Captain America: The First Avenger, 2011): WWII combat with Hydra disintegration weapons and a man thrown into a propeller (off-screen gore); mild language; flirting only.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j37p008pezj8pjwio7ux",
+  "name": "Spider-Man 2",
+  "violence": 6,
+  "language": 2,
+  "sexNudity": 1,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Spider-Man 2, 2004): the hospital scene where Doc Ock's tentacles massacre surgeons is genuinely frightening; otherwise bloodless superhero brawls and the train fight; very mild language.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j32e008nezj8j2jqw26z",
+  "name": "Ant-Man and the Wasp: Quantumania",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Ant-Man and the Wasp: Quantumania, 2023): bloodless sci-fi battles, Kang's menace and MODOK; some mild profanity; no sexual content beyond a joke about Janet's past.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j2vj008kezj8v38owz63",
+  "name": "Captain Marvel",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Captain Marvel, 2019): space battles, fistfights and Skrull shapeshifting with no blood; mild language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j2tb008jezj8mwqmyol1",
+  "name": "Girl in the Basement",
+  "violence": 4,
+  "language": 3,
+  "sexNudity": 4,
+  "scariness": 7,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a Lifetime TV movie I only know in outline (loosely based on the Fritzl case); scored as a PG-13 captivity drama where a father imprisons and repeatedly abuses his daughter, with rape implied rather than shown and children born in captivity. Treat cautiously.",
+  "exclusionFlag": {
+   "category": "PREDATION",
+   "reason": "A father imprisons and sexually abuses his daughter for years in a basement; captivity and abuse are the subject of the film."
+  }
+ },
+ {
+  "id": "cmtf5j24d008eezj8o9sxt9so",
+  "name": "Star Wars: The Force Awakens",
+  "violence": 5,
+  "language": 1,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Star Wars: The Force Awakens, 2015): blaster combat, a village massacre and Kylo Ren killing Han Solo; very mild language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j21x008dezj8ucsmrvbo",
+  "name": "Guardians of the Galaxy",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 2,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Guardians of the Galaxy, 2014): frequent sci-fi combat with some deaths, the opening death of Peter's mother is upsetting; crude jokes and mild profanity, references to Peter's past flings; no nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j1s30089ezj8mkf0kzc7",
+  "name": "Venom",
+  "violence": 6,
+  "language": 4,
+  "sexNudity": 1,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Venom, 2018): violent symbiote fights including Venom biting off heads (mostly cut away), body-horror transformations; moderate language; a kiss only.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j0xo0080ezj8txo0k58j",
+  "name": "Ant-Man",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Ant-Man, 2015): bloodless superhero fights, Yellowjacket shrinking a man into goo and a lamb test; some mild profanity; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j0ml007zezj8qwfy42ys",
+  "name": "Pirates of the Caribbean: At World's End",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 2,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Pirates of the Caribbean: At World's End, 2007): opens with mass hangings including a child, sword battles and a maelstrom battle, Davy Jones' crew is creepy; innuendo only.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5j0al007uezj8jojo5y3r",
+  "name": "Venom: Let There Be Carnage",
+  "violence": 6,
+  "language": 4,
+  "sexNudity": 1,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Venom: Let There Be Carnage, 2021): Carnage slaughters guards and police in largely bloodless PG-13 style; the villain is a convicted serial killer; moderate language; no sexual content.",
+  "exclusionFlag": {
+   "category": "PREDATION",
+   "reason": "Villain Cletus Kasady is a serial killer whose murders are part of the plot, though the kills are PG-13 and mostly off-screen or bloodless."
+  }
+ },
+ {
+  "id": "cmtf5izqz007qezj863kucfhb",
+  "name": "Black Panther",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Black Panther, 2018): ritual combat duels, a car chase and battle with some deaths; mild language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iym8007hezj8dtpf6t3y",
+  "name": "Deadpool",
+  "violence": 8,
+  "language": 10,
+  "sexNudity": 7,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Deadpool, 2016): gory comic violence including beheadings and impalements; near-constant f-words and crude sexual jokes; an extended comedic sex montage with partial nudity plus topless dancers in a strip club.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Extended played-for-laughs sex montage between Wade and Vanessa with partial nudity, plus strip-club toplessness."
+  }
+ },
+ {
+  "id": "cmtf5iyjz007gezj8djtbiqn9",
+  "name": "Guardians of the Galaxy Vol. 2",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 2,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Guardians of the Galaxy Vol. 2, 2017): sci-fi battles and Yondu's crew killing mutineers by arrow, Ego's menace; crude humor and mild profanity including sexual references; no nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iyho007fezj8msbqmpvv",
+  "name": "Doctor Strange",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Doctor Strange, 2016): mystic battles, the car crash that ruins Strange's hands, Kaecilius killing a librarian by decapitation (off-screen); mild language; no sexual content.",
+  "exclusionFlag": {
+   "category": "FANTASY_MAGIC",
+   "reason": "Sorcery and spell-casting are the core of the story: Strange is trained as a sorcerer by the Ancient One."
+  }
+ },
+ {
+  "id": "cmtf5iy7b007eezj8on1ylepi",
+  "name": "Black Panther: Wakanda Forever",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Black Panther: Wakanda Forever, 2022): underwater warrior attacks and battles, Queen Ramonda's death; grief over T'Challa's death pervades the film; mild language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iy2v007cezj8s5fkdkch",
+  "name": "Star Wars: The Last Jedi",
+  "violence": 5,
+  "language": 1,
+  "sexNudity": 0,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Star Wars: The Last Jedi, 2017): space battles and the throne-room lightsaber fight; very mild language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ixbq0076ezj8a7ipwsxa",
+  "name": "Shang-Chi and the Legend of the Ten Rings",
+  "violence": 6,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Shang-Chi and the Legend of the Ten Rings, 2021): lots of martial-arts fights and a final battle with soul-eating creatures from the Dweller-in-Darkness; mild language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ix9c0075ezj8kmht8ta2",
+  "name": "Deadpool 2",
+  "violence": 8,
+  "language": 10,
+  "sexNudity": 4,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Deadpool 2, 2018): gory comic violence (Juggernaut tearing Deadpool in half, the X-Force deaths montage); near-constant f-words and crude sexual jokes; brief comic nudity of Deadpool's regrowing body but no real sex scene.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iwy00070ezj8q891svba",
+  "name": "Thor: The Dark World",
+  "violence": 5,
+  "language": 2,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Thor: The Dark World, 2013): battles with Dark Elves, Frigga's death; mild language; a brief shirtless gag and a kiss.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iw6m006tezj8euyc7gry",
+  "name": "Thor: Ragnarok",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 1,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Thor: Ragnarok, 2017): Hela slaughters Asgardian soldiers, gladiator fight, comic battles; mild language; a brief joke about the Grandmaster's 'orgy ship'.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ivxj006pezj8en4i1bwf",
+  "name": "The Devil Wears Prada",
+  "violence": 0,
+  "language": 3,
+  "sexNudity": 3,
+  "scariness": 0,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Devil Wears Prada, 2006): no violence; mild language; Andy spends a night with Christian in Paris (implied, shown in underwear the morning after).",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iuqi006gezj8yka3h5sy",
+  "name": "Avatar",
+  "violence": 6,
+  "language": 4,
+  "sexNudity": 2,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Avatar, 2009): large-scale battle with many deaths, the Hometree destruction is upsetting; some profanity including 'shit' and 'bitch'; Na'vi wear minimal clothing and Jake and Neytiri's mating is implied with a kiss.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iuh6006cezj8hjrb1rh8",
+  "name": "Doctor Strange in the Multiverse of Madness",
+  "violence": 6,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 7,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Doctor Strange in the Multiverse of Madness, 2022): Sam Raimi horror style — Wanda brutally kills the Illuminati, a zombie Strange, demonic Darkhold imagery and jump scares; mild language; no sexual content (America Chavez's two mothers appear briefly in a flashback).",
+  "exclusionFlag": {
+   "category": "FANTASY_MAGIC",
+   "reason": "Sorcery is central; also strongly occult — the demonic Darkhold book, Wanda as the Scarlet Witch, and a corpse-possession sequence."
+  }
+ },
+ {
+  "id": "cmtf5iuch006aezj8lu4j3ry9",
+  "name": "Thunderbolts*",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Thunderbolts*, 2025): anti-hero fights and gunplay, Bob's Void turning people into shadows; themes of depression and trauma; moderate language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5itkn0068ezj8me6w4ieb",
+  "name": "Iron Man",
+  "violence": 6,
+  "language": 4,
+  "sexNudity": 3,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Iron Man, 2008): terrorist captivity and combat, Stark's suit attacks; mild-to-moderate language; implied one-night stand with a reporter (shown in bed, no nudity) and flight attendants pole-dancing on the jet.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5itic0067ezj8ddg7pq1x",
+  "name": "Avatar: The Way of Water",
+  "violence": 6,
+  "language": 3,
+  "sexNudity": 1,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Avatar: The Way of Water, 2022): extended battles, whale hunting and the death of Neteyam are intense and sad; mild language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5itfv0066ezj87ipra41c",
+  "name": "Guardians of the Galaxy Vol. 3",
+  "violence": 6,
+  "language": 4,
+  "sexNudity": 1,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Guardians of the Galaxy Vol. 3, 2023): animal-experimentation flashbacks with Rocket's caged friends being killed are genuinely distressing; battles; first uncensored f-word in the MCU plus mild profanity; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iryj005iezj8b8rko9r9",
+  "name": "The Lost City",
+  "violence": 4,
+  "language": 5,
+  "sexNudity": 4,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Lost City, 2022): comic action with shootouts and a henchman shot in the head; moderate language; a played-for-laughs scene of Channing Tatum's bare backside while removing leeches, plus innuendo.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5irw7005hezj8qnstmg1b",
+  "name": "Enola Holmes",
+  "violence": 4,
+  "language": 2,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Enola Holmes, 2020): fistfights and an assassin pursuing Enola, one character killed; mild language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5irae005eezj8xjvtva0y",
+  "name": "Inside Man",
+  "violence": 5,
+  "language": 9,
+  "sexNudity": 1,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Inside Man, 2006): hostage menace, a staged execution and beatings, little actual bloodshed; frequent strong language including racial slurs; brief sexual references.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ir13005aezj8az5h8qs1",
+  "name": "Office Romance",
+  "violence": 1,
+  "language": 6,
+  "sexNudity": 6,
+  "scariness": 0,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 release I do not know beyond the premise; scored as an R-rated office romcom whose plot centers on a sexual workplace attraction, so a depicted sex scene is likely but unverified. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iq8e0056ezj88u8s8kv5",
+  "name": "Red Notice",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 2,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Red Notice, 2021): constant bloodless action and gunfights; moderate language; flirting and a kiss, with Gal Gadot's character using seduction.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ipx70051ezj86q7t96cz",
+  "name": "Don't Breathe",
+  "violence": 7,
+  "language": 7,
+  "sexNudity": 3,
+  "scariness": 8,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Don't Breathe, 2016): brutal home-invasion horror with shootings and beatings; strong language; a captive woman is threatened with forced insemination using a turkey baster (no nudity).",
+  "exclusionFlag": {
+   "category": "PREDATION",
+   "reason": "A blind man hunts and kills intruders in his house and keeps a woman captive for forced insemination; the film is built on stalking and terrorizing victims."
+  }
+ },
+ {
+  "id": "cmtf5ipps004yezj8p6w5agen",
+  "name": "After We Collided",
+  "violence": 2,
+  "language": 6,
+  "sexNudity": 7,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (After We Collided, 2020): multiple sex scenes between Tessa and Hardin are a core part of the film, with partial nudity; frequent profanity; a brawl.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Several sex scenes between the leads, which are a central draw of the franchise."
+  }
+ },
+ {
+  "id": "cmtf5ip2u004uezj850b5tvtv",
+  "name": "Through My Window",
+  "violence": 3,
+  "language": 6,
+  "sexNudity": 8,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Through My Window, 2022): Spanish teen-romance with several fairly explicit sex scenes and nudity; strong language; a street fight.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Multiple explicit sex scenes are central to the film's appeal."
+  }
+ },
+ {
+  "id": "cmtf5iorq004tezj8ysnmiu3s",
+  "name": "The Irishman",
+  "violence": 8,
+  "language": 9,
+  "sexNudity": 1,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Irishman, 2019): repeated point-blank mob executions including Hoffa's murder, shown matter-of-factly; very frequent f-words; no sex scenes.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ioph004sezj89wv39gy7",
+  "name": "A House of Dynamite",
+  "violence": 1,
+  "language": 6,
+  "sexNudity": 0,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (A House of Dynamite, 2025): almost no physical violence — the dread comes from an incoming nuclear missile seen from several war rooms; frequent strong language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iomw004rezj8ojyc9m3s",
+  "name": "The Fault in Our Stars",
+  "violence": 0,
+  "language": 4,
+  "sexNudity": 6,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Fault in Our Stars, 2014): a brief, tasteful love scene between Hazel and Gus (undressing, in bed, no explicit nudity); one f-word and mild language; terminal cancer and death are deeply sad.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Brief, non-explicit love scene between the two teenage leads in Amsterdam; no nudity."
+  }
+ },
+ {
+  "id": "cmtf5ioba004mezj8yycakvzn",
+  "name": "Angel Has Fallen",
+  "violence": 8,
+  "language": 8,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Angel Has Fallen, 2019): drone massacre of the Secret Service, many bloody shootouts and knife fights; frequent strong language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5io1t004iezj8dhschl6h",
+  "name": "The Hunger Games",
+  "violence": 6,
+  "language": 1,
+  "sexNudity": 0,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Hunger Games, 2012): children kill each other in the arena, mostly with shaky-cam and little blood; Rue's death is sad; very mild language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5im8u0047ezj8msliubow",
+  "name": "The Gray Man",
+  "violence": 7,
+  "language": 6,
+  "sexNudity": 0,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Gray Man, 2022): constant gunfights and brawls, a fingernail-pulling torture scene and threats to a child; moderate-to-strong language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ilve0041ezj8n12hespu",
+  "name": "The Hunger Games: Mockingjay - Part 2",
+  "violence": 7,
+  "language": 2,
+  "sexNudity": 1,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Hunger Games: Mockingjay - Part 2, 2015): war violence, the sewer lizard-mutt attack is frightening, children killed by bombs including Prim; very mild language; a kiss.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ilt20040ezj8bv08e1lf",
+  "name": "The Electric State",
+  "violence": 5,
+  "language": 4,
+  "sexNudity": 0,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Electric State, 2025): robot battles and drone-war action, largely bloodless; some mild profanity; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ikzr003wezj82f5n5k34",
+  "name": "xXx: State of the Union",
+  "violence": 6,
+  "language": 5,
+  "sexNudity": 3,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (xXx: State of the Union, 2005): constant shootouts, explosions and a tank chase with little blood; moderate language; some sensual moments and innuendo.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ikx6003vezj8arodk21u",
+  "name": "Don't Look Up",
+  "violence": 1,
+  "language": 8,
+  "sexNudity": 6,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Don't Look Up, 2021): frequent f-words; a brief comic sex scene between Randall and the TV host (clothed, no explicit nudity) and a post-credits shot of nude people on a new planet; apocalyptic ending with the world destroyed.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Brief comedic sex scene during Randall's affair, plus fleeting rear nudity in the post-credits alien-planet scene."
+  }
+ },
+ {
+  "id": "cmtf5ikuy003uezj81xntp33d",
+  "name": "Little Brother",
+  "violence": 3,
+  "language": 7,
+  "sexNudity": 3,
+  "scariness": 1,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 John Cena comedy I know only from its premise; scored as a typical R-rated buddy comedy with crude humor, frequent profanity and slapstick. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ik0y003pezj86fuywvdj",
+  "name": "Sex Tape",
+  "violence": 2,
+  "language": 9,
+  "sexNudity": 8,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Sex Tape, 2014): the plot centers on a couple's homemade sex tape; several extended comedic sex scenes with nudity (including rear nudity) and constant sexual dialogue; frequent strong language.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Sex is the premise: extended comedic sex scenes with nudity."
+  }
+ },
+ {
+  "id": "cmtf5ijpn003kezj86gkm2ic9",
+  "name": "Extraction 2",
+  "violence": 9,
+  "language": 7,
+  "sexNudity": 0,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Extraction 2, 2023): a long one-take prison riot and train fight with stabbings, burnings and brutal bloody kills; strong language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ij7z003hezj8xwld0zai",
+  "name": "Counterattack",
+  "violence": 7,
+  "language": 7,
+  "sexNudity": 0,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2025 Mexican Netflix action film (Contraataque) I know only in outline; scored as an R-rated special-forces vs cartel shootout film with frequent gunfire deaths and strong language. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ij5q003gezj8smw12yku",
+  "name": "Humint",
+  "violence": 7,
+  "language": 6,
+  "sexNudity": 1,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Korean espionage thriller from Ryoo Seung-wan that I cannot place in detail; scored like his previous action thrillers (The Berlin File, Escape from Mogadishu) with bloody fights and shootouts. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iimw003dezj8h38yh4av",
+  "name": "The Ballad of Buster Scruggs",
+  "violence": 7,
+  "language": 3,
+  "sexNudity": 1,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Ballad of Buster Scruggs, 2018): Western anthology with comic but bloody shootings, hangings, a limbless performer murdered, and a young woman's suicide; mild language; brief references to prostitution.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iihr003bezj817lnn40f",
+  "name": "Speed",
+  "violence": 6,
+  "language": 7,
+  "sexNudity": 1,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Speed, 1994): bombs, a decapitation on a subway train and shootings, sustained bus-bomb peril; strong language; a kiss only.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ii8i0037ezj8yng4n25t",
+  "name": "My Dearest Assassin",
+  "violence": 7,
+  "language": 4,
+  "sexNudity": 3,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Thai action romance I cannot place; scored from the premise (a captive woman hunted for her blood and an assassin protector) as a typical R-rated Asian action drama with bloody fights. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iht10035ezj8agupnhl3",
+  "name": "M3GAN 2.0",
+  "violence": 6,
+  "language": 5,
+  "sexNudity": 1,
+  "scariness": 4,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (M3GAN 2.0, 2025): shifts from horror to action — robot fights, a beheading by the rival android and other killings, mostly bloodless; moderate language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ihjw0031ezj8a0rnbh5n",
+  "name": "This, That, and Everything in Between",
+  "violence": 1,
+  "language": 5,
+  "sexNudity": 3,
+  "scariness": 1,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Filipino family drama I do not know; scored as an R-rated domestic drama with emotional confrontations, moderate language and possible adult themes. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ihhg0030ezj8tzr7zpai",
+  "name": "Hitman's Wife's Bodyguard",
+  "violence": 8,
+  "language": 10,
+  "sexNudity": 4,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Hitman's Wife's Bodyguard, 2021): constant bloody comic shootouts and explosions; near-constant f-words; persistent sexual talk from Sonia and an interrupted sex attempt, no explicit nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ihf0002zezj8yf7ztsip",
+  "name": "Fargo",
+  "violence": 7,
+  "language": 8,
+  "sexNudity": 6,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Fargo, 1996): shootings, an axe murder and the infamous woodchipper body disposal; frequent strong language; two brief sex scenes with escorts including toplessness.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Two short sex scenes with paid escorts in a motel, with brief nudity."
+  }
+ },
+ {
+  "id": "cmtf5ih5z002vezj8lwo37xdv",
+  "name": "Leave the World Behind",
+  "violence": 4,
+  "language": 6,
+  "sexNudity": 3,
+  "scariness": 7,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Leave the World Behind, 2023): sustained apocalyptic dread, a self-driving car pileup, a tooth-loss sickness and a gun standoff; strong language; flirting and suggestive moments only.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ig9v002pezj889zc8imc",
+  "name": "American Sniper",
+  "violence": 8,
+  "language": 8,
+  "sexNudity": 3,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (American Sniper, 2014): combat with children shot, the 'Butcher' drill torture scene; frequent strong language; brief sexual content (Kyle finds his girlfriend with another man, a brief bedroom scene).",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ifhs002iezj89ldv1bxx",
+  "name": "The Gentlemen",
+  "violence": 7,
+  "language": 10,
+  "sexNudity": 4,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Gentlemen, 2020): shootings, a man dropped into a freezer and a heroin-overdose death; near-constant f-words and slurs; crude sexual references including a blackmail video, no sex scene.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iexn002eezj85jkwp291",
+  "name": "1917",
+  "violence": 6,
+  "language": 5,
+  "sexNudity": 0,
+  "scariness": 7,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (1917, 2019): WWI trench horror with corpses, rats and a stabbing; tense, near-continuous peril; some strong language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ievc002dezj8vt8i3wmw",
+  "name": "All Quiet on the Western Front",
+  "violence": 9,
+  "language": 4,
+  "sexNudity": 1,
+  "scariness": 8,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (All Quiet on the Western Front, 2022): unflinching WWI combat — flamethrowers, tanks crushing soldiers, bayoneting, the protracted death of a French soldier; mild language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iesz002cezj8ahu5pidl",
+  "name": "The Truthers",
+  "violence": 4,
+  "language": 4,
+  "sexNudity": 2,
+  "scariness": 5,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Spanish psychological thriller I do not know; scored from the premise (a daughter suspects her father over her mother's death) as a moderately tense R-rated mystery. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ie990029ezj8us38466u",
+  "name": "Wake Up Dead Man: A Knives Out Mystery",
+  "violence": 5,
+  "language": 5,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Wake Up Dead Man: A Knives Out Mystery, 2025): a stabbing murder in a church, a body and a later killing, mild gore; some strong language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ie700028ezj8b7fjadiw",
+  "name": "I Swear",
+  "violence": 3,
+  "language": 9,
+  "sexNudity": 2,
+  "scariness": 2,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I know this 2025 British drama about Tourette's campaigner John Davidson only in outline; scored on the certainty of frequent involuntary swearing (coprolalia), some scuffles and humiliation. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5idcs0021ezj8fbprubeo",
+  "name": "Sniper: No Nation",
+  "violence": 7,
+  "language": 6,
+  "sexNudity": 1,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — the 2026 entry in the direct-to-video Sniper franchise, which I cannot place specifically; scored like earlier entries: R-rated sniper headshots and firefights with strong language. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5id7s001zezj89x1449cp",
+  "name": "After",
+  "violence": 1,
+  "language": 4,
+  "sexNudity": 6,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (After, 2019): a depicted though PG-13 first sex scene between Tessa and Hardin (no explicit nudity) plus a sensual skinny-dipping/lake scene; mild-to-moderate language; underage drinking.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Depicted but non-explicit sex scene between the college-age leads."
+  }
+ },
+ {
+  "id": "cmtf5icm9001tezj8t68wtb68",
+  "name": "The Hunger Games: Catching Fire",
+  "violence": 6,
+  "language": 1,
+  "sexNudity": 1,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Hunger Games: Catching Fire, 2013): an old man executed, a brutal whipping, arena deaths from poison fog and baboons; very mild language; kisses only.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iccj001pezj8w9x8xtrl",
+  "name": "Remarkably Bright Creatures",
+  "violence": 1,
+  "language": 3,
+  "sexNudity": 1,
+  "scariness": 2,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I know the novel but not this 2026 film adaptation; scored as a gentle PG-13 drama about grief over a son lost at sea, with mild language and little to no violence. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ibqa001mezj8d308hajs",
+  "name": "Enola Holmes 3",
+  "violence": 4,
+  "language": 2,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 sequel I cannot place beyond its premise; scored like the first two Enola Holmes films: PG-13 fights and peril with mild language. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ibo1001lezj88468ufxz",
+  "name": "Furious 7",
+  "violence": 6,
+  "language": 4,
+  "sexNudity": 3,
+  "scariness": 2,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Furious 7, 2015): many bloodless brawls, crashes and shootouts; moderate language; bikini-clad women at the Miami-style parties and lingering camera shots.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iblt001kezj82sqr92af",
+  "name": "Nobody 2",
+  "violence": 8,
+  "language": 7,
+  "sexNudity": 1,
+  "scariness": 3,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Nobody 2, 2025): gleeful bloody brawls and shootouts at a theme park, improvised weapons; strong language; married couple's intimacy is interrupted, no nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ibf5001hezj8gxin0yun",
+  "name": "My Best Friend, His Girlfriend and Me",
+  "violence": 1,
+  "language": 6,
+  "sexNudity": 4,
+  "scariness": 0,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 German comedy I do not know; scored as a typical R-rated relationship comedy with sexual humor and profanity. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iavf001dezj8fwk76js7",
+  "name": "Bugonia",
+  "violence": 7,
+  "language": 7,
+  "sexNudity": 1,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Bugonia, 2025): a kidnapped CEO is chained, shaved and beaten; shootings, a suicide and an apocalyptic ending; strong language; disturbing implications of past childhood abuse, no sex scene.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iaqw001bezj89d7a5tj8",
+  "name": "The Hunger Games: Mockingjay - Part 1",
+  "violence": 5,
+  "language": 1,
+  "sexNudity": 0,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Hunger Games: Mockingjay - Part 1, 2014): bombings, executions of rebels and a hospital massacre; Peeta's torture-induced attack on Katniss is upsetting; very mild language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5iaat0017ezj8tvmqnx17",
+  "name": "Memento",
+  "violence": 6,
+  "language": 7,
+  "sexNudity": 3,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Memento, 2000): bloody beatings and a shooting shown in reverse, recounted rape-murder of Leonard's wife; strong language; brief implied sexual content, no explicit scene.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5ia8m0016ezj8zf2wdwuw",
+  "name": "Nando Between Two Worlds - A Sintonia Film",
+  "violence": 6,
+  "language": 8,
+  "sexNudity": 3,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Brazilian crime film spun off from the series Sintonia, which I cannot place in detail; scored as an R-rated favela crime drama with gunfights and heavy profanity. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5i9b20010ezj8u8p0cehz",
+  "name": "72 HOURS",
+  "violence": 3,
+  "language": 9,
+  "sexNudity": 5,
+  "scariness": 1,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Kevin Hart comedy I know only from its premise; scored as an R-rated bachelor-party comedy with heavy profanity, partying, drug jokes and likely brief strip-club nudity. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5i96n000yezj88u2389c7",
+  "name": "The Bus: A French Football Mutiny",
+  "violence": 0,
+  "language": 5,
+  "sexNudity": 0,
+  "scariness": 0,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 sports documentary I have not seen; scored on its subject (the 2010 French World Cup squad's mutiny), with likely archival insults and swearing but no violence. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5i902000vezj8kf7l8q8a",
+  "name": "The Rip",
+  "violence": 7,
+  "language": 9,
+  "sexNudity": 1,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — I know this 2026 Joe Carnahan Netflix cop thriller only in outline; scored as an R-rated dirty-cop shootout film with several bloody gunfights and very frequent strong language. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5i8hj000uezj88j7ku00p",
+  "name": "White Chicks",
+  "violence": 3,
+  "language": 6,
+  "sexNudity": 4,
+  "scariness": 1,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (White Chicks, 2004): slapstick fights; frequent crude language and sexual jokes; cross-dressing disguise comedy and suggestive dancing, no nudity.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5i8ah000rezj8d4lpuee1",
+  "name": "Gone Girl",
+  "violence": 8,
+  "language": 8,
+  "sexNudity": 8,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Gone Girl, 2014): Amy slits Desi's throat mid-sex in a very bloody scene; several sex scenes with nudity including brief full-frontal male nudity; strong language and a disturbing marriage.",
+  "exclusionFlag": {
+   "category": "SEX_SCENE",
+   "reason": "Multiple sex scenes with nudity, including the murder committed during sex."
+  }
+ },
+ {
+  "id": "cmtf5i888000qezj8k7a39aw4",
+  "name": "Jurassic World Dominion",
+  "violence": 5,
+  "language": 3,
+  "sexNudity": 0,
+  "scariness": 6,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Jurassic World Dominion, 2022): dinosaur attacks with several deaths, giant locusts, kidnapping of a child; mild language; no sexual content.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtf5i7ta000nezj8od8kw6u7",
+  "name": "Kraven the Hunter",
+  "violence": 8,
+  "language": 6,
+  "sexNudity": 1,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (Kraven the Hunter, 2024): R-rated bloody hunting and killing, brutal kills including a biting attack, lion attack; moderate-to-strong language; no sex scenes.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtenumt4002q3g4te91n4x4u",
+  "name": "Vengeance",
+  "violence": 8,
+  "language": 7,
+  "sexNudity": 2,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Mexican revenge thriller I do not know; scored from the premise (a special-forces veteran hunts his wife's killers) as an R-rated revenge film with bloody killings. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmtenuh9a00093g4tv83y9zif",
+  "name": "The Secret Woman",
+  "violence": 3,
+  "language": 3,
+  "sexNudity": 3,
+  "scariness": 4,
+  "confidence": "low",
+  "sourceNotes": "AI estimate with lower confidence — a 2026 Danish psychological drama I do not know; scored from the premise as a PG-13 mystery with moderate tension and mild adult content. Treat cautiously.",
+  "exclusionFlag": null
+ },
+ {
+  "id": "cmteckffi001ndx9tq7hz3336",
+  "name": "The Amazing Spider-Man 2",
+  "violence": 6,
+  "language": 3,
+  "sexNudity": 1,
+  "scariness": 5,
+  "confidence": "high",
+  "sourceNotes": "AI assessment from general knowledge (The Amazing Spider-Man 2, 2014): Electro and Goblin battles, Gwen Stacy's death is upsetting; mild language; kisses only.",
+  "exclusionFlag": null
+ }
+]
