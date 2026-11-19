@@ -468,6 +468,28 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   1271: { flag: 'EXCLUDED', why: "300 — a depicted Leonidas/Gorgo sex scene and Xerxes' harem orgy; the combat alone would be fine" },
   87502: { flag: 'EXCLUDED', why: 'Flight — opens on a prolonged, sexualised full-frontal hotel-room scene' },
 
+  // ---- Reviewed 2026-11-18 (6 pending). ----
+  // Same stricter calibration. Five are the slasher/demonic backlog; the
+  // one judgement call is A Knight's Tale.
+  9476: { flag: 'CLEAR', why: "A Knight's Tale — PG-13 jousting comedy; the `torture` tag is a stocks-and-pillory beat, not predation" },
+  709631: { flag: 'EXCLUDED', why: 'Cobweb — something demonic in the walls preying on a child' },
+  10281: { flag: 'EXCLUDED', why: 'Friday the 13th Part VII: The New Blood — slasher; the rest of the series is already out' },
+  9731: { flag: 'EXCLUDED', why: 'Friday the 13th: A New Beginning — slasher; same' },
+  8922: { flag: 'EXCLUDED', why: 'Jeepers Creepers — a creature hunting people for body parts; slasher in form, and when in doubt, exclude' },
+  13567: { flag: 'EXCLUDED', why: 'Sleepaway Camp — slasher' },
+
+  // Not keyword-nominated; caught while picking the 2026-11-18 scoring batch.
+  // Each follows a precedent the family has already set.
+  4256: { flag: 'EXCLUDED', why: 'Scary Movie 3 — horror parody; Scary Movie, 2, 5 and the 2026 film are already out' },
+  2640: { flag: 'EXCLUDED', why: 'Heathers — a teen serial-killer black comedy; Tragedy Girls, its descendant, was excluded 2026-11-07' },
+  2270: { flag: 'EXCLUDED', why: 'Stardust — witches and spell-casting; the fantasy-magic cluster (Harry Potter, Black Clover, King Arthur: Legend of the Sword)' },
+  978796: { flag: 'EXCLUDED', why: 'Bagman — a boogeyman that abducts children; predation on the helpless, plus supernatural horror' },
+  6073: { flag: 'EXCLUDED', why: "The Mexican — Gandolfini's hitman is gay and it is a discussed, named storyline; meets the 2026-10-17 bar" },
+
+  // sexNudity-6 nominations from scripts/manual-batch-2026-11-18.ts, decided in the same pass.
+  12613: { flag: 'EXCLUDED', why: "Street Fighter II: The Animated Movie — Chun-Li's shower scene is voyeuristic nudity staged for the viewer; the Animal House precedent" },
+  62215: { flag: 'EXCLUDED', why: 'Melancholia — a depicted sex scene on the golf course; the nude moonbathing alone might pass, the sex does not' },
+
 }
 
 async function main() {
