@@ -497,6 +497,9 @@ const VERDICTS: Record<number, { flag: 'CLEAR' | 'EXCLUDED'; why: string }> = {
   // outrank a score (the KPop Demon Hunters precedent). Two sexNudity-6
   // titles are left pending because the scores are low-confidence and I
   // could not judge them: Office Romance (2026) and Under Suspicion (1991).
+  // The family ruled on both the same day: exclude.
+  1358005: { flag: 'EXCLUDED', why: 'Office Romance — family decision 2026-11-19; sexNudity 6 on a low-confidence estimate' },
+  26850: { flag: 'EXCLUDED', why: 'Under Suspicion — family decision 2026-11-19; sexNudity 6 on a low-confidence estimate' },
 
   // sexNudity 6 — kept.
   339846: { flag: 'CLEAR', why: 'Baywatch — comic male nudity on a corpse, no sex scene depicted; the Balls Up carve-out' },
